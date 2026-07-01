@@ -1,0 +1,8 @@
+[project]
+name = "sensitive-egress-financial-poc"
+version = "0.1.0"
+description = "Synthetic Chinese-nuance private financial data generation and centroid-based egress detection PoC"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
