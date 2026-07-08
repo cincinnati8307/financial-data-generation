@@ -1,0 +1,50 @@
+python -m sensitive_egress_poc.cli_centroid   --train data/generated/anchors_train_augmented.jsonl   --validation data/generated/anchors_validation.jsonl
+{
+  "threshold": 0.45,
+  "margin": -0.05,
+  "tp": 213,
+  "fp": 9,
+  "tn": 242,
+  "fn": 16,
+  "precision": 0.9594594594594594,
+  "recall": 0.9301310043668122,
+  "f1": 0.9445676274944567,
+  "accuracy": 0.9479166666666666,
+  "samples": [
+    {
+      "id": "hard_neg_001640",
+      "expected": "non_private_financial",
+      "predicted": "non_private_or_benign",
+      "financial_score": 0.38398615883161774,
+      "margin": -0.0004632732882079993
+    },
+    {
+      "id": "benign_002140",
+      "expected": "benign",
+      "predicted": "non_private_or_benign",
+      "financial_score": 0.32781018686470254,
+      "margin": 0.074095327553307
+    },
+    {
+      "id": "fin_priv_000454",
+      "expected": "financial_private",
+      "predicted": "financial_private",
+      "financial_score": 0.75,
+      "margin": 0.21851034294004879
+    },
+    {
+      "id": "benign_001987",
+      "expected": "benign",
+      "predicted": "non_private_or_benign",
+      "financial_score": 0.4576185193417988,
+      "margin": -0.22631153983194835
+    },
+    {
+      "id": "benign_002373",
+      "expected": "benign",
+      "predicted": "non_private_or_benign",
+      "financial_score": 0.4575168785195879,
+      "margin": -0.22454505485562648
+    }
+  ]
+}
