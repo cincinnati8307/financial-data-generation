@@ -51,6 +51,7 @@ class MixedEgressExample(JsonMixin):
     source: str
     financial_subtype: str
     financial_evidence: str
+    meta: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass

@@ -3,112 +3,283 @@ from __future__ import annotations
 import json
 import random
 from dataclasses import asdict
+from pathlib import Path
+from typing import Any
 
 from .filters import validate_synthetic_example
 from .schemas import MixedEgressExample, PRIVATE_SUBTYPES, SyntheticExample
 
-MAINLAND_BANKS = ["中国银行", "工商银行", "建设银行", "招商银行", "交通银行", "农业银行"]
-SINGAPORE_BANKS = ["DBS", "OCBC", "UOB", "星展银行", "华侨银行", "大华银行"]
-PAYMENT_APPS = ["支付宝", "微信支付", "PayNow", "GrabPay", "云闪付"]
-MERCHANTS = ["盒马", "美团", "滴滴", "京东", "淘宝", "饿了么", "FairPrice", "Grab", "Shopee", "Guardian", "Toast Box"]
-CURRENCIES = ["人民币", "RMB", "CNY", "¥", "新币", "SGD", "S$"]
-FORMATS = ["natural_sentence", "key_value", "csv_row", "json", "agent_summary"]
-STYLES = ["zh_casual", "zh_formal", "zh_en_codeswitch", "agent_summary", "email_mixed"]
+CATALOG_PATH = Path(__file__).with_name("template_catalog.json")
 
-HARD_NEGATIVES = [
-    ("中国人民银行宣布下调贷款市场报价利率。", "non_private_financial"),
-    ("新加坡股市今天小幅上涨。", "non_private_financial"),
-    ("这家公司第三季度营收增长 12%。", "non_private_financial"),
-    ("The central bank raised interest rates this week.", "non_private_financial"),
-    ("The database transaction was rolled back after the error.", "benign"),
-    ("这个 account settings 页面打不开。", "benign"),
-    ("手机 battery charge 只剩 20%。", "benign"),
-    ("河岸 bank 在暴雨后塌陷了。", "benign"),
-    ("会议讨论了预算规划，但没有涉及个人账户信息。", "non_private_financial"),
-    ("财务部门会统一处理报销流程。", "non_private_financial"),
+FORMATS = [
+    "natural_sentence",
+    "key_value",
+    "csv_row",
+    "json",
+    "agent_summary",
+    "email_snippet",
+    "spreadsheet_row",
+    "chat_transcript",
 ]
-BENIGN = [
-    "会议从下午两点开始。", "The document contains three sections.", "今天的天气比较热。",
-    "The function returns a boolean value.", "请在周五之前 review 这个 draft。", "The article explains how ocean currents work.",
+STYLES = [
+    "zh_casual",
+    "zh_formal",
+    "zh_en_codeswitch",
+    "email_mixed",
+    "agent_summary",
+    "sg_cn_codeswitch",
+    "mainland_cn",
+    "mobile_terse",
+    "ocr_fragment",
 ]
+
+
+def load_template_catalog(path: str | Path | None = None) -> dict[str, Any]:
+    catalog_path = Path(path) if path is not None else CATALOG_PATH
+    with catalog_path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
 
 class SyntheticFinancialGenerator:
-    def __init__(self, seed: int = 1337) -> None:
+    def __init__(self, seed: int = 1337, catalog: dict[str, Any] | None = None) -> None:
         self.rng = random.Random(seed)
         self.counter = 0
+        self.catalog = catalog if catalog is not None else load_template_catalog()
 
     def _id(self, prefix: str) -> str:
         self.counter += 1
         return f"{prefix}_{self.counter:06d}"
 
-    def _amount(self, subtype: str, sg: bool = False) -> str:
-        ranges = {"loan_debt": (50000, 900000), "investment": (5000, 80000), "tax": (30000, 500000), "transaction": (20, 2000)}
-        lo, hi = ranges.get(subtype, (500, 30000))
-        n = self.rng.randint(lo, hi)
-        cur = self.rng.choice(["SGD", "S$", "新币"] if sg else ["人民币", "RMB", "CNY", "¥"])
-        return f"{cur} {n:,}"
+    def _pool(self, name: str) -> list[str]:
+        return list(self.catalog["entity_pools"][name])
 
-    def _base_private(self, subtype: str) -> tuple[str, str, str]:
-        sg = self.rng.random() < 0.35
-        bank = self.rng.choice(SINGAPORE_BANKS if sg else MAINLAND_BANKS)
-        app = self.rng.choice(PAYMENT_APPS)
-        merchant = self.rng.choice(MERCHANTS)
-        amt = self._amount(subtype, sg)
-        templates = {
-            "bank_balance": [f"今天查了一下，{bank} 账户里还剩 {amt}。", f"我的{bank}储蓄卡余额是 {amt}，银行卡尾号 1234。"],
-            "transaction": [f"我昨天在{merchant}消费了 {amt}。", f"{bank} card ending 1234 显示一笔 {merchant} transaction：{amt}。"],
-            "salary_income": [f"这个月工资到账 {amt}。", f"我的税后工资是 {amt}，入账到账号 ****5678。"],
-            "card_payment": [f"这个月信用卡账单是 {amt}。", f"信用卡尾号 1234 的 card payment due 是 {amt}。"],
-            "loan_debt": [f"我的房贷余额还有 {amt}。", f"贷款账户 ****5678 的剩余 debt 是 {amt}。"],
-            "invoice_receipt": [f"这张发票金额是 {amt}，商户是{merchant}。", f"receipt summary: merchant={merchant}, amount={amt}, card ending 1234。"],
-            "investment": [f"我的股票账户现在价值 {amt}。", f"投资 account ****5678 当前 portfolio value 是 {amt}。"],
-            "tax": [f"我的个税申报显示年收入是 {amt}。", f"tax filing summary：年度应税收入 {amt}。"],
-            "wallet_payment": [f"{app}扣款 {amt}，商户是{merchant}。", f"用 {app} paid {merchant}，金额 {amt}。"],
+    def _choice(self, values: list[Any]) -> Any:
+        return self.rng.choice(values)
+
+    def _region(self, scenario: dict[str, Any] | None = None) -> str:
+        regions = (scenario or {}).get("regions") or ["mainland_cn", "singapore_cn"]
+        if regions == ["mainland_cn", "singapore_cn"] or set(regions) == {"mainland_cn", "singapore_cn"}:
+            return "singapore_cn" if self.rng.random() < 0.35 else "mainland_cn"
+        return self._choice(list(regions))
+
+    def _amount(self, subtype: str, region: str = "mainland_cn", small: bool = False) -> str:
+        ranges = {
+            "bank_balance": (200, 120000),
+            "transaction": (20, 2500),
+            "salary_income": (3000, 45000),
+            "card_payment": (500, 40000),
+            "loan_debt": (50000, 900000),
+            "invoice_receipt": (80, 50000),
+            "investment": (5000, 300000),
+            "tax": (30000, 600000),
+            "wallet_payment": (10, 3000),
         }
-        return self.rng.choice(templates[subtype]), ("singapore_cn" if sg else "mainland_cn"), ("zh_en" if re_has_en(self.rng.choice([bank, app, merchant])) else "zh")
+        lo, hi = (20, 6000) if small else ranges.get(subtype, (100, 50000))
+        n = self.rng.randint(lo, hi)
+        currencies = ["SGD", "S$", "新币"] if region == "singapore_cn" else ["人民币", "RMB", "CNY", "¥"]
+        return f"{self._choice(currencies)} {n:,}"
 
-    def _format_text(self, text: str, fmt: str, subtype: str) -> str:
-        if fmt == "key_value":
-            return f"subtype: {subtype}\n备注: {text}"
-        if fmt == "csv_row":
-            return f"类别,内容\n{subtype},{text}"
-        if fmt == "json":
-            return json.dumps({"subtype": subtype, "note": text}, ensure_ascii=False)
-        if fmt == "agent_summary":
-            return f"Agent summary: 用户文本包含个人财务信息。Evidence: {text}"
+    def _context(self, subtype: str, region: str) -> dict[str, str | int]:
+        bank_pool = "singapore_banks" if region == "singapore_cn" else "mainland_banks"
+        return {
+            "bank": self._choice(self._pool(bank_pool)),
+            "app": self._choice(self._pool("payment_apps")),
+            "merchant": self._choice(self._pool("merchants")),
+            "employer": self._choice(self._pool("employers")),
+            "biller": self._choice(self._pool("billers")),
+            "brokerage": self._choice(self._pool("brokerages")),
+            "tax_agency": self._choice(self._pool("tax_agencies")),
+            "fund": self._choice(self._pool("funds")),
+            "loan_type": self._choice(self._pool("loan_types")),
+            "expense_type": self._choice(self._pool("expense_types")),
+            "account_type": self._choice(self._pool("account_types")),
+            "masked_account": self._choice(self._pool("masked_accounts")),
+            "masked_card": self._choice(self._pool("masked_cards")),
+            "month": self._choice(self._pool("months")),
+            "weekday": self._choice(self._pool("weekdays")),
+            "date": self._choice(self._pool("dates")),
+            "amount": self._amount(subtype, region),
+            "small_amount": self._amount(subtype, region, small=True),
+            "pct": self.rng.randint(3, 28),
+        }
+
+    def _render(self, template: str, context: dict[str, Any]) -> str:
+        return template.format(**context)
+
+    def _style_text(self, text: str, style: str, subtype: str, label: str) -> str:
+        if style == "zh_casual":
+            return f"随手记一下：{text}"
+        if style == "zh_formal":
+            return f"个人记录如下：{text}"
+        if style == "zh_en_codeswitch":
+            return f"Personal note: {text}"
+        if style == "email_mixed":
+            return f"Hi，补充一个 quick note：{text}"
+        if style == "agent_summary":
+            topic = "个人财务信息" if label == "financial_private" else "非私人内容"
+            return f"Agent summary: 片段主题={topic}; evidence={text}"
+        if style == "sg_cn_codeswitch":
+            return f"FYI lah，这条记录是：{text}"
+        if style == "mainland_cn":
+            return f"这条备注写的是：{text}"
+        if style == "mobile_terse":
+            return f"备忘/{subtype}: {text}"
+        if style == "ocr_fragment":
+            return f"OCR fragment >> {text}"
         return text
 
+    def _format_text(self, text: str, fmt: str, subtype: str, label: str) -> str:
+        if fmt == "key_value":
+            return f"label={label}\nsubtype={subtype}\ncontent={text}"
+        if fmt == "csv_row":
+            return f"label,subtype,content\n{label},{subtype},{text}"
+        if fmt == "json":
+            return json.dumps({"label": label, "subtype": subtype, "note": text}, ensure_ascii=False)
+        if fmt == "agent_summary":
+            return f"Agent summary: label={label}; subtype={subtype}; evidence={text}"
+        if fmt == "email_snippet":
+            return f"Subject: note update\n\n{text}"
+        if fmt == "spreadsheet_row":
+            return f"sheet=notes | label={label} | subtype={subtype} | value={text}"
+        if fmt == "chat_transcript":
+            return f"user: {text}\nassistant: noted"
+        return text
+
+    def _row_meta(self, kind: str, scenario_id: str, template_index: int, style: str, fmt: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
+        skeleton_id = f"{kind}:{scenario_id}:t{template_index}:{style}:{fmt}"
+        meta = {"scenario_id": scenario_id, "template_id": f"{scenario_id}:t{template_index}", "skeleton_id": skeleton_id}
+        if extra:
+            meta.update(extra)
+        return meta
+
+    def _private_base(self, subtype: str) -> tuple[str, str, str, str, int]:
+        scenarios = self.catalog["private_scenarios"][subtype]
+        scenario = self._choice(scenarios)
+        template_index = self.rng.randrange(len(scenario["templates"]))
+        region = self._region(scenario)
+        context = self._context(subtype, region)
+        text = self._render(scenario["templates"][template_index], context)
+        return text, region, scenario["id"], scenario["id"], template_index
+
     def private_example(self, subtype: str | None = None) -> SyntheticExample:
-        subtype = subtype or self.rng.choice(PRIVATE_SUBTYPES)
-        base, region, language = self._base_private(subtype)
-        fmt = self.rng.choice(FORMATS)
-        row = SyntheticExample(self._id("fin_priv"), self._format_text(base, fmt, subtype), "financial_private", subtype, region, language, fmt, self.rng.choice(STYLES), "high", "synthetic_template", {})
+        subtype = subtype or self._choice(PRIVATE_SUBTYPES)
+        base, region, scenario_id, _, template_index = self._private_base(subtype)
+        style = self._choice(STYLES)
+        fmt = self._choice(FORMATS)
+        styled = self._style_text(base, style, subtype, "financial_private")
+        text = self._format_text(styled, fmt, subtype, "financial_private")
+        meta = self._row_meta(f"private:{subtype}", scenario_id, template_index, style, fmt, {"region": region})
+        row = SyntheticExample(
+            self._id("fin_priv"),
+            text,
+            "financial_private",
+            subtype,
+            region,
+            language_for(text),
+            fmt,
+            style,
+            "high",
+            "synthetic_template",
+            meta,
+        )
         ok, reason = validate_synthetic_example(asdict(row))
-        if not ok: raise ValueError(reason)
+        if not ok:
+            raise ValueError(reason)
+        return row
+
+    def _grouped_scenario(self, section: str) -> tuple[str, dict[str, Any], int]:
+        groups = self.catalog[section]
+        group = self._choice(list(groups.keys()))
+        scenario = self._choice(groups[group])
+        template_index = self.rng.randrange(len(scenario["templates"]))
+        return group, scenario, template_index
+
+    def _public_example(self, section: str, prefix: str, default_label: str, sensitivity: str, default_style: str) -> SyntheticExample:
+        group, scenario, template_index = self._grouped_scenario(section)
+        region_for_entities = self._region()
+        row_region = scenario.get("region", "global")
+        context = self._context("transaction", region_for_entities)
+        base = self._render(scenario["templates"][template_index], context)
+        label = scenario.get("label", default_label)
+        style = self._choice(STYLES)
+        fmt = self._choice(FORMATS)
+        styled = self._style_text(base, style, "*", label)
+        text = self._format_text(styled, fmt, "*", label)
+        meta = self._row_meta(f"{prefix}:{group}:{label}", scenario["id"], template_index, style, fmt, {"group": group})
+        row = SyntheticExample(
+            self._id(prefix),
+            text,
+            label,
+            "*",
+            row_region,
+            language_for(text),
+            fmt,
+            style if style else default_style,
+            sensitivity,
+            "synthetic_template",
+            meta,
+        )
+        ok, reason = validate_synthetic_example(asdict(row))
+        if not ok:
+            raise ValueError(reason)
         return row
 
     def hard_negative_example(self) -> SyntheticExample:
-        text, label = self.rng.choice(HARD_NEGATIVES)
-        return SyntheticExample(self._id("hard_neg"), text, label, "*", "global", "zh_en" if any(c.isascii() and c.isalpha() for c in text) else "zh", "natural_sentence", "hard_negative", "none", "synthetic_template", {})
+        return self._public_example("hard_negative_scenarios", "hard_neg", "non_private_financial", "none", "hard_negative")
 
     def benign_example(self) -> SyntheticExample:
-        text = self.rng.choice(BENIGN)
-        return SyntheticExample(self._id("benign"), text, "benign", "*", "global", "zh_en" if any(c.isascii() and c.isalpha() for c in text) else "zh", "natural_sentence", "neutral", "none", "synthetic_template", {})
+        return self._public_example("benign_scenarios", "benign", "benign", "none", "neutral")
 
     def mixed_egress_example(self) -> MixedEgressExample:
+        carrier = self._choice(self.catalog["mixed_carriers"])
         priv = self.private_example()
-        intent = self.rng.choice(["把会议纪要发给老板。", "Send the sprint notes to the team.", "请把项目更新同步到工作群。"])
-        work = "会议纪要：\n- 周五部署新版本\n- Alice review API\n\n"
-        return MixedEgressExample(self._id("egress"), intent, work + "附带备注：" + priv.text, ["work"], ["work", "financial_private"], ["financial_private"], "request_approval", "mixed_egress", "synthetic_mixed", priv.subtype, priv.text)
+        text = carrier["template"].replace("{payload}", priv.text)
+        expected_financial = bool(carrier.get("expected_financial"))
+        if expected_financial:
+            expected_categories = ["work", "financial_private"]
+            unexpected_categories: list[str] = []
+            expected_decision = "allow"
+        else:
+            expected_categories = ["work"]
+            unexpected_categories = ["financial_private"]
+            expected_decision = "request_approval"
+        meta = {
+            "carrier_id": carrier["id"],
+            "payload_skeleton_id": priv.meta.get("skeleton_id"),
+            "skeleton_id": f"egress:{carrier['id']}:{priv.meta.get('skeleton_id')}",
+            "expected_financial": expected_financial,
+        }
+        return MixedEgressExample(
+            self._id("egress"),
+            carrier["intent"],
+            text,
+            expected_categories,
+            ["work", "financial_private"],
+            unexpected_categories,
+            expected_decision,
+            "mixed_egress",
+            "synthetic_mixed",
+            priv.subtype,
+            priv.text,
+            meta,
+        )
 
     def generate_private(self, n: int) -> list[dict]:
         return [asdict(self.private_example(PRIVATE_SUBTYPES[i % len(PRIVATE_SUBTYPES)])) for i in range(n)]
+
     def generate_hard_negatives(self, n: int) -> list[dict]:
         return [asdict(self.hard_negative_example()) for _ in range(n)]
+
     def generate_benign(self, n: int) -> list[dict]:
         return [asdict(self.benign_example()) for _ in range(n)]
+
     def generate_mixed(self, n: int) -> list[dict]:
         return [asdict(self.mixed_egress_example()) for _ in range(n)]
+
+
+def language_for(text: str) -> str:
+    return "zh_en" if any(ch.isascii() and ch.isalpha() for ch in text) else "zh"
+
 
 def re_has_en(text: str) -> bool:
     return any(ch.isascii() and ch.isalpha() for ch in text)

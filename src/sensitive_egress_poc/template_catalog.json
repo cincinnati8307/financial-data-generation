@@ -1,0 +1,1310 @@
+{
+  "entity_pools": {
+    "mainland_banks": [
+      "中国银行",
+      "工商银行",
+      "建设银行",
+      "招商银行",
+      "交通银行",
+      "农业银行",
+      "浦发银行",
+      "平安银行"
+    ],
+    "singapore_banks": [
+      "DBS",
+      "OCBC",
+      "UOB",
+      "星展银行",
+      "华侨银行",
+      "大华银行",
+      "Maybank SG",
+      "Standard Chartered SG"
+    ],
+    "payment_apps": [
+      "支付宝",
+      "微信支付",
+      "PayNow",
+      "GrabPay",
+      "云闪付",
+      "Apple Pay",
+      "Alipay+",
+      "NETS"
+    ],
+    "merchants": [
+      "盒马",
+      "美团",
+      "滴滴",
+      "京东",
+      "淘宝",
+      "饿了么",
+      "FairPrice",
+      "Grab",
+      "Shopee",
+      "Guardian",
+      "Toast Box",
+      "Cold Storage",
+      "Lazada",
+      "携程"
+    ],
+    "employers": [
+      "海岸科技",
+      "晨星咨询",
+      "Orchid Labs",
+      "南桥贸易",
+      "Merlion Systems",
+      "蓝港设计",
+      "远航数据",
+      "Pine Finance Ops"
+    ],
+    "billers": [
+      "Singtel",
+      "SP Services",
+      "物业中心",
+      "健身房",
+      "保险公司",
+      "学校财务处",
+      "宽带服务商",
+      "水电账户"
+    ],
+    "brokerages": [
+      "富途",
+      "Tiger Brokers",
+      "Moomoo",
+      "华泰证券",
+      "银行理财账户",
+      "券商 App",
+      "基金平台",
+      "OCBC Securities"
+    ],
+    "tax_agencies": [
+      "个税 APP",
+      "电子税务局",
+      "IRAS",
+      "税务局网站",
+      "公司 HR tax portal",
+      "个人所得税系统"
+    ],
+    "funds": [
+      "沪深300基金",
+      "S&P 500 ETF",
+      "货币基金",
+      "科技股组合",
+      "REITs 组合",
+      "债券基金",
+      "港股账户",
+      "理财产品"
+    ],
+    "loan_types": [
+      "房贷",
+      "车贷",
+      "装修贷",
+      "个人贷款",
+      "教育贷款",
+      "公积金贷款",
+      "信用贷款",
+      "分期贷款"
+    ],
+    "expense_types": [
+      "餐饮",
+      "交通",
+      "房租",
+      "保险",
+      "课程",
+      "医疗",
+      "差旅",
+      "订阅"
+    ],
+    "account_types": [
+      "储蓄账户",
+      "工资卡",
+      "主账户",
+      "备用账户",
+      "现金账户",
+      "current account",
+      "savings account",
+      "多币种账户"
+    ],
+    "masked_accounts": [
+      "账号 ****5678",
+      "账户 ****2468",
+      "account ****9012",
+      "户口 ****3344",
+      "尾号 7788 的账户",
+      "masked account ****1122"
+    ],
+    "masked_cards": [
+      "银行卡尾号 1234",
+      "card ending 1234",
+      "信用卡尾号 2468",
+      "debit card ending 7788",
+      "卡尾号 9012",
+      "masked card ****3344"
+    ],
+    "months": [
+      "一月",
+      "二月",
+      "三月",
+      "四月",
+      "本月",
+      "这个月",
+      "上个月",
+      "Q2"
+    ],
+    "weekdays": [
+      "周一",
+      "周二",
+      "周三",
+      "周四",
+      "周五",
+      "周末"
+    ],
+    "dates": [
+      "3月5日",
+      "4月18日",
+      "5月20日",
+      "6月30日",
+      "7月8日",
+      "8月12日"
+    ]
+  },
+  "private_scenarios": {
+    "bank_balance": [
+      {
+        "id": "mobile_available_balance",
+        "templates": [
+          "刚打开 {bank} app，{account_type}可用余额显示 {amount}。"
+        ]
+      },
+      {
+        "id": "budget_check_balance",
+        "templates": [
+          "{month}预算前看了下，{bank} {masked_account} 余额还剩 {amount}。"
+        ]
+      },
+      {
+        "id": "transfer_precheck",
+        "templates": [
+          "转账前确认了一下，{bank} 账户当前 available balance 是 {amount}。"
+        ]
+      },
+      {
+        "id": "atm_receipt_balance",
+        "templates": [
+          "ATM 小票上写着 {bank} {masked_card} 余额 {amount}。"
+        ]
+      },
+      {
+        "id": "rent_after_balance",
+        "templates": [
+          "交完房租后，{account_type}里剩下 {amount}。"
+        ]
+      },
+      {
+        "id": "family_ledger_balance",
+        "templates": [
+          "家庭账本更新：{bank} 主账户剩 {amount}，先别再大额消费。"
+        ]
+      },
+      {
+        "id": "paynow_balance_check",
+        "templates": [
+          "PayNow 前查了余额，{bank} 账户里只有 {amount}。"
+        ]
+      },
+      {
+        "id": "screenshot_ocr_balance",
+        "templates": [
+          "手机银行截图 OCR：{bank} balance {amount}, ref {masked_account}。"
+        ]
+      }
+    ],
+    "transaction": [
+      {
+        "id": "merchant_purchase",
+        "templates": [
+          "{date}在{merchant}刷了一笔 {amount}，记到{expense_type}。"
+        ]
+      },
+      {
+        "id": "card_authorization",
+        "templates": [
+          "{bank} {masked_card} 刚跳出 {merchant} authorization，金额 {amount}。"
+        ]
+      },
+      {
+        "id": "refund_waiting",
+        "templates": [
+          "{merchant}那笔退款还没到，原交易金额是 {amount}。"
+        ]
+      },
+      {
+        "id": "split_bill",
+        "templates": [
+          "和同事 AA 的{expense_type}先由我付，{app}记录是 {amount}。"
+        ]
+      },
+      {
+        "id": "subscription_charge",
+        "templates": [
+          "订阅自动扣费成功，{masked_card} charged {amount}。"
+        ]
+      },
+      {
+        "id": "travel_booking",
+        "templates": [
+          "{merchant}预订付款完成，交易金额 {amount}，走的是{bank}。"
+        ]
+      },
+      {
+        "id": "wallet_transfer",
+        "templates": [
+          "{app}转账流水显示支出 {amount}，备注是{expense_type}。"
+        ]
+      },
+      {
+        "id": "statement_line",
+        "templates": [
+          "账单明细一行：{date},{merchant},{amount},{masked_card}。"
+        ]
+      }
+    ],
+    "salary_income": [
+      {
+        "id": "monthly_payroll",
+        "templates": [
+          "{employer}{month}工资到账 {amount}。"
+        ]
+      },
+      {
+        "id": "net_salary",
+        "templates": [
+          "我的税后工资是 {amount}，入账到{masked_account}。"
+        ]
+      },
+      {
+        "id": "bonus_payment",
+        "templates": [
+          "绩效奖金已发，{employer}这次打了 {amount}。"
+        ]
+      },
+      {
+        "id": "cpf_related_salary",
+        "templates": [
+          "HR portal 显示本月 salary credit {amount}，工资卡是{bank}。"
+        ]
+      },
+      {
+        "id": "payroll_email",
+        "templates": [
+          "Payroll email 写着 net pay={amount}, account={masked_account}。"
+        ]
+      },
+      {
+        "id": "side_income",
+        "templates": [
+          "兼职项目结算到账 {amount}，我先放在{account_type}。"
+        ]
+      },
+      {
+        "id": "reimbursement_income",
+        "templates": [
+          "报销款和工资一起入账，这次到账合计 {amount}。"
+        ]
+      },
+      {
+        "id": "salary_planning",
+        "templates": [
+          "还房贷前先记一下：这个月可用工资收入 {amount}。"
+        ]
+      }
+    ],
+    "card_payment": [
+      {
+        "id": "monthly_statement",
+        "templates": [
+          "这个月信用卡账单是 {amount}。"
+        ]
+      },
+      {
+        "id": "payment_due",
+        "templates": [
+          "{masked_card} 的 card payment due 是 {amount}。"
+        ]
+      },
+      {
+        "id": "minimum_payment",
+        "templates": [
+          "信用卡最低还款显示 {amount}，全额账单更高。"
+        ]
+      },
+      {
+        "id": "autopay_notice",
+        "templates": [
+          "自动还款提醒：{bank} 将从{masked_account}扣 {amount} 还卡。"
+        ]
+      },
+      {
+        "id": "installment_card",
+        "templates": [
+          "分期账单本期要还 {amount}，卡是{masked_card}。"
+        ]
+      },
+      {
+        "id": "annual_fee_card",
+        "templates": [
+          "卡年费和消费合计进账单，当前应还 {amount}。"
+        ]
+      },
+      {
+        "id": "due_date_card",
+        "templates": [
+          "{date}前要还信用卡 {amount}，别忘了。"
+        ]
+      },
+      {
+        "id": "card_sms",
+        "templates": [
+          "短信摘要：{masked_card} statement balance {amount}。"
+        ]
+      }
+    ],
+    "loan_debt": [
+      {
+        "id": "mortgage_balance",
+        "templates": [
+          "我的{loan_type}余额还有 {amount}。"
+        ]
+      },
+      {
+        "id": "loan_account_balance",
+        "templates": [
+          "贷款账户 {masked_account} 的剩余 debt 是 {amount}。"
+        ]
+      },
+      {
+        "id": "monthly_installment",
+        "templates": [
+          "{date}要扣{loan_type}月供 {amount}。"
+        ]
+      },
+      {
+        "id": "principal_remaining",
+        "templates": [
+          "提前还款前查了一下，本金还剩 {amount}。"
+        ]
+      },
+      {
+        "id": "interest_notice",
+        "templates": [
+          "银行通知本期贷款应还 {amount}，含利息。"
+        ]
+      },
+      {
+        "id": "debt_tracker",
+        "templates": [
+          "债务表更新：{loan_type} outstanding={amount}。"
+        ]
+      },
+      {
+        "id": "refinance_note",
+        "templates": [
+          "准备问利率优惠，先记录当前欠款 {amount}。"
+        ]
+      },
+      {
+        "id": "loan_app_ocr",
+        "templates": [
+          "贷款 App 截图 OCR：remaining balance {amount}, {masked_account}。"
+        ]
+      }
+    ],
+    "invoice_receipt": [
+      {
+        "id": "merchant_receipt",
+        "templates": [
+          "这张发票金额是 {amount}，商户是{merchant}。"
+        ]
+      },
+      {
+        "id": "receipt_summary",
+        "templates": [
+          "receipt summary: merchant={merchant}, amount={amount}, {masked_card}。"
+        ]
+      },
+      {
+        "id": "reimbursement_receipt",
+        "templates": [
+          "报销用收据：{expense_type} {amount}，付款方式 {app}。"
+        ]
+      },
+      {
+        "id": "invoice_due",
+        "templates": [
+          "供应商发来的 invoice 我先垫付了 {amount}。"
+        ]
+      },
+      {
+        "id": "tax_invoice",
+        "templates": [
+          "电子发票抬头已开，含税金额 {amount}，店铺 {merchant}。"
+        ]
+      },
+      {
+        "id": "photo_receipt_ocr",
+        "templates": [
+          "小票 OCR：{merchant} total {amount}, paid by {masked_card}。"
+        ]
+      },
+      {
+        "id": "receipt_archive",
+        "templates": [
+          "票据归档备注：{date} {merchant} {expense_type} {amount}。"
+        ]
+      },
+      {
+        "id": "shared_receipt",
+        "templates": [
+          "群里那张收据是我付款，合计 {amount}，回头大家分摊。"
+        ]
+      }
+    ],
+    "investment": [
+      {
+        "id": "portfolio_value",
+        "templates": [
+          "我的股票账户现在价值 {amount}。"
+        ]
+      },
+      {
+        "id": "brokerage_portfolio",
+        "templates": [
+          "{brokerage} {masked_account} 当前 portfolio value 是 {amount}。"
+        ]
+      },
+      {
+        "id": "fund_position",
+        "templates": [
+          "{fund}持仓今天显示 {amount}。"
+        ]
+      },
+      {
+        "id": "dividend_income",
+        "templates": [
+          "股息入账后，投资账户现金余额变成 {amount}。"
+        ]
+      },
+      {
+        "id": "loss_note",
+        "templates": [
+          "这周账户回撤后还剩 {amount}，先不加仓。"
+        ]
+      },
+      {
+        "id": "rebalance_note",
+        "templates": [
+          "再平衡前记一下：{brokerage}组合总额 {amount}。"
+        ]
+      },
+      {
+        "id": "ipo_cash",
+        "templates": [
+          "打新冻结后，券商可用资金只有 {amount}。"
+        ]
+      },
+      {
+        "id": "investment_screenshot",
+        "templates": [
+          "投资 App 截图：assets={amount}, product={fund}。"
+        ]
+      }
+    ],
+    "tax": [
+      {
+        "id": "annual_income",
+        "templates": [
+          "我的个税申报显示年收入是 {amount}。"
+        ]
+      },
+      {
+        "id": "taxable_income",
+        "templates": [
+          "tax filing summary：年度应税收入 {amount}。"
+        ]
+      },
+      {
+        "id": "tax_refund",
+        "templates": [
+          "{tax_agency}显示退税金额预计 {small_amount}。"
+        ]
+      },
+      {
+        "id": "tax_due",
+        "templates": [
+          "这次补税要缴 {small_amount}，{date}前处理。"
+        ]
+      },
+      {
+        "id": "iras_assessment",
+        "templates": [
+          "IRAS notice 写着 assessable income {amount}。"
+        ]
+      },
+      {
+        "id": "deduction_note",
+        "templates": [
+          "扣除专项附加后，应税收入变成 {amount}。"
+        ]
+      },
+      {
+        "id": "hr_tax_portal",
+        "templates": [
+          "公司 HR tax portal 里我的 taxable pay 是 {amount}。"
+        ]
+      },
+      {
+        "id": "tax_ocr",
+        "templates": [
+          "报税页面 OCR：income={amount}, payable={small_amount}。"
+        ]
+      }
+    ],
+    "wallet_payment": [
+      {
+        "id": "app_deduction",
+        "templates": [
+          "{app}扣款 {amount}，商户是{merchant}。"
+        ]
+      },
+      {
+        "id": "paid_merchant",
+        "templates": [
+          "用 {app} paid {merchant}，金额 {amount}。"
+        ]
+      },
+      {
+        "id": "paynow_transfer",
+        "templates": [
+          "PayNow 转出 {amount}，备注写着{expense_type}。"
+        ]
+      },
+      {
+        "id": "grabpay_topup",
+        "templates": [
+          "GrabPay top-up 后又付了 {amount} 给{merchant}。"
+        ]
+      },
+      {
+        "id": "wechat_bill",
+        "templates": [
+          "微信支付账单显示 {merchant} 收款 {amount}。"
+        ]
+      },
+      {
+        "id": "alipay_order",
+        "templates": [
+          "支付宝订单 {merchant} 已付款，金额 {amount}。"
+        ]
+      },
+      {
+        "id": "wallet_csv",
+        "templates": [
+          "钱包流水：{date},{app},{merchant},{amount}。"
+        ]
+      },
+      {
+        "id": "wallet_reminder",
+        "templates": [
+          "记得核对 {app} 这笔 {amount}，像是{expense_type}支出。"
+        ]
+      }
+    ]
+  },
+  "hard_negative_scenarios": {
+    "public_finance_news": [
+      {
+        "id": "central_bank_rate",
+        "label": "non_private_financial",
+        "templates": [
+          "央行宣布调整贷款市场报价利率，市场预计影响企业融资成本。"
+        ]
+      },
+      {
+        "id": "sg_market_move",
+        "label": "non_private_financial",
+        "templates": [
+          "新加坡股市今天小幅上涨，银行股领涨。"
+        ]
+      },
+      {
+        "id": "inflation_report",
+        "label": "non_private_financial",
+        "templates": [
+          "统计局发布通胀数据，CPI 同比上涨 {pct}%。"
+        ]
+      },
+      {
+        "id": "bond_yield",
+        "label": "non_private_financial",
+        "templates": [
+          "十年期国债收益率回落，交易员关注后续政策信号。"
+        ]
+      },
+      {
+        "id": "exchange_rate",
+        "label": "non_private_financial",
+        "templates": [
+          "人民币兑美元汇率早盘波动，新闻没有涉及个人账户。"
+        ]
+      },
+      {
+        "id": "bank_earnings",
+        "label": "non_private_financial",
+        "templates": [
+          "多家银行公布季度利润，净息差继续承压。"
+        ]
+      },
+      {
+        "id": "fund_index_news",
+        "label": "non_private_financial",
+        "templates": [
+          "指数基金规模增长，报道引用的是公开市场数据。"
+        ]
+      },
+      {
+        "id": "tax_policy",
+        "label": "non_private_financial",
+        "templates": [
+          "税务部门说明新的抵扣政策，示例均为虚构数字。"
+        ]
+      }
+    ],
+    "company_finance": [
+      {
+        "id": "revenue_growth",
+        "label": "non_private_financial",
+        "templates": [
+          "这家公司第三季度营收增长 {pct}%。"
+        ]
+      },
+      {
+        "id": "budget_review",
+        "label": "non_private_financial",
+        "templates": [
+          "团队讨论明年预算规划，没有涉及任何个人账户。"
+        ]
+      },
+      {
+        "id": "invoice_process",
+        "label": "non_private_financial",
+        "templates": [
+          "财务部门会统一处理报销流程，员工不要在群里发私人账单。"
+        ]
+      },
+      {
+        "id": "vendor_terms",
+        "label": "non_private_financial",
+        "templates": [
+          "供应商付款条款从 30 天改为 45 天。"
+        ]
+      },
+      {
+        "id": "audit_schedule",
+        "label": "non_private_financial",
+        "templates": [
+          "审计会议安排在周五，议题是公司费用科目。"
+        ]
+      },
+      {
+        "id": "expense_policy",
+        "label": "non_private_financial",
+        "templates": [
+          "新的差旅报销政策要求上传正式发票。"
+        ]
+      },
+      {
+        "id": "forecast_sheet",
+        "label": "non_private_financial",
+        "templates": [
+          "预测表里只有部门级收入和成本，没有个人财务信息。"
+        ]
+      },
+      {
+        "id": "cashflow_public",
+        "label": "non_private_financial",
+        "templates": [
+          "管理层在财报会上说明了公开现金流指标。"
+        ]
+      }
+    ],
+    "technical_terms": [
+      {
+        "id": "db_transaction",
+        "label": "benign",
+        "templates": [
+          "The database transaction was rolled back after the error."
+        ]
+      },
+      {
+        "id": "account_settings",
+        "label": "benign",
+        "templates": [
+          "这个 account settings 页面打不开。"
+        ]
+      },
+      {
+        "id": "battery_charge",
+        "label": "benign",
+        "templates": [
+          "手机 battery charge 只剩 {pct}%。"
+        ]
+      },
+      {
+        "id": "river_bank",
+        "label": "benign",
+        "templates": [
+          "河岸 bank 在暴雨后塌陷了。"
+        ]
+      },
+      {
+        "id": "load_balance",
+        "label": "benign",
+        "templates": [
+          "The load balancer moved traffic away from one server."
+        ]
+      },
+      {
+        "id": "token_bucket",
+        "label": "benign",
+        "templates": [
+          "The rate limiter uses a token bucket algorithm, not an access token value."
+        ]
+      },
+      {
+        "id": "ledger_test",
+        "label": "benign",
+        "templates": [
+          "单元测试里的 ledger entry 是假数据。"
+        ]
+      },
+      {
+        "id": "checkout_mock",
+        "label": "benign",
+        "templates": [
+          "Checkout mock 返回 success，没有真实付款。"
+        ]
+      }
+    ],
+    "explicit_absence": [
+      {
+        "id": "no_private_account",
+        "label": "non_private_financial",
+        "templates": [
+          "会议讨论了预算规划，但没有涉及个人账户信息。"
+        ]
+      },
+      {
+        "id": "redacted_example",
+        "label": "non_private_financial",
+        "templates": [
+          "示例截图里的金额和账号都已删除，只保留字段说明。"
+        ]
+      },
+      {
+        "id": "policy_no_numbers",
+        "label": "non_private_financial",
+        "templates": [
+          "请不要在工单里填写银行卡号或工资金额。"
+        ]
+      },
+      {
+        "id": "training_dummy",
+        "label": "non_private_financial",
+        "templates": [
+          "培训材料使用 dummy finance examples，不对应任何用户。"
+        ]
+      },
+      {
+        "id": "public_template",
+        "label": "non_private_financial",
+        "templates": [
+          "这个报销模板只有栏目名称，没有个人收据。"
+        ]
+      },
+      {
+        "id": "finance_team_route",
+        "label": "non_private_financial",
+        "templates": [
+          "涉及付款的问题请发给财务团队统一处理。"
+        ]
+      },
+      {
+        "id": "no_customer_data",
+        "label": "non_private_financial",
+        "templates": [
+          "这份分析只包含匿名汇总数据，没有客户账户。"
+        ]
+      },
+      {
+        "id": "masked_sample_warning",
+        "label": "non_private_financial",
+        "templates": [
+          "文档提醒：真实卡号必须遮盖后才能上传。"
+        ]
+      }
+    ],
+    "general_finance_education": [
+      {
+        "id": "compound_interest",
+        "label": "non_private_financial",
+        "templates": [
+          "文章解释复利如何影响长期储蓄。"
+        ]
+      },
+      {
+        "id": "budget_method",
+        "label": "non_private_financial",
+        "templates": [
+          "课程介绍 50/30/20 预算方法，没有个人数据。"
+        ]
+      },
+      {
+        "id": "tax_deadline",
+        "label": "non_private_financial",
+        "templates": [
+          "提醒大家注意报税截止日期，示例金额是公开假设。"
+        ]
+      },
+      {
+        "id": "loan_definition",
+        "label": "non_private_financial",
+        "templates": [
+          "说明文解释固定利率贷款和浮动利率贷款的区别。"
+        ]
+      },
+      {
+        "id": "invoice_terms",
+        "label": "non_private_financial",
+        "templates": [
+          "教程说明 invoice、receipt、statement 三个词的区别。"
+        ]
+      },
+      {
+        "id": "investment_risk",
+        "label": "non_private_financial",
+        "templates": [
+          "公开讲座提醒投资有风险，收益不保证。"
+        ]
+      },
+      {
+        "id": "payment_rail",
+        "label": "non_private_financial",
+        "templates": [
+          "PayNow 是新加坡常见转账方式，这里只是产品说明。"
+        ]
+      },
+      {
+        "id": "card_security",
+        "label": "non_private_financial",
+        "templates": [
+          "安全培训建议只显示 card ending，不展示完整卡号。"
+        ]
+      }
+    ]
+  },
+  "benign_scenarios": {
+    "work_notes": [
+      {
+        "id": "meeting_time",
+        "templates": [
+          "会议从下午两点开始。"
+        ]
+      },
+      {
+        "id": "draft_review",
+        "templates": [
+          "请在周五之前 review 这个 draft。"
+        ]
+      },
+      {
+        "id": "api_owner",
+        "templates": [
+          "Alice review API 的任务已经排到明天。"
+        ]
+      },
+      {
+        "id": "release_note",
+        "templates": [
+          "The release note needs one more screenshot."
+        ]
+      },
+      {
+        "id": "design_sync",
+        "templates": [
+          "设计同步会改到{weekday}上午。"
+        ]
+      },
+      {
+        "id": "office_supply",
+        "templates": [
+          "前台说白板笔已经补货。"
+        ]
+      },
+      {
+        "id": "doc_sections",
+        "templates": [
+          "The document contains three sections."
+        ]
+      },
+      {
+        "id": "calendar_hold",
+        "templates": [
+          "我先 hold 住 {date} 的 workshop 时间。"
+        ]
+      }
+    ],
+    "code_and_data": [
+      {
+        "id": "boolean_return",
+        "templates": [
+          "The function returns a boolean value."
+        ]
+      },
+      {
+        "id": "cache_key",
+        "templates": [
+          "缓存 key 的命名需要统一。"
+        ]
+      },
+      {
+        "id": "unit_test",
+        "templates": [
+          "这个测试只检查字符串格式。"
+        ]
+      },
+      {
+        "id": "schema_field",
+        "templates": [
+          "schema 里新增了 optional metadata 字段。"
+        ]
+      },
+      {
+        "id": "csv_parser",
+        "templates": [
+          "CSV parser 要处理空行和注释行。"
+        ]
+      },
+      {
+        "id": "json_example",
+        "templates": [
+          "示例 JSON 里只有 city 和 weather 字段。"
+        ]
+      },
+      {
+        "id": "build_log",
+        "templates": [
+          "Build log 显示 lint 通过。"
+        ]
+      },
+      {
+        "id": "feature_flag",
+        "templates": [
+          "Feature flag 先只开给内部用户。"
+        ]
+      }
+    ],
+    "daily_life": [
+      {
+        "id": "weather_hot",
+        "templates": [
+          "今天的天气比较热。"
+        ]
+      },
+      {
+        "id": "ocean_article",
+        "templates": [
+          "The article explains how ocean currents work."
+        ]
+      },
+      {
+        "id": "grocery_list",
+        "templates": [
+          "晚上记得买鸡蛋、青菜和牛奶。"
+        ]
+      },
+      {
+        "id": "train_delay",
+        "templates": [
+          "地铁延误了十分钟。"
+        ]
+      },
+      {
+        "id": "book_note",
+        "templates": [
+          "这本书第二章讲得比较清楚。"
+        ]
+      },
+      {
+        "id": "travel_pack",
+        "templates": [
+          "出差行李里别忘了充电器。"
+        ]
+      },
+      {
+        "id": "classroom",
+        "templates": [
+          "老师把作业截止时间改到{weekday}。"
+        ]
+      },
+      {
+        "id": "recipe",
+        "templates": [
+          "这个菜谱需要先把番茄炒软。"
+        ]
+      }
+    ],
+    "mixed_language": [
+      {
+        "id": "quick_sync",
+        "templates": [
+          "Quick sync 一下，slides 已经更新。"
+        ]
+      },
+      {
+        "id": "lunch_plan",
+        "templates": [
+          "Lunch later? 我们可以十二点半走。"
+        ]
+      },
+      {
+        "id": "browser_issue",
+        "templates": [
+          "Chrome tab 又卡住了，先重启浏览器。"
+        ]
+      },
+      {
+        "id": "file_name",
+        "templates": [
+          "文件名里不要用空格，CI 比较挑。"
+        ]
+      },
+      {
+        "id": "photo_upload",
+        "templates": [
+          "Please upload the venue photos before dinner."
+        ]
+      },
+      {
+        "id": "garden_note",
+        "templates": [
+          "阳台的 basil 需要浇水。"
+        ]
+      },
+      {
+        "id": "reading_queue",
+        "templates": [
+          "把这篇 paper 放到 reading queue。"
+        ]
+      },
+      {
+        "id": "keyboard",
+        "templates": [
+          "Mechanical keyboard 的声音有点大。"
+        ]
+      }
+    ]
+  },
+  "mixed_carriers": [
+    {
+      "id": "work_note_tail",
+      "expected_financial": false,
+      "intent": "把会议纪要发给老板。",
+      "template": "会议纪要：\n- 周五部署新版本\n- Alice review API\n\n附带备注：{payload}"
+    },
+    {
+      "id": "sprint_notes_middle",
+      "expected_financial": false,
+      "intent": "Send the sprint notes to the team.",
+      "template": "Sprint notes:\n- API freeze moved to Friday\nUnexpected pasted note: {payload}\n- QA starts Monday"
+    },
+    {
+      "id": "project_update_quote",
+      "expected_financial": false,
+      "intent": "请把项目更新同步到工作群。",
+      "template": "项目更新：进度正常。\n> 临时复制的备注：{payload}\n请忽略上面私人内容。"
+    },
+    {
+      "id": "calendar_invite",
+      "expected_financial": false,
+      "intent": "发一个日程邀请给供应商。",
+      "template": "Subject: design review\nWhen: {date} 10:00\nNotes: {payload}"
+    },
+    {
+      "id": "release_email_footer",
+      "expected_financial": false,
+      "intent": "把 release email 发给客户。",
+      "template": "Hi team, release is ready.\nChecklist attached.\nLocal clipboard: {payload}"
+    },
+    {
+      "id": "bug_report_block",
+      "expected_financial": false,
+      "intent": "提交 bug report。",
+      "template": "Bug: settings page flickers\nSteps: open profile, click save\nDebug paste: {payload}"
+    },
+    {
+      "id": "okr_summary",
+      "expected_financial": false,
+      "intent": "整理 OKR summary。",
+      "template": "OKR summary:\n1. Improve onboarding\n2. Reduce latency\nRandom note: {payload}"
+    },
+    {
+      "id": "support_reply",
+      "expected_financial": false,
+      "intent": "回复客户说问题已修复。",
+      "template": "您好，问题已修复。\n内部备注误贴：{payload}\n谢谢。"
+    },
+    {
+      "id": "design_feedback",
+      "expected_financial": false,
+      "intent": "把设计反馈发给产品经理。",
+      "template": "设计反馈：按钮层级需要更清楚。\n草稿缓存：{payload}"
+    },
+    {
+      "id": "deployment_log",
+      "expected_financial": false,
+      "intent": "发送部署日志摘要。",
+      "template": "deploy=success\nservice=api\nclipboard_note={payload}"
+    },
+    {
+      "id": "meeting_minutes_prefix",
+      "expected_financial": false,
+      "intent": "共享会议纪要。",
+      "template": "私人备注误在开头：{payload}\n会议纪要：下周继续跟进风险项。"
+    },
+    {
+      "id": "task_list_tail",
+      "expected_financial": false,
+      "intent": "把任务列表发给同事。",
+      "template": "TODO:\n- update docs\n- check metrics\n- remove pasted personal note: {payload}"
+    },
+    {
+      "id": "research_digest",
+      "expected_financial": false,
+      "intent": "发送 research digest。",
+      "template": "Research digest: paper A is relevant.\nNoise from clipboard: {payload}"
+    },
+    {
+      "id": "chat_forward",
+      "expected_financial": false,
+      "intent": "把工作群消息转发给老板。",
+      "template": "同事A：接口已经修复\n我：收到\n我误贴：{payload}"
+    },
+    {
+      "id": "status_json",
+      "expected_financial": false,
+      "intent": "发送状态 JSON 给自动化系统。",
+      "template": "{\"status\":\"green\",\"note\":\"{payload}\"}"
+    },
+    {
+      "id": "handoff_doc",
+      "expected_financial": false,
+      "intent": "准备交接文档。",
+      "template": "Handoff:\nOwner: ops\nRisk: low\nScratchpad: {payload}"
+    },
+    {
+      "id": "send_tax_note",
+      "expected_financial": true,
+      "intent": "把我的报税备注发给会计。",
+      "template": "给会计的材料：\n{payload}\n麻烦据此核对。"
+    },
+    {
+      "id": "send_receipt",
+      "expected_financial": true,
+      "intent": "把这张报销收据发给财务。",
+      "template": "报销附件说明：{payload}"
+    },
+    {
+      "id": "send_salary_to_advisor",
+      "expected_financial": true,
+      "intent": "把工资信息发给贷款顾问评估额度。",
+      "template": "贷款评估资料：{payload}\n请确认还需要什么。"
+    },
+    {
+      "id": "send_bank_balance_to_spouse",
+      "expected_financial": true,
+      "intent": "把账户余额发给家人做预算。",
+      "template": "家庭预算同步：{payload}"
+    },
+    {
+      "id": "send_card_bill",
+      "expected_financial": true,
+      "intent": "把信用卡账单金额发给理财顾问。",
+      "template": "Card bill context: {payload}"
+    },
+    {
+      "id": "send_investment_snapshot",
+      "expected_financial": true,
+      "intent": "发送投资账户快照给顾问。",
+      "template": "Portfolio snapshot:\n{payload}"
+    },
+    {
+      "id": "send_loan_info",
+      "expected_financial": true,
+      "intent": "把贷款余额发给银行客户经理。",
+      "template": "贷款资料如下：\n{payload}"
+    },
+    {
+      "id": "send_wallet_payment",
+      "expected_financial": true,
+      "intent": "把钱包付款记录发给室友分账。",
+      "template": "分账凭证：{payload}"
+    },
+    {
+      "id": "send_transaction_dispute",
+      "expected_financial": true,
+      "intent": "向银行客服说明这笔交易。",
+      "template": "Dispute details:\n{payload}\n请帮忙查询。"
+    },
+    {
+      "id": "send_invoice_vendor",
+      "expected_financial": true,
+      "intent": "把发票金额发给供应商确认。",
+      "template": "请确认这张 invoice：{payload}"
+    },
+    {
+      "id": "send_budget_sheet",
+      "expected_financial": true,
+      "intent": "把个人预算表发给伴侣。",
+      "template": "预算表更新\nline_item={payload}"
+    },
+    {
+      "id": "send_tax_portal",
+      "expected_financial": true,
+      "intent": "把税务系统摘要发给代办人员。",
+      "template": "Tax portal summary pasted below:\n{payload}"
+    },
+    {
+      "id": "send_payroll_hr",
+      "expected_financial": true,
+      "intent": "向 HR 核对工资到账信息。",
+      "template": "HR 您好，麻烦核对：{payload}"
+    },
+    {
+      "id": "send_receipt_family",
+      "expected_financial": true,
+      "intent": "把家庭采购小票发给家人。",
+      "template": "家庭采购记录：{payload}"
+    },
+    {
+      "id": "send_card_autopay",
+      "expected_financial": true,
+      "intent": "把自动还款提醒发给自己邮箱备份。",
+      "template": "Backup note: {payload}"
+    },
+    {
+      "id": "send_brokerage_csv",
+      "expected_financial": true,
+      "intent": "把投资流水导出给税务顾问。",
+      "template": "CSV export snippet:\n{payload}"
+    }
+  ]
+}

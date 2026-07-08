@@ -70,7 +70,7 @@ python -m sensitive_egress_poc.cli_augment \
   --include-original
 ```
 
-OpenAI augmentation reads `OPENAI_API_KEY` from the environment and uses the official OpenAI Python SDK:
+OpenAI augmentation reads `OPENAI_API_KEY` from the environment and uses the official OpenAI Python SDK. Before sending requests, the CLI prints a heuristic token estimate and asks for confirmation. Use `--estimate-only` to preview without running, or `--yes` for non-interactive runs:
 
 ```bash
 python -m sensitive_egress_poc.cli_augment \
@@ -79,11 +79,23 @@ python -m sensitive_egress_poc.cli_augment \
   --max-inputs 100 \
   --paraphrases-per-example 6 \
   --provider openai \
-  --model gpt-4o-mini \
+  --model gpt-5-nano \
+  --include-original \
+  --estimate-only
+```
+
+```bash
+python -m sensitive_egress_poc.cli_augment \
+  --input data/generated/anchors_train.jsonl \
+  --output data/generated/anchors_train_augmented.jsonl \
+  --max-inputs 100 \
+  --paraphrases-per-example 6 \
+  --provider openai \
+  --model gpt-5-nano \
   --include-original
 ```
 
-The prompt asks for JSONL only and requires the model to preserve the financial subtype, financial meaning, and visible synthetic masked attributes while forbidding real personal identifiers, secrets, tokens, passwords, and full financial identifiers.
+The prompt asks for lightweight paraphrase candidates only. Local validators construct full rows, preserve the financial subtype and visible synthetic masked attributes, and reject real personal identifiers, secrets, tokens, passwords, and full financial identifiers.
 
 ## Build centroids and evaluate
 
