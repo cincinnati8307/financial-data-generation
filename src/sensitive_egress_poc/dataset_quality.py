@@ -140,17 +140,25 @@ def find_skeleton_duplicates(rows: list[dict[str, Any]], rejections: dict[int, s
 
 
 def find_near_duplicates(rows: list[dict[str, Any]], rejections: dict[int, set[str]], threshold: float = 0.92) -> list[dict[str, Any]]:
+    signatures = [char_ngrams(row_text(row)) for row in rows]
     representatives: list[int] = []
     duplicate_items: list[dict[str, Any]] = []
 
     for i, row in enumerate(rows):
-        text = row_text(row)
-        if not text:
+        sig = signatures[i]
+        if not sig:
             continue
         best_rep = None
         best_score = 0.0
+        sig_len = len(sig)
         for rep in representatives:
-            score = text_similarity(text, row_text(rows[rep]))
+            rep_sig = signatures[rep]
+            rep_len = len(rep_sig)
+            if not rep_sig:
+                continue
+            if min(sig_len, rep_len) / max(sig_len, rep_len) < threshold:
+                continue
+            score = jaccard(sig, rep_sig)
             if score > best_score:
                 best_score = score
                 best_rep = rep
@@ -390,18 +398,18 @@ def strip_json_fence(text: str) -> str:
     return match.group(1).strip() if match else stripped
 
 
-def deterministic_row_sample(rows: list[dict[str, Any]], sample_size: int, seed: int) -> list[tuple[int, dict[str, Any]]]:
+def deterministic_row_sample(rows: list[tuple[int, dict[str, Any]]], sample_size: int, seed: int) -> list[tuple[int, dict[str, Any]]]:
     if sample_size <= 0:
         return []
     if len(rows) <= sample_size:
-        return list(enumerate(rows))
+        return list(rows)
     rng = random.Random(seed)
-    indices = sorted(rng.sample(range(len(rows)), sample_size))
-    return [(i, rows[i]) for i in indices]
+    positions = sorted(rng.sample(range(len(rows)), sample_size))
+    return [rows[pos] for pos in positions]
 
 
 def run_llm_realism_judge(
-    rows: list[dict[str, Any]],
+    rows: list[tuple[int, dict[str, Any]]],
     provider: str,
     model: str,
     sample_size: int,
@@ -524,7 +532,7 @@ def evaluate_dataset(
         report["self_bleu"] = evaluate_self_bleu(rows, max_samples=self_bleu_sample_size, seed=seed)
 
     if LLM_REALISM_CHECK in selected_checks:
-        judge_candidates = clean_rows(rows, rejections)
+        judge_candidates = [(i, row) for i, row in enumerate(rows) if i not in rejections]
         report["llm_realism"] = run_llm_realism_judge(judge_candidates, provider, model, sample_size, seed)
         for judgment in report["llm_realism"]["judgments"]:
             if str(judgment.get("action", "review")) == "fail":
@@ -560,7 +568,7 @@ def main() -> None:
     parser.add_argument("--input", required=True)
     parser.add_argument("--report-out")
     parser.add_argument("--clean-output")
-    parser.add_argument("--checks", default=",".join(DEFAULT_CHECKS), type=parse_checks)
+    parser.add_argument("--checks", default=parse_checks(",".join(DEFAULT_CHECKS)), type=parse_checks)
     parser.add_argument("--provider", choices=["dry-run", "openai"], default="dry-run")
     parser.add_argument("--model", default="gpt-5-nano")
     parser.add_argument("--sample-size", type=int, default=50)

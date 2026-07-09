@@ -3,3 +3,5 @@ scikit-learn
 sentence-transformers
 openai
 pytest
+sacrebleu
+tqdm

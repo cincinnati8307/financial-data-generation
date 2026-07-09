@@ -1,0 +1,3404 @@
+{
+  "summary": {
+    "input_rows": 4740,
+    "checks": [
+      "llm_realism",
+      "redundancy",
+      "safety",
+      "self_bleu"
+    ],
+    "label_counts": {
+      "financial_private": 3881,
+      "non_private_financial": 349,
+      "benign": 510
+    },
+    "source_counts": {
+      "synthetic_template": 1830,
+      "llm_paraphrase": 2910
+    },
+    "rejected_rows": 126,
+    "accepted_rows": 4614
+  },
+  "redundancy": {
+    "exact_duplicate_count": 0,
+    "near_duplicate_count": 0,
+    "skeleton_duplicate_count": 126,
+    "augmentation_source_redundancy_count": 0,
+    "items": {
+      "exact_duplicates": [],
+      "near_duplicates": [],
+      "skeleton_duplicates": [
+        {
+          "id": "fin_priv_000943",
+          "index": 4,
+          "representative_id": "fin_priv_000133",
+          "skeleton_id": "private:investment:investment_screenshot:t0:mainland_cn:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000012",
+          "index": 28,
+          "representative_id": "fin_priv_001182",
+          "skeleton_id": "private:salary_income:payroll_email:t0:zh_casual:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001066",
+          "index": 36,
+          "representative_id": "fin_priv_000976",
+          "skeleton_id": "private:card_payment:payment_due:t0:sg_cn_codeswitch:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002274",
+          "index": 44,
+          "representative_id": "benign_001920",
+          "skeleton_id": "benign:work_notes:benign:calendar_hold:t0:agent_summary:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000642",
+          "index": 46,
+          "representative_id": "fin_priv_000768",
+          "skeleton_id": "private:salary_income:net_salary:t0:zh_formal:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "hard_neg_001631",
+          "index": 63,
+          "representative_id": "hard_neg_001282",
+          "skeleton_id": "hard_neg:technical_terms:benign:battery_charge:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000187",
+          "index": 80,
+          "representative_id": "fin_priv_000691",
+          "skeleton_id": "private:investment:investment_screenshot:t0:email_mixed:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002258",
+          "index": 98,
+          "representative_id": "benign_002069",
+          "skeleton_id": "benign:work_notes:benign:design_sync:t0:agent_summary:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000771",
+          "index": 103,
+          "representative_id": "fin_priv_000708",
+          "skeleton_id": "private:invoice_receipt:photo_receipt_ocr:t0:agent_summary:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002190",
+          "index": 105,
+          "representative_id": "benign_001838",
+          "skeleton_id": "benign:work_notes:benign:design_sync:t0:zh_formal:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000263",
+          "index": 131,
+          "representative_id": "fin_priv_000695",
+          "skeleton_id": "private:transaction:subscription_charge:t0:mobile_terse:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002184",
+          "index": 158,
+          "representative_id": "benign_002126",
+          "skeleton_id": "benign:work_notes:benign:design_sync:t0:agent_summary:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000996",
+          "index": 179,
+          "representative_id": "fin_priv_000636",
+          "skeleton_id": "private:invoice_receipt:tax_invoice:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002296",
+          "index": 192,
+          "representative_id": "benign_002066",
+          "skeleton_id": "benign:work_notes:benign:design_sync:t0:ocr_fragment:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000046",
+          "index": 214,
+          "representative_id": "fin_priv_000451",
+          "skeleton_id": "private:bank_balance:rent_after_balance:t0:mainland_cn:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001143",
+          "index": 238,
+          "representative_id": "fin_priv_000486",
+          "skeleton_id": "private:wallet_payment:paynow_transfer:t0:zh_formal:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001030",
+          "index": 242,
+          "representative_id": "fin_priv_000364",
+          "skeleton_id": "private:card_payment:payment_due:t0:ocr_fragment:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000591",
+          "index": 257,
+          "representative_id": "fin_priv_000285",
+          "skeleton_id": "private:invoice_receipt:shared_receipt:t0:zh_formal:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000681",
+          "index": 297,
+          "representative_id": "fin_priv_000537",
+          "skeleton_id": "private:invoice_receipt:shared_receipt:t0:zh_en_codeswitch:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000004",
+          "index": 299,
+          "representative_id": "fin_priv_000202",
+          "skeleton_id": "private:card_payment:minimum_payment:t0:agent_summary:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "hard_neg_001309",
+          "index": 312,
+          "representative_id": "hard_neg_001651",
+          "skeleton_id": "hard_neg:public_finance_news:non_private_financial:inflation_report:t0:ocr_fragment:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000974",
+          "index": 315,
+          "representative_id": "fin_priv_000308",
+          "skeleton_id": "private:transaction:merchant_purchase:t0:zh_formal:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000165",
+          "index": 317,
+          "representative_id": "fin_priv_000120",
+          "skeleton_id": "private:salary_income:bonus_payment:t0:mobile_terse:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000588",
+          "index": 318,
+          "representative_id": "fin_priv_000120",
+          "skeleton_id": "private:salary_income:bonus_payment:t0:mobile_terse:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001128",
+          "index": 335,
+          "representative_id": "fin_priv_000156",
+          "skeleton_id": "private:salary_income:net_salary:t0:email_mixed:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000993",
+          "index": 339,
+          "representative_id": "fin_priv_000390",
+          "skeleton_id": "private:salary_income:net_salary:t0:zh_en_codeswitch:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000883",
+          "index": 342,
+          "representative_id": "fin_priv_000982",
+          "skeleton_id": "private:bank_balance:budget_check_balance:t0:agent_summary:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000287",
+          "index": 351,
+          "representative_id": "fin_priv_000152",
+          "skeleton_id": "private:tax:deduction_note:t0:zh_formal:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000358",
+          "index": 390,
+          "representative_id": "fin_priv_000538",
+          "skeleton_id": "private:investment:fund_position:t0:zh_casual:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001096",
+          "index": 392,
+          "representative_id": "fin_priv_000538",
+          "skeleton_id": "private:investment:fund_position:t0:zh_casual:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000811",
+          "index": 410,
+          "representative_id": "fin_priv_000019",
+          "skeleton_id": "private:bank_balance:family_ledger_balance:t0:zh_en_codeswitch:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000946",
+          "index": 411,
+          "representative_id": "fin_priv_000019",
+          "skeleton_id": "private:bank_balance:family_ledger_balance:t0:zh_en_codeswitch:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000904",
+          "index": 424,
+          "representative_id": "fin_priv_001102",
+          "skeleton_id": "private:card_payment:installment_card:t0:zh_en_codeswitch:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000563",
+          "index": 441,
+          "representative_id": "fin_priv_000644",
+          "skeleton_id": "private:loan_debt:debt_tracker:t0:sg_cn_codeswitch:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000191",
+          "index": 447,
+          "representative_id": "fin_priv_001181",
+          "skeleton_id": "private:transaction:card_authorization:t0:ocr_fragment:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000643",
+          "index": 467,
+          "representative_id": "fin_priv_000112",
+          "skeleton_id": "private:card_payment:payment_due:t0:mobile_terse:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000190",
+          "index": 477,
+          "representative_id": "fin_priv_000901",
+          "skeleton_id": "private:bank_balance:transfer_precheck:t0:ocr_fragment:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000021",
+          "index": 500,
+          "representative_id": "fin_priv_000426",
+          "skeleton_id": "private:salary_income:bonus_payment:t0:zh_casual:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002251",
+          "index": 510,
+          "representative_id": "benign_001897",
+          "skeleton_id": "benign:work_notes:benign:calendar_hold:t0:mobile_terse:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000336",
+          "index": 514,
+          "representative_id": "fin_priv_000057",
+          "skeleton_id": "private:salary_income:salary_planning:t0:zh_formal:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000281",
+          "index": 544,
+          "representative_id": "fin_priv_000929",
+          "skeleton_id": "private:transaction:split_bill:t0:sg_cn_codeswitch:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000966",
+          "index": 553,
+          "representative_id": "fin_priv_000462",
+          "skeleton_id": "private:salary_income:cpf_related_salary:t0:agent_summary:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001070",
+          "index": 584,
+          "representative_id": "fin_priv_000557",
+          "skeleton_id": "private:tax:tax_ocr:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000252",
+          "index": 597,
+          "representative_id": "fin_priv_001008",
+          "skeleton_id": "private:wallet_payment:wechat_bill:t0:mainland_cn:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000176",
+          "index": 600,
+          "representative_id": "fin_priv_001049",
+          "skeleton_id": "private:loan_debt:debt_tracker:t0:zh_casual:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000403",
+          "index": 607,
+          "representative_id": "fin_priv_000286",
+          "skeleton_id": "private:investment:ipo_cash:t0:mainland_cn:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000060",
+          "index": 613,
+          "representative_id": "fin_priv_000843",
+          "skeleton_id": "private:invoice_receipt:receipt_summary:t0:sg_cn_codeswitch:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000379",
+          "index": 631,
+          "representative_id": "fin_priv_000433",
+          "skeleton_id": "private:bank_balance:budget_check_balance:t0:agent_summary:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002161",
+          "index": 642,
+          "representative_id": "benign_001874",
+          "skeleton_id": "benign:daily_life:benign:classroom:t0:sg_cn_codeswitch:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000380",
+          "index": 653,
+          "representative_id": "fin_priv_000875",
+          "skeleton_id": "private:transaction:refund_waiting:t0:mainland_cn:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000956",
+          "index": 655,
+          "representative_id": "fin_priv_000875",
+          "skeleton_id": "private:transaction:refund_waiting:t0:mainland_cn:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000393",
+          "index": 657,
+          "representative_id": "fin_priv_000987",
+          "skeleton_id": "private:invoice_receipt:receipt_summary:t0:zh_formal:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001129",
+          "index": 664,
+          "representative_id": "fin_priv_000229",
+          "skeleton_id": "private:card_payment:autopay_notice:t0:agent_summary:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "hard_neg_001663",
+          "index": 681,
+          "representative_id": "hard_neg_001581",
+          "skeleton_id": "hard_neg:company_finance:non_private_financial:revenue_growth:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000650",
+          "index": 701,
+          "representative_id": "fin_priv_000056",
+          "skeleton_id": "private:transaction:wallet_transfer:t0:email_mixed:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000718",
+          "index": 719,
+          "representative_id": "fin_priv_000160",
+          "skeleton_id": "private:investment:fund_position:t0:email_mixed:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000340",
+          "index": 725,
+          "representative_id": "fin_priv_000592",
+          "skeleton_id": "private:investment:portfolio_value:t0:agent_summary:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001015",
+          "index": 727,
+          "representative_id": "fin_priv_000592",
+          "skeleton_id": "private:investment:portfolio_value:t0:agent_summary:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "hard_neg_001704",
+          "index": 739,
+          "representative_id": "hard_neg_001247",
+          "skeleton_id": "hard_neg:technical_terms:benign:battery_charge:t0:mobile_terse:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000075",
+          "index": 744,
+          "representative_id": "fin_priv_000363",
+          "skeleton_id": "private:salary_income:reimbursement_income:t0:agent_summary:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000600",
+          "index": 763,
+          "representative_id": "fin_priv_000420",
+          "skeleton_id": "private:invoice_receipt:invoice_due:t0:zh_en_codeswitch:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000203",
+          "index": 768,
+          "representative_id": "fin_priv_000023",
+          "skeleton_id": "private:loan_debt:refinance_note:t0:zh_formal:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000311",
+          "index": 789,
+          "representative_id": "fin_priv_000878",
+          "skeleton_id": "private:loan_debt:loan_account_balance:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000480",
+          "index": 793,
+          "representative_id": "fin_priv_000201",
+          "skeleton_id": "private:salary_income:cpf_related_salary:t0:agent_summary:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000230",
+          "index": 795,
+          "representative_id": "fin_priv_000131",
+          "skeleton_id": "private:loan_debt:loan_account_balance:t0:sg_cn_codeswitch:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "hard_neg_001624",
+          "index": 810,
+          "representative_id": "hard_neg_001433",
+          "skeleton_id": "hard_neg:technical_terms:benign:battery_charge:t0:email_mixed:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000930",
+          "index": 833,
+          "representative_id": "fin_priv_000633",
+          "skeleton_id": "private:salary_income:payroll_email:t0:mobile_terse:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001112",
+          "index": 837,
+          "representative_id": "fin_priv_000968",
+          "skeleton_id": "private:loan_debt:refinance_note:t0:ocr_fragment:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000896",
+          "index": 867,
+          "representative_id": "fin_priv_000077",
+          "skeleton_id": "private:loan_debt:mortgage_balance:t0:sg_cn_codeswitch:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000700",
+          "index": 879,
+          "representative_id": "fin_priv_000628",
+          "skeleton_id": "private:investment:portfolio_value:t0:zh_casual:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000251",
+          "index": 900,
+          "representative_id": "fin_priv_000224",
+          "skeleton_id": "private:tax:hr_tax_portal:t0:zh_formal:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000653",
+          "index": 905,
+          "representative_id": "fin_priv_000932",
+          "skeleton_id": "private:loan_debt:loan_account_balance:t0:ocr_fragment:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001085",
+          "index": 907,
+          "representative_id": "fin_priv_000932",
+          "skeleton_id": "private:loan_debt:loan_account_balance:t0:ocr_fragment:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001098",
+          "index": 930,
+          "representative_id": "fin_priv_000477",
+          "skeleton_id": "private:wallet_payment:wallet_reminder:t0:zh_casual:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000309",
+          "index": 944,
+          "representative_id": "fin_priv_001011",
+          "skeleton_id": "private:salary_income:reimbursement_income:t0:email_mixed:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001038",
+          "index": 960,
+          "representative_id": "fin_priv_000948",
+          "skeleton_id": "private:salary_income:payroll_email:t0:zh_casual:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000337",
+          "index": 1031,
+          "representative_id": "fin_priv_000778",
+          "skeleton_id": "private:card_payment:payment_due:t0:mobile_terse:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000082",
+          "index": 1039,
+          "representative_id": "fin_priv_000937",
+          "skeleton_id": "private:bank_balance:rent_after_balance:t0:sg_cn_codeswitch:agent_summary",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000994",
+          "index": 1044,
+          "representative_id": "fin_priv_000193",
+          "skeleton_id": "private:card_payment:due_date_card:t0:email_mixed:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001021",
+          "index": 1058,
+          "representative_id": "fin_priv_000544",
+          "skeleton_id": "private:card_payment:autopay_notice:t0:ocr_fragment:key_value",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000483",
+          "index": 1076,
+          "representative_id": "fin_priv_000609",
+          "skeleton_id": "private:invoice_receipt:merchant_receipt:t0:email_mixed:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000618",
+          "index": 1078,
+          "representative_id": "fin_priv_000609",
+          "skeleton_id": "private:invoice_receipt:merchant_receipt:t0:email_mixed:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000830",
+          "index": 1083,
+          "representative_id": "fin_priv_000632",
+          "skeleton_id": "private:transaction:merchant_purchase:t0:zh_en_codeswitch:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000303",
+          "index": 1084,
+          "representative_id": "fin_priv_000411",
+          "skeleton_id": "private:invoice_receipt:merchant_receipt:t0:mobile_terse:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000470",
+          "index": 1111,
+          "representative_id": "fin_priv_000560",
+          "skeleton_id": "private:transaction:statement_line:t0:zh_en_codeswitch:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000874",
+          "index": 1141,
+          "representative_id": "fin_priv_000685",
+          "skeleton_id": "private:bank_balance:mobile_available_balance:t0:mainland_cn:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001122",
+          "index": 1188,
+          "representative_id": "fin_priv_000033",
+          "skeleton_id": "private:invoice_receipt:invoice_due:t0:mobile_terse:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000445",
+          "index": 1191,
+          "representative_id": "fin_priv_000301",
+          "skeleton_id": "private:card_payment:annual_fee_card:t0:email_mixed:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000598",
+          "index": 1192,
+          "representative_id": "fin_priv_000301",
+          "skeleton_id": "private:card_payment:annual_fee_card:t0:email_mixed:csv_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000710",
+          "index": 1205,
+          "representative_id": "fin_priv_000143",
+          "skeleton_id": "private:tax:taxable_income:t0:mainland_cn:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001117",
+          "index": 1221,
+          "representative_id": "fin_priv_000460",
+          "skeleton_id": "private:bank_balance:mobile_available_balance:t0:ocr_fragment:chat_transcript",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000043",
+          "index": 1225,
+          "representative_id": "fin_priv_000646",
+          "skeleton_id": "private:investment:loss_note:t0:zh_casual:json",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000597",
+          "index": 1246,
+          "representative_id": "fin_priv_000525",
+          "skeleton_id": "private:salary_income:cpf_related_salary:t0:mobile_terse:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001027",
+          "index": 1273,
+          "representative_id": "fin_priv_001054",
+          "skeleton_id": "private:bank_balance:mobile_available_balance:t0:zh_en_codeswitch:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000265",
+          "index": 1296,
+          "representative_id": "fin_priv_000382",
+          "skeleton_id": "private:card_payment:minimum_payment:t0:sg_cn_codeswitch:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_001165",
+          "index": 1298,
+          "representative_id": "fin_priv_000382",
+          "skeleton_id": "private:card_payment:minimum_payment:t0:sg_cn_codeswitch:email_snippet",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "benign_002098",
+          "index": 1307,
+          "representative_id": "benign_001967",
+          "skeleton_id": "benign:work_notes:benign:design_sync:t0:zh_casual:spreadsheet_row",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000417",
+          "index": 1310,
+          "representative_id": "fin_priv_000408",
+          "skeleton_id": "private:salary_income:payroll_email:t0:zh_en_codeswitch:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000786",
+          "index": 1311,
+          "representative_id": "fin_priv_000408",
+          "skeleton_id": "private:salary_income:payroll_email:t0:zh_en_codeswitch:natural_sentence",
+          "reason": "skeleton_duplicate"
+        },
+        {
+          "id": "fin_priv_000763",
+          "index": 1313,
+          "representative_id": "fin_priv_000079",
+          "skeleton_id": "private:investment:rebalance_note:t0:email_mixed:key_value",
+          "reason": "skeleton_duplicate"
+        }
+      ],
+      "augmentation_source_redundancy": []
+    }
+  },
+  "safety": {
+    "secret_like_count": 0,
+    "items": []
+  },
+  "self_bleu": {
+    "overall": {
+      "count": 4740,
+      "self_bleu": 0.9092,
+      "flag": true
+    },
+    "groups": {
+      "label": {
+        "financial_private": {
+          "count": 3881,
+          "self_bleu": 0.9201,
+          "flag": true
+        },
+        "non_private_financial": {
+          "count": 349,
+          "self_bleu": 0.9975,
+          "flag": true
+        },
+        "benign": {
+          "count": 510,
+          "self_bleu": 0.9957,
+          "flag": true
+        }
+      },
+      "subtype": {
+        "invoice_receipt": {
+          "count": 400,
+          "self_bleu": 0.9676,
+          "flag": true
+        },
+        "bank_balance": {
+          "count": 436,
+          "self_bleu": 0.9673,
+          "flag": true
+        },
+        "investment": {
+          "count": 444,
+          "self_bleu": 0.9645,
+          "flag": true
+        },
+        "*": {
+          "count": 859,
+          "self_bleu": 0.9863,
+          "flag": true
+        },
+        "card_payment": {
+          "count": 440,
+          "self_bleu": 0.9653,
+          "flag": true
+        },
+        "tax": {
+          "count": 388,
+          "self_bleu": 0.967,
+          "flag": true
+        },
+        "transaction": {
+          "count": 445,
+          "self_bleu": 0.9716,
+          "flag": true
+        },
+        "salary_income": {
+          "count": 460,
+          "self_bleu": 0.9701,
+          "flag": true
+        },
+        "wallet_payment": {
+          "count": 424,
+          "self_bleu": 0.9739,
+          "flag": true
+        },
+        "loan_debt": {
+          "count": 444,
+          "self_bleu": 0.9622,
+          "flag": true
+        }
+      },
+      "style": {
+        "ocr_fragment": {
+          "count": 202,
+          "self_bleu": 0.9259,
+          "flag": true
+        },
+        "mainland_cn": {
+          "count": 242,
+          "self_bleu": 0.9363,
+          "flag": true
+        },
+        "zh_en_codeswitch": {
+          "count": 768,
+          "self_bleu": 0.8688,
+          "flag": true
+        },
+        "agent_summary": {
+          "count": 322,
+          "self_bleu": 0.9412,
+          "flag": true
+        },
+        "zh_formal": {
+          "count": 1043,
+          "self_bleu": 0.933,
+          "flag": true
+        },
+        "zh_casual": {
+          "count": 961,
+          "self_bleu": 0.9162,
+          "flag": true
+        },
+        "email_mixed": {
+          "count": 529,
+          "self_bleu": 0.9131,
+          "flag": true
+        },
+        "sg_cn_codeswitch": {
+          "count": 357,
+          "self_bleu": 0.9198,
+          "flag": true
+        },
+        "mobile_terse": {
+          "count": 230,
+          "self_bleu": 0.9276,
+          "flag": true
+        },
+        "csv_row": {
+          "count": 29,
+          "self_bleu": 0.4837,
+          "flag": false
+        },
+        "key_value": {
+          "count": 30,
+          "self_bleu": 0.5484,
+          "flag": false
+        },
+        "json_note": {
+          "count": 27,
+          "self_bleu": 0.5504,
+          "flag": false
+        }
+      },
+      "format": {
+        "email_snippet": {
+          "count": 232,
+          "self_bleu": 0.9189,
+          "flag": true
+        },
+        "agent_summary": {
+          "count": 357,
+          "self_bleu": 0.9233,
+          "flag": true
+        },
+        "natural_sentence": {
+          "count": 2945,
+          "self_bleu": 0.906,
+          "flag": true
+        },
+        "key_value": {
+          "count": 240,
+          "self_bleu": 0.9108,
+          "flag": true
+        },
+        "chat_transcript": {
+          "count": 230,
+          "self_bleu": 0.9367,
+          "flag": true
+        },
+        "csv_row": {
+          "count": 258,
+          "self_bleu": 0.9104,
+          "flag": true
+        },
+        "json": {
+          "count": 249,
+          "self_bleu": 0.916,
+          "flag": true
+        },
+        "spreadsheet_row": {
+          "count": 229,
+          "self_bleu": 0.9448,
+          "flag": true
+        }
+      },
+      "region": {
+        "singapore_cn": {
+          "count": 1469,
+          "self_bleu": 0.9303,
+          "flag": true
+        },
+        "mainland_cn": {
+          "count": 2412,
+          "self_bleu": 0.9235,
+          "flag": true
+        },
+        "global": {
+          "count": 859,
+          "self_bleu": 0.9863,
+          "flag": true
+        }
+      },
+      "source": {
+        "synthetic_template": {
+          "count": 1830,
+          "self_bleu": 0.9377,
+          "flag": true
+        },
+        "llm_paraphrase": {
+          "count": 2910,
+          "self_bleu": 0.9136,
+          "flag": true
+        }
+      },
+      "meta.scenario_id": {
+        "invoice_due": {
+          "count": 12,
+          "self_bleu": 0.8853,
+          "flag": true
+        },
+        "atm_receipt_balance": {
+          "count": 12,
+          "self_bleu": 0.8547,
+          "flag": true
+        },
+        "rent_after_balance": {
+          "count": 13,
+          "self_bleu": 0.8772,
+          "flag": true
+        },
+        "investment_screenshot": {
+          "count": 16,
+          "self_bleu": 0.9082,
+          "flag": true
+        },
+        "policy_no_numbers": {
+          "count": 11,
+          "self_bleu": 0.9759,
+          "flag": true
+        },
+        "schema_field": {
+          "count": 11,
+          "self_bleu": 0.9091,
+          "flag": true
+        },
+        "build_log": {
+          "count": 19,
+          "self_bleu": 0.9616,
+          "flag": true
+        },
+        "bond_yield": {
+          "count": 12,
+          "self_bleu": 0.9808,
+          "flag": true
+        },
+        "receipt_archive": {
+          "count": 9,
+          "self_bleu": 0.8389,
+          "flag": true
+        },
+        "annual_fee_card": {
+          "count": 16,
+          "self_bleu": 0.886,
+          "flag": true
+        },
+        "payment_rail": {
+          "count": 9,
+          "self_bleu": 0.9659,
+          "flag": true
+        },
+        "rebalance_note": {
+          "count": 9,
+          "self_bleu": 0.7956,
+          "flag": true
+        },
+        "tax_due": {
+          "count": 12,
+          "self_bleu": 0.8933,
+          "flag": true
+        },
+        "sg_market_move": {
+          "count": 13,
+          "self_bleu": 0.9719,
+          "flag": true
+        },
+        "boolean_return": {
+          "count": 16,
+          "self_bleu": 0.9446,
+          "flag": true
+        },
+        "mobile_available_balance": {
+          "count": 19,
+          "self_bleu": 0.8994,
+          "flag": true
+        },
+        "doc_sections": {
+          "count": 16,
+          "self_bleu": 0.9447,
+          "flag": true
+        },
+        "ocean_article": {
+          "count": 14,
+          "self_bleu": 0.9266,
+          "flag": true
+        },
+        "travel_booking": {
+          "count": 20,
+          "self_bleu": 0.934,
+          "flag": true
+        },
+        "ipo_cash": {
+          "count": 17,
+          "self_bleu": 0.9133,
+          "flag": true
+        },
+        "installment_card": {
+          "count": 14,
+          "self_bleu": 0.8999,
+          "flag": true
+        },
+        "monthly_statement": {
+          "count": 16,
+          "self_bleu": 0.8972,
+          "flag": true
+        },
+        "masked_sample_warning": {
+          "count": 9,
+          "self_bleu": 0.9054,
+          "flag": true
+        },
+        "payroll_email": {
+          "count": 18,
+          "self_bleu": 0.9052,
+          "flag": true
+        },
+        "tax_ocr": {
+          "count": 18,
+          "self_bleu": 0.8408,
+          "flag": true
+        },
+        "merchant_purchase": {
+          "count": 17,
+          "self_bleu": 0.9289,
+          "flag": true
+        },
+        "statement_line": {
+          "count": 11,
+          "self_bleu": 0.8972,
+          "flag": true
+        },
+        "wallet_transfer": {
+          "count": 9,
+          "self_bleu": 0.8927,
+          "flag": true
+        },
+        "payment_due": {
+          "count": 17,
+          "self_bleu": 0.8752,
+          "flag": true
+        },
+        "bonus_payment": {
+          "count": 17,
+          "self_bleu": 0.8929,
+          "flag": true
+        },
+        "book_note": {
+          "count": 12,
+          "self_bleu": 0.9385,
+          "flag": true
+        },
+        "side_income": {
+          "count": 10,
+          "self_bleu": 0.8596,
+          "flag": true
+        },
+        "calendar_hold": {
+          "count": 15,
+          "self_bleu": 0.988,
+          "flag": true
+        },
+        "inflation_report": {
+          "count": 21,
+          "self_bleu": 0.9678,
+          "flag": true
+        },
+        "net_salary": {
+          "count": 15,
+          "self_bleu": 0.9072,
+          "flag": true
+        },
+        "garden_note": {
+          "count": 15,
+          "self_bleu": 0.9638,
+          "flag": true
+        },
+        "finance_team_route": {
+          "count": 7,
+          "self_bleu": 0.9076,
+          "flag": true
+        },
+        "invoice_terms": {
+          "count": 18,
+          "self_bleu": 0.973,
+          "flag": true
+        },
+        "classroom": {
+          "count": 17,
+          "self_bleu": 0.9545,
+          "flag": true
+        },
+        "app_deduction": {
+          "count": 21,
+          "self_bleu": 0.9192,
+          "flag": true
+        },
+        "no_customer_data": {
+          "count": 14,
+          "self_bleu": 0.9517,
+          "flag": true
+        },
+        "minimum_payment": {
+          "count": 18,
+          "self_bleu": 0.9231,
+          "flag": true
+        },
+        "refinance_note": {
+          "count": 19,
+          "self_bleu": 0.9027,
+          "flag": true
+        },
+        "json_example": {
+          "count": 11,
+          "self_bleu": 0.953,
+          "flag": true
+        },
+        "transfer_precheck": {
+          "count": 15,
+          "self_bleu": 0.8848,
+          "flag": true
+        },
+        "file_name": {
+          "count": 13,
+          "self_bleu": 0.9607,
+          "flag": true
+        },
+        "battery_charge": {
+          "count": 14,
+          "self_bleu": 0.9377,
+          "flag": true
+        },
+        "loan_account_balance": {
+          "count": 20,
+          "self_bleu": 0.8915,
+          "flag": true
+        },
+        "salary_planning": {
+          "count": 13,
+          "self_bleu": 0.903,
+          "flag": true
+        },
+        "token_bucket": {
+          "count": 8,
+          "self_bleu": 0.9295,
+          "flag": true
+        },
+        "loan_definition": {
+          "count": 11,
+          "self_bleu": 0.9481,
+          "flag": true
+        },
+        "browser_issue": {
+          "count": 21,
+          "self_bleu": 0.9866,
+          "flag": true
+        },
+        "photo_upload": {
+          "count": 9,
+          "self_bleu": 0.8608,
+          "flag": true
+        },
+        "lunch_plan": {
+          "count": 10,
+          "self_bleu": 0.8911,
+          "flag": true
+        },
+        "api_owner": {
+          "count": 11,
+          "self_bleu": 0.921,
+          "flag": true
+        },
+        "card_sms": {
+          "count": 9,
+          "self_bleu": 0.8633,
+          "flag": true
+        },
+        "cashflow_public": {
+          "count": 10,
+          "self_bleu": 0.9421,
+          "flag": true
+        },
+        "public_template": {
+          "count": 10,
+          "self_bleu": 0.9313,
+          "flag": true
+        },
+        "reading_queue": {
+          "count": 16,
+          "self_bleu": 0.9412,
+          "flag": true
+        },
+        "monthly_installment": {
+          "count": 9,
+          "self_bleu": 0.7898,
+          "flag": true
+        },
+        "card_authorization": {
+          "count": 10,
+          "self_bleu": 0.8302,
+          "flag": true
+        },
+        "revenue_growth": {
+          "count": 8,
+          "self_bleu": 0.8256,
+          "flag": true
+        },
+        "dividend_income": {
+          "count": 13,
+          "self_bleu": 0.9192,
+          "flag": true
+        },
+        "deduction_note": {
+          "count": 9,
+          "self_bleu": 0.8487,
+          "flag": true
+        },
+        "compound_interest": {
+          "count": 11,
+          "self_bleu": 0.9383,
+          "flag": true
+        },
+        "mortgage_balance": {
+          "count": 8,
+          "self_bleu": 0.8221,
+          "flag": true
+        },
+        "tax_invoice": {
+          "count": 17,
+          "self_bleu": 0.9143,
+          "flag": true
+        },
+        "design_sync": {
+          "count": 21,
+          "self_bleu": 0.9859,
+          "flag": true
+        },
+        "alipay_order": {
+          "count": 16,
+          "self_bleu": 0.907,
+          "flag": true
+        },
+        "wallet_reminder": {
+          "count": 18,
+          "self_bleu": 0.9231,
+          "flag": true
+        },
+        "budget_review": {
+          "count": 10,
+          "self_bleu": 0.9662,
+          "flag": true
+        },
+        "photo_receipt_ocr": {
+          "count": 15,
+          "self_bleu": 0.871,
+          "flag": true
+        },
+        "quick_sync": {
+          "count": 11,
+          "self_bleu": 0.9482,
+          "flag": true
+        },
+        "training_dummy": {
+          "count": 11,
+          "self_bleu": 0.9784,
+          "flag": true
+        },
+        "wechat_bill": {
+          "count": 7,
+          "self_bleu": 0.858,
+          "flag": true
+        },
+        "interest_notice": {
+          "count": 14,
+          "self_bleu": 0.8738,
+          "flag": true
+        },
+        "annual_income": {
+          "count": 15,
+          "self_bleu": 0.8792,
+          "flag": true
+        },
+        "draft_review": {
+          "count": 15,
+          "self_bleu": 0.9581,
+          "flag": true
+        },
+        "csv_parser": {
+          "count": 10,
+          "self_bleu": 0.9582,
+          "flag": true
+        },
+        "paynow_transfer": {
+          "count": 16,
+          "self_bleu": 0.9094,
+          "flag": true
+        },
+        "card_security": {
+          "count": 12,
+          "self_bleu": 0.9555,
+          "flag": true
+        },
+        "vendor_terms": {
+          "count": 8,
+          "self_bleu": 0.9122,
+          "flag": true
+        },
+        "fund_position": {
+          "count": 18,
+          "self_bleu": 0.8891,
+          "flag": true
+        },
+        "budget_method": {
+          "count": 11,
+          "self_bleu": 0.9556,
+          "flag": true
+        },
+        "load_balance": {
+          "count": 10,
+          "self_bleu": 0.8971,
+          "flag": true
+        },
+        "investment_risk": {
+          "count": 13,
+          "self_bleu": 0.9457,
+          "flag": true
+        },
+        "subscription_charge": {
+          "count": 19,
+          "self_bleu": 0.9375,
+          "flag": true
+        },
+        "loan_app_ocr": {
+          "count": 16,
+          "self_bleu": 0.8964,
+          "flag": true
+        },
+        "paid_merchant": {
+          "count": 7,
+          "self_bleu": 0.6854,
+          "flag": false
+        },
+        "reimbursement_receipt": {
+          "count": 9,
+          "self_bleu": 0.7932,
+          "flag": true
+        },
+        "unit_test": {
+          "count": 20,
+          "self_bleu": 0.9715,
+          "flag": true
+        },
+        "hr_tax_portal": {
+          "count": 14,
+          "self_bleu": 0.894,
+          "flag": true
+        },
+        "iras_assessment": {
+          "count": 11,
+          "self_bleu": 0.8632,
+          "flag": true
+        },
+        "grabpay_topup": {
+          "count": 10,
+          "self_bleu": 0.8042,
+          "flag": true
+        },
+        "river_bank": {
+          "count": 8,
+          "self_bleu": 0.8801,
+          "flag": true
+        },
+        "audit_schedule": {
+          "count": 13,
+          "self_bleu": 0.9767,
+          "flag": true
+        },
+        "account_settings": {
+          "count": 14,
+          "self_bleu": 0.9666,
+          "flag": true
+        },
+        "loss_note": {
+          "count": 15,
+          "self_bleu": 0.8879,
+          "flag": true
+        },
+        "ledger_test": {
+          "count": 9,
+          "self_bleu": 0.944,
+          "flag": true
+        },
+        "no_private_account": {
+          "count": 5,
+          "self_bleu": 0.8975,
+          "flag": true
+        },
+        "weather_hot": {
+          "count": 9,
+          "self_bleu": 0.9132,
+          "flag": true
+        },
+        "family_ledger_balance": {
+          "count": 15,
+          "self_bleu": 0.9017,
+          "flag": true
+        },
+        "wallet_csv": {
+          "count": 11,
+          "self_bleu": 0.8432,
+          "flag": true
+        },
+        "merchant_receipt": {
+          "count": 14,
+          "self_bleu": 0.8621,
+          "flag": true
+        },
+        "central_bank_rate": {
+          "count": 10,
+          "self_bleu": 0.9336,
+          "flag": true
+        },
+        "receipt_summary": {
+          "count": 13,
+          "self_bleu": 0.8581,
+          "flag": true
+        },
+        "feature_flag": {
+          "count": 11,
+          "self_bleu": 0.8973,
+          "flag": true
+        },
+        "bank_earnings": {
+          "count": 8,
+          "self_bleu": 0.9401,
+          "flag": true
+        },
+        "office_supply": {
+          "count": 15,
+          "self_bleu": 0.9446,
+          "flag": true
+        },
+        "cpf_related_salary": {
+          "count": 16,
+          "self_bleu": 0.9225,
+          "flag": true
+        },
+        "cache_key": {
+          "count": 12,
+          "self_bleu": 0.9019,
+          "flag": true
+        },
+        "monthly_payroll": {
+          "count": 15,
+          "self_bleu": 0.8631,
+          "flag": true
+        },
+        "keyboard": {
+          "count": 12,
+          "self_bleu": 0.9577,
+          "flag": true
+        },
+        "tax_policy": {
+          "count": 8,
+          "self_bleu": 0.9712,
+          "flag": true
+        },
+        "meeting_time": {
+          "count": 11,
+          "self_bleu": 0.9563,
+          "flag": true
+        },
+        "shared_receipt": {
+          "count": 11,
+          "self_bleu": 0.9108,
+          "flag": true
+        },
+        "travel_pack": {
+          "count": 12,
+          "self_bleu": 0.9634,
+          "flag": true
+        },
+        "taxable_income": {
+          "count": 7,
+          "self_bleu": 0.8023,
+          "flag": true
+        },
+        "train_delay": {
+          "count": 12,
+          "self_bleu": 0.9306,
+          "flag": true
+        },
+        "portfolio_value": {
+          "count": 13,
+          "self_bleu": 0.9024,
+          "flag": true
+        },
+        "debt_tracker": {
+          "count": 10,
+          "self_bleu": 0.8134,
+          "flag": true
+        },
+        "fund_index_news": {
+          "count": 11,
+          "self_bleu": 0.9592,
+          "flag": true
+        },
+        "tax_refund": {
+          "count": 11,
+          "self_bleu": 0.9102,
+          "flag": true
+        },
+        "db_transaction": {
+          "count": 6,
+          "self_bleu": 0.9545,
+          "flag": true
+        },
+        "refund_waiting": {
+          "count": 13,
+          "self_bleu": 0.897,
+          "flag": true
+        },
+        "split_bill": {
+          "count": 13,
+          "self_bleu": 0.9103,
+          "flag": true
+        },
+        "exchange_rate": {
+          "count": 8,
+          "self_bleu": 0.9258,
+          "flag": true
+        },
+        "paynow_balance_check": {
+          "count": 9,
+          "self_bleu": 0.8708,
+          "flag": true
+        },
+        "budget_check_balance": {
+          "count": 15,
+          "self_bleu": 0.9018,
+          "flag": true
+        },
+        "principal_remaining": {
+          "count": 15,
+          "self_bleu": 0.9184,
+          "flag": true
+        },
+        "invoice_process": {
+          "count": 12,
+          "self_bleu": 0.9779,
+          "flag": true
+        },
+        "brokerage_portfolio": {
+          "count": 10,
+          "self_bleu": 0.8123,
+          "flag": true
+        },
+        "expense_policy": {
+          "count": 16,
+          "self_bleu": 0.9664,
+          "flag": true
+        },
+        "tax_deadline": {
+          "count": 10,
+          "self_bleu": 0.9765,
+          "flag": true
+        },
+        "autopay_notice": {
+          "count": 13,
+          "self_bleu": 0.8838,
+          "flag": true
+        },
+        "forecast_sheet": {
+          "count": 6,
+          "self_bleu": 0.9032,
+          "flag": true
+        },
+        "checkout_mock": {
+          "count": 14,
+          "self_bleu": 0.9402,
+          "flag": true
+        },
+        "release_note": {
+          "count": 14,
+          "self_bleu": 0.9351,
+          "flag": true
+        },
+        "due_date_card": {
+          "count": 7,
+          "self_bleu": 0.8658,
+          "flag": true
+        },
+        "screenshot_ocr_balance": {
+          "count": 11,
+          "self_bleu": 0.8288,
+          "flag": true
+        },
+        "redacted_example": {
+          "count": 13,
+          "self_bleu": 0.9491,
+          "flag": true
+        },
+        "reimbursement_income": {
+          "count": 11,
+          "self_bleu": 0.8998,
+          "flag": true
+        },
+        "grocery_list": {
+          "count": 10,
+          "self_bleu": 0.9216,
+          "flag": true
+        },
+        "recipe": {
+          "count": 6,
+          "self_bleu": 0.7908,
+          "flag": true
+        },
+        "unknown": {
+          "count": 2910,
+          "self_bleu": 0.9136,
+          "flag": true
+        }
+      }
+    },
+    "high_threshold": 0.75,
+    "max_samples": 200
+  },
+  "llm_realism": {
+    "enabled": true,
+    "provider": "openai",
+    "model": "gpt-5-nano",
+    "sampled_rows": 50,
+    "aggregate": {
+      "pass_rate": 0.98,
+      "actions": {
+        "pass": 49,
+        "review": 1
+      },
+      "average_realism_score": 4.24
+    },
+    "judgments": [
+      {
+        "id": "fin_priv_000567",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "label matches the text's explicit label value",
+          "subtype matches the explicit subtype value",
+          "no sensitive data (full card numbers, passwords, IDs, or phone) present",
+          "text uses OCR fragment and agent_summary style, plausible for synthetic dataset"
+        ],
+        "index": 112
+      },
+      {
+        "id": "fin_priv_000810",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Label and subtype correctly reflect the content (financial_private, wallet_payment).",
+          "Content mentions a monetary amount in a wallet/payment context with no sensitive identifiers.",
+          "No full account numbers, passwords, or other secrets present; privacy_safe is true.",
+          "No original_text provided; is_real_paraphrase set to null.",
+          "Text reads plausibly as a note/reminder in Chinese about a payment."
+        ],
+        "index": 151
+      },
+      {
+        "id": "benign_002126",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual email snippet with an agent_summary style.",
+          "No sensitive data present; privacy-safe content.",
+          "Label 'benign' matches content and non-private subtype.",
+          "Format resembles a typical email_snippet in a work-context dataset."
+        ],
+        "index": 157
+      },
+      {
+        "id": "fin_priv_000686",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Contains only the last 4 digits of a card (not a full card number).",
+          "Label 'financial_private' matches a private financial transaction.",
+          "Subtype 'transaction' aligns with the content.",
+          "OCR fragment email-like style is plausible.",
+          "No original_text field present, so is_real_paraphrase remains null."
+        ],
+        "index": 387
+      },
+      {
+        "id": "benign_002311",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual chat transcript with 'user' and 'assistant' turns.",
+          "No personally identifiable information or credentials present.",
+          "Label benign correctly reflects content.",
+          "Subtype interpreted as non-private; no sensitive data.",
+          "No meta.original_text available to assess paraphrase."
+        ],
+        "index": 405
+      },
+      {
+        "id": "fin_priv_000554",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "label matches financial_private",
+          "subtype matches loan_debt",
+          "content is a plausible OCR fragment about a car loan payment",
+          "no sensitive PII or secrets exposed",
+          "note: the monetary amount seems unusually high for a monthly payment, which slightly lowers realism"
+        ],
+        "index": 476
+      },
+      {
+        "id": "fin_priv_001156",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible agent-style snippet with financial mention.",
+          "Label and subtype correctly reflect financial_private/card_payment content.",
+          "No sensitive data like full card numbers or credentials detected.",
+          "Slightly unusual '片段主题' annotation but acceptable in synthetic context."
+        ],
+        "index": 577
+      },
+      {
+        "id": "fin_priv_000456",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Text describes a receipt and cost-splitting, plausibly matching financial_private/invoice_receipt",
+          "Label and subtype align with the content (financial_private, invoice_receipt)",
+          "No sensitive personal data (no full account/card numbers, credentials, IDs, or passwords)",
+          "Natural group-chat style with a currency amount appears realistic"
+        ],
+        "index": 594
+      },
+      {
+        "id": "fin_priv_000238",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "plausible email-like snippet",
+          "mentions credit card bill without full numbers",
+          "label and subtype align with content",
+          "no credentials or full card numbers present"
+        ],
+        "index": 639
+      },
+      {
+        "id": "fin_priv_000477",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Label in text matches the provided label field",
+          "Subtypes align with content (wallet_payment)",
+          "No sensitive data present (no full account/card numbers or passwords)",
+          "Text reads as a plausible casual financial note in zh with a numeric amount",
+          "Overall realism suitable for a synthetic wallet reminder dataset"
+        ],
+        "index": 929
+      },
+      {
+        "id": "fin_priv_001188",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible OCR-style financial fragment in Chinese.",
+          "Label and subtype correctly describe a private financial payment.",
+          "No sensitive identifiers (card numbers, passwords, IDs) present.",
+          "No meta.original_text to indicate paraphrase."
+        ],
+        "index": 971
+      },
+      {
+        "id": "benign_002273",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual email fragment with OCR-style content.",
+          "No personal or sensitive information detected.",
+          "Label matches the benign content.",
+          "Subtypes align with non-private text."
+        ],
+        "index": 1050
+      },
+      {
+        "id": "hard_neg_001267",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "label matches the text field",
+          "no PII or secrets detected; safe",
+          "subtype is non-private and aligns with content",
+          "text is plausible bilingual technical entry; though slightly unusual formatting"
+        ],
+        "index": 1464
+      },
+      {
+        "id": "fin_priv_000318",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Plausible multilingual code-switching and financial note structure",
+          "Contains a realistic salary amount in CNY",
+          "Explicit label and subtype align with the text",
+          "No sensitive PII or secrets present"
+        ],
+        "index": 1511
+      },
+      {
+        "id": "fin_priv_000260",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Tax payment amount in SGD fits financial_private/tax scenario",
+          "Code-switch zh_en_codeswitch style looks plausible",
+          "No exposed sensitive identifiers (no full card/phone/password)",
+          "Subject and wording resemble a personal note/inline email snippet"
+        ],
+        "index": 1729
+      },
+      {
+        "id": "fin_priv_000504",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Label and subtype align with text",
+          "No sensitive data exposed (no full card/credential/PIN)",
+          "Transaction note resembles real wallet_payment item (Apple Pay, merchant 京东)",
+          "No meta.original_text to indicate paraphrase"
+        ],
+        "index": 1731
+      },
+      {
+        "id": "fin_priv_000225",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Label matches content: financial_private with a wallet_payment transaction.",
+          "Row text describes a plausible GrabPay/Meituan transaction and a short assistant reply.",
+          "No full account/card numbers or secrets present; privacy safe.",
+          "No original_text field, so is_real_paraphrase is null."
+        ],
+        "index": 1733
+      },
+      {
+        "id": "fin_priv_000865",
+        "realism_score": 3,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Matches label financial_private and subtype bank_balance.",
+          "Does not reveal full account number, card number, password, or secret.",
+          "Contains a bank balance value, which is sensitive but not a credential.",
+          "Content includes a CSV header line, which is atypical for a natural user message and reduces realism slightly."
+        ],
+        "index": 1768
+      },
+      {
+        "id": "fin_priv_000548",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": [
+          "Label matches the row's content (financial_private) and subtype tax.",
+          "Content discusses a private tax payment amount and deadline, matching private financial context.",
+          "No sensitive data (no full account numbers, passwords, or IDs) present.",
+          "Text style is natural and plausible for user notes."
+        ],
+        "index": 1802
+      },
+      {
+        "id": "aug_fin_priv_000135_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual business email requesting expenditure verification.",
+          "Label and subtype align with financial_private wallet_payment.",
+          "No sensitive data (card/account numbers) exposed.",
+          "Original_text present; current text is a real paraphrase, not a copy.",
+          "No obvious policy violations."
+        ],
+        "index": 2000
+      },
+      {
+        "id": "aug_fin_priv_000047_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual code-switch financial note with Apple Pay and rent.",
+          "Label and subtype correctly reflect a private financial transaction.",
+          "No sensitive identifiers (no full account/card numbers, passwords, or IDs).",
+          "Original_text exists; this text is a genuine paraphrase, not a copy.",
+          "Content is a realistic single-line transaction record; amount and currency are plausible."
+        ],
+        "index": 2144
+      },
+      {
+        "id": "aug_fin_priv_000296_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label matches financial_private",
+          "subtype tax aligns with content",
+          "no PII or credentials present",
+          "paraphrase of original_text, not a direct copy",
+          "realism downplayed by unusual RMB/IRAS pairing in Mainland China"
+        ],
+        "index": 2295
+      },
+      {
+        "id": "aug_fin_priv_000686_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Paraphrase of the original text; not a direct copy",
+          "Content matches financial_private/transaction label",
+          "Card ending shown (last 4 digits); no full card number",
+          "Natural, casual Mandarin-style note"
+        ],
+        "index": 2460
+      },
+      {
+        "id": "aug_fin_priv_000346_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Label matches financial_private",
+          "Subtype matches card_payment",
+          "Contains only card tail (not full number)",
+          "Paraphrase with added casual phrasing",
+          "Text plausible and natural in zh"
+        ],
+        "index": 2646
+      },
+      {
+        "id": "aug_fin_priv_000938_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible reimbursement note with bilingual code-switch; realistic tone.",
+          "Label and subtype correctly reflect a financial private transaction.",
+          "No sensitive data exposed (no full account/credit card numbers, passwords, etc.).",
+          "Original text exists and this variant is a genuine paraphrase rather than a copy.",
+          "Text is coherent and natural for a reimbursement request."
+        ],
+        "index": 2672
+      },
+      {
+        "id": "aug_fin_priv_001114_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual finance update; balance figure SGD 178,892 is realistic.",
+          "Content aligns with financial_private / investment context.",
+          "No sensitive identifiers or credentials present.",
+          "Meta.original_text indicates this is a paraphrase; the current text preserves meaning with minor wording changes.",
+          "Overall coherent and matches label/subtype."
+        ],
+        "index": 2696
+      },
+      {
+        "id": "aug_fin_priv_001060_0",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "text describes a financial private investment holding; matches financial_private label",
+          "subtype integrates investment/portfolio monitoring context",
+          "no sensitive identifiers or secrets present; privacy_safe",
+          "meta.original_text indicates it is a paraphrase; text is a plausible paraphrase, not a direct copy",
+          "tone and code-switch style (sg_cn) are realistic"
+        ],
+        "index": 2700
+      },
+      {
+        "id": "aug_fin_priv_000918_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label matches financial_private",
+          "subtype matches wallet_payment",
+          "no PII or secrets present in text",
+          "meta.original_text exists and indicates paraphrase (not a direct copy)",
+          "transaction details are plausible (wallet_payment to Ele.me, amount 400, SGD, via WeChat Pay)"
+        ],
+        "index": 2852
+      },
+      {
+        "id": "aug_fin_priv_001040_2",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Realistic loan repayment notice with bilingual (zh_en) phrasing.",
+          "No sensitive identifiers (no full account numbers, credentials, or secret data).",
+          "Label and subtype correctly reflect financial_private / loan_debt.",
+          "Content plausibly paraphrases the original_text via a non-identical wrapper.",
+          "Overall formatting and tone resemble a legitimate notification email."
+        ],
+        "index": 2858
+      },
+      {
+        "id": "aug_fin_priv_000562_1",
+        "realism_score": 4,
+        "label_correct": false,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "review",
+        "reasons": [
+          "label does not match the text content: text states '归类为 card_payment' while label is 'financial_private'",
+          "no obvious privacy leakage; sensitive data not exposed",
+          "paraphrase appears substantive rather than a literal copy"
+        ],
+        "index": 2977
+      },
+      {
+        "id": "aug_fin_priv_000140_1",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Label matches financial_private and subtype matches loan_debt",
+          "No sensitive identifiers (account numbers, passwords, real IDs) present",
+          "Text describes private financial info but in a typical user/agent style; plausible realism",
+          "Meta.original_text indicates a paraphrase; not a direct copy"
+        ],
+        "index": 3019
+      },
+      {
+        "id": "aug_fin_priv_000192_1",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label matches the private financial content",
+          "subtype aligns with salary income description",
+          "no sensitive identifiers or credentials present",
+          "meta.original_text exists and current text is a non-trivial paraphrase",
+          "text appears as a plausible internal record note"
+        ],
+        "index": 3073
+      },
+      {
+        "id": "aug_fin_priv_001023_1",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label and subtype align with content (financial_private, invoice_receipt)",
+          "no sensitive personal data exposed (no full account/card numbers, credentials, or PII)",
+          "text appears as a natural paraphrase of meta.original_text, not a direct copy",
+          "financial details are plausible for a travel expense receipt with a common payment method"
+        ],
+        "index": 3115
+      },
+      {
+        "id": "aug_fin_priv_000410_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Content describes a private financial balance and matches label financial_private.",
+          "Subtype loan_debt fits the text.",
+          "No sensitive account numbers, credentials, or secrets present.",
+          "Original_text present; the text is a genuine paraphrase (is_real_paraphrase true).",
+          "Overall realism; plausible bilingual agent-style financial note."
+        ],
+        "index": 3123
+      },
+      {
+        "id": "aug_fin_priv_000983_2",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible internal note about a financial transaction (bank, merchant, amount).",
+          "Contains only last-4 digits of card and not full account number; privacy policy satisfied.",
+          "Label 'financial_private' correctly describes the content.",
+          "Paraphrase aligns with meta.original_text, not a direct copy.",
+          "No obvious formatting errors; natural mix of languages fits zh_en label."
+        ],
+        "index": 3269
+      },
+      {
+        "id": "aug_fin_priv_000040_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Realistic bilingual zh_en_codeswitch style with a plausible card-payment reference.",
+          "Label and subtype correctly identify financial_private and card_payment.",
+          "No personally identifying information or secrets present; privacy_safe is true.",
+          "Original_text exists and the current text is a non-trivial paraphrase, not a copy.",
+          "Content is coherent and self-consistent; suitable for review as a synthetic yet plausible example."
+        ],
+        "index": 3333
+      },
+      {
+        "id": "aug_fin_priv_000312_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "plausible SGD invoice_receipt entry with merchant Shopee",
+          "label and subtype correctly reflect financial_private and invoice_receipt",
+          "no sensitive identifiers or full account numbers present",
+          "text paraphrases the original_text rather than copying"
+        ],
+        "index": 3392
+      },
+      {
+        "id": "aug_fin_priv_000151_1",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Label matches the financial_private category and subtype investment.",
+          "No personal identifiers or secrets present (no account numbers, passwords, etc.).",
+          "Text describes investment holdings; plausible financial note language.",
+          "Meta.original_text exists and current text is a real paraphrase, not a copy.",
+          "Overall row appears realistic and consistent with paraphrasing augmentation."
+        ],
+        "index": 3430
+      },
+      {
+        "id": "aug_fin_priv_001142_0",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Label matches 'financial_private'",
+          "Subtype 'tax' is correctly inferred",
+          "No sensitive secrets or identifiers present",
+          "Plausible, natural-sounding sentence about IRAS notice",
+          "Text paraphrases the original text rather than copying it"
+        ],
+        "index": 3432
+      },
+      {
+        "id": "aug_fin_priv_001083_1",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible formal Chinese sentence about salary income and mortgage planning.",
+          "Contains a monetary amount SGD 21,791 but no sensitive identifiers (no full account numbers, passwords, or IDs).",
+          "Text is a non-literal paraphrase of the original_text in meta.original_text.",
+          "Label and subtype correctly reflect financial_private and salary_income."
+        ],
+        "index": 3463
+      },
+      {
+        "id": "aug_fin_priv_000559_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "plausible zh_en_codeswitch finance note",
+          "label and subtype align with content",
+          "no PII, account numbers, or passwords present",
+          "the text paraphrases the original sentiment rather than copying verbatim",
+          "is_real_paraphrase true per meta.original_text"
+        ],
+        "index": 3611
+      },
+      {
+        "id": "aug_fin_priv_000668_0",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label matches financial_private",
+          "subtype matches transaction",
+          "privacy: card tail shown (last 4 digits) only, no full card/secret data",
+          "meta.original_text exists and the text is a non-trivial paraphrase",
+          "text is natural and plausible for a subscription charge notification"
+        ],
+        "index": 3666
+      },
+      {
+        "id": "aug_fin_priv_001148_0",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Realistic formal Chinese financial entry.",
+          "Label and subtype correctly reflect the content (financial_private, loan_debt).",
+          "No full account/credential/password or other secret exposed.",
+          "Original_text exists; current text appears to be a true paraphrase, not a copy.",
+          "No obvious formatting or linguistic issues that break plausibility."
+        ],
+        "index": 3831
+      },
+      {
+        "id": "aug_fin_priv_000820_1",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible private finance note mentioning bank and balance",
+          "Text is a paraphrase of the provided original_text in meta",
+          "No sensitive personal identifiers exposed",
+          "Label/subtype correctly reflect financial_private/bank_balance"
+        ],
+        "index": 3871
+      },
+      {
+        "id": "aug_fin_priv_000954_1",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "label matches the content (financial_private) and subtype wallet_payment.",
+          "no sensitive data or secrets exposed (e.g., card numbers, passwords).",
+          "text appears as a plausible paraphrase of the original_text (is_real_paraphrase = true).",
+          "the amount and entities (GrabPay, Lazada) are realistic for a wallet payment scenario.",
+          "row judged as pass; no privacy violations detected."
+        ],
+        "index": 3901
+      },
+      {
+        "id": "aug_fin_priv_000970_0",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible user/agent tone in Chinese with masked account number.",
+          "Correct label (financial_private) and subtype (investment).",
+          "No full account/credit card/phone etc. exposed; masked ****2468.",
+          "Meta.original_text indicates a paraphrase; current text is a real paraphrase, not a copy.",
+          "Numbers and wording are natural and credible for portfolio value."
+        ],
+        "index": 4266
+      },
+      {
+        "id": "aug_fin_priv_000826_2",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible bilingual Singaporean finance text with code-switch and lah.",
+          "Label and subtype correctly reflect financial_private/investment.",
+          "No sensitive identifiers or credentials present.",
+          "Text paraphrases a provided original_text (not a literal copy)."
+        ],
+        "index": 4430
+      },
+      {
+        "id": "aug_fin_priv_000913_0",
+        "realism_score": 5,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible financial note in Chinese with plausible amount and card ending.",
+          "Label matches financial_private; subtype_card_payment is appropriate.",
+          "Only last four digits of card are present; no full account/credential.",
+          "Text appears to be a genuine paraphrase of the provided original_text; not a copy."
+        ],
+        "index": 4494
+      },
+      {
+        "id": "aug_fin_priv_000860_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Label and subtype align with loan_debt in financial_private",
+          "No sensitive personal data exposed (no account numbers, passwords, etc.)",
+          "Text paraphrases the meta original_text rather than copying it verbatim",
+          "Plausible bilingual corporate email tone; SG dollar amount is reasonable"
+        ],
+        "index": 4613
+      },
+      {
+        "id": "aug_fin_priv_000864_2",
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": true,
+        "action": "pass",
+        "reasons": [
+          "Plausible wallet_payment description with amount and merchant.",
+          "No full account/card numbers or other secrets present.",
+          "Original_text exists and the current text paraphrases it rather than copying exactly.",
+          "Label and subtype correctly reflect a wallet_payment financial_private example."
+        ],
+        "index": 4628
+      }
+    ]
+  },
+  "rejected_rows": [
+    {
+      "id": "fin_priv_000943",
+      "index": 4,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000012",
+      "index": 28,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001066",
+      "index": 36,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002274",
+      "index": 44,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000642",
+      "index": 46,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001631",
+      "index": 63,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000187",
+      "index": 80,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002258",
+      "index": 98,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000771",
+      "index": 103,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002190",
+      "index": 105,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000263",
+      "index": 131,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002184",
+      "index": 158,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000996",
+      "index": 179,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002296",
+      "index": 192,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000046",
+      "index": 214,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001143",
+      "index": 238,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001030",
+      "index": 242,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000591",
+      "index": 257,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000681",
+      "index": 297,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000004",
+      "index": 299,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001309",
+      "index": 312,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000974",
+      "index": 315,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000165",
+      "index": 317,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000588",
+      "index": 318,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001128",
+      "index": 335,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000993",
+      "index": 339,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000883",
+      "index": 342,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000287",
+      "index": 351,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000358",
+      "index": 390,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001096",
+      "index": 392,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000811",
+      "index": 410,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000946",
+      "index": 411,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000904",
+      "index": 424,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000563",
+      "index": 441,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000191",
+      "index": 447,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000643",
+      "index": 467,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000190",
+      "index": 477,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000021",
+      "index": 500,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002251",
+      "index": 510,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000336",
+      "index": 514,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000281",
+      "index": 544,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000966",
+      "index": 553,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001070",
+      "index": 584,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000252",
+      "index": 597,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000176",
+      "index": 600,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000403",
+      "index": 607,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000060",
+      "index": 613,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000379",
+      "index": 631,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002161",
+      "index": 642,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000380",
+      "index": 653,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000956",
+      "index": 655,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000393",
+      "index": 657,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001129",
+      "index": 664,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001663",
+      "index": 681,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000650",
+      "index": 701,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000718",
+      "index": 719,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000340",
+      "index": 725,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001015",
+      "index": 727,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001704",
+      "index": 739,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000075",
+      "index": 744,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000600",
+      "index": 763,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000203",
+      "index": 768,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000311",
+      "index": 789,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000480",
+      "index": 793,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000230",
+      "index": 795,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001624",
+      "index": 810,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000930",
+      "index": 833,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001112",
+      "index": 837,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000896",
+      "index": 867,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000700",
+      "index": 879,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000251",
+      "index": 900,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000653",
+      "index": 905,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001085",
+      "index": 907,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001098",
+      "index": 930,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000309",
+      "index": 944,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001038",
+      "index": 960,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000337",
+      "index": 1031,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000082",
+      "index": 1039,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000994",
+      "index": 1044,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001021",
+      "index": 1058,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000483",
+      "index": 1076,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000618",
+      "index": 1078,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000830",
+      "index": 1083,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000303",
+      "index": 1084,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000470",
+      "index": 1111,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000874",
+      "index": 1141,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001122",
+      "index": 1188,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000445",
+      "index": 1191,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000598",
+      "index": 1192,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000710",
+      "index": 1205,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001117",
+      "index": 1221,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000043",
+      "index": 1225,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000597",
+      "index": 1246,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001027",
+      "index": 1273,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000265",
+      "index": 1296,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001165",
+      "index": 1298,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002098",
+      "index": 1307,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000417",
+      "index": 1310,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000786",
+      "index": 1311,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000763",
+      "index": 1313,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001473",
+      "index": 1365,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "hard_neg_001535",
+      "index": 1366,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001193",
+      "index": 1392,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000443",
+      "index": 1401,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000949",
+      "index": 1409,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000782",
+      "index": 1431,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000846",
+      "index": 1439,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000584",
+      "index": 1473,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002394",
+      "index": 1487,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001016",
+      "index": 1532,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000472",
+      "index": 1562,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001078",
+      "index": 1568,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000282",
+      "index": 1575,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000781",
+      "index": 1609,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000377",
+      "index": 1656,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001050",
+      "index": 1663,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "benign_002122",
+      "index": 1704,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000720",
+      "index": 1707,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_001090",
+      "index": 1718,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000362",
+      "index": 1739,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000365",
+      "index": 1752,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000619",
+      "index": 1761,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000100",
+      "index": 1778,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000920",
+      "index": 1791,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000603",
+      "index": 1804,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    },
+    {
+      "id": "fin_priv_000406",
+      "index": 1821,
+      "reasons": [
+        "skeleton_duplicate"
+      ]
+    }
+  ],
+  "recommended_action": "review"
+}
