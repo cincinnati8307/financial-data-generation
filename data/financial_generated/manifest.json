@@ -1,0 +1,27 @@
+{
+  "description": "Synthetic Chinese-nuance financial-private data for egress detection.",
+  "contains_real_personal_data": false,
+  "labels": [
+    "financial_private",
+    "non_private_financial",
+    "benign"
+  ],
+  "private_subtypes": [
+    "bank_balance",
+    "transaction",
+    "salary_income",
+    "card_payment",
+    "loan_debt",
+    "invoice_receipt",
+    "investment",
+    "tax",
+    "wallet_payment"
+  ],
+  "counts": {
+    "anchors_train": 1920,
+    "anchors_validation": 480,
+    "egress_train": 320,
+    "egress_validation": 80
+  },
+  "seed": 1337
+}

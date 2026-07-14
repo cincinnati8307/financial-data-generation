@@ -30,6 +30,11 @@ Private financial subtypes:
 
 The generator includes Simplified Chinese, Chinese-English code-switching, Mainland China and Singapore Chinese context, key-value/JSON/CSV-like rows, agent summaries, and mixed email/chat styles. Full account and card numbers are forbidden; only masked references such as `尾号 1234`, `card ending 1234`, and `账号 ****5678` are allowed.
 
+
+## Health domain variant
+
+A parallel health-private data workflow is available under `src/health_egress_poc`. It generates synthetic `health_private`, `non_private_health`, and `benign` anchor rows plus mixed-egress examples for diagnosis, medication, lab result, appointment, insurance, bill, wearable vitals, vaccination, and mental-health notes. See [README_health.md](README_health.md) for the health-specific commands and safety notes.
+
 ## Installation
 
 ```bash
@@ -38,11 +43,20 @@ pip install -r requirements.txt
 
 For local source-layout execution without installation, run commands with `PYTHONPATH=src` or install the project in editable mode.
 
+
+## Generated Data Locations
+
+Domain-separated outputs live under `data/`:
+
+- `data/financial_generated/` for financial-private data.
+- `data/health_generated/` for health-private data.
+- `data/generated/` is the legacy financial output path kept for compatibility.
+
 ## Generate synthetic data
 
 ```bash
 python -m sensitive_egress_poc.cli_generate \
-  --out-dir data/generated \
+  --out-dir data/financial_generated \
   --private 1000 \
   --hard-negative 500 \
   --benign 500 \
@@ -51,11 +65,11 @@ python -m sensitive_egress_poc.cli_generate \
 
 Outputs:
 
-- `data/generated/anchors_train.jsonl`
-- `data/generated/anchors_validation.jsonl`
-- `data/generated/egress_train.jsonl`
-- `data/generated/egress_validation.jsonl`
-- `data/generated/manifest.json`
+- `data/financial_generated/anchors_train.jsonl`
+- `data/financial_generated/anchors_validation.jsonl`
+- `data/financial_generated/egress_train.jsonl`
+- `data/financial_generated/egress_validation.jsonl`
+- `data/financial_generated/manifest.json`
 
 ## Optional LLM augmentation
 
@@ -63,8 +77,8 @@ Dry-run augmentation is deterministic and does not call external APIs:
 
 ```bash
 python -m sensitive_egress_poc.cli_augment \
-  --input data/generated/anchors_train.jsonl \
-  --output data/generated/anchors_train_augmented.jsonl \
+  --input data/financial_generated/anchors_train.jsonl \
+  --output data/financial_generated/anchors_train_augmented.jsonl \
   --max-inputs 20 \
   --provider dry-run \
   --include-original
@@ -74,8 +88,8 @@ OpenAI augmentation reads `OPENAI_API_KEY` from the environment and uses the off
 
 ```bash
 python -m sensitive_egress_poc.cli_augment \
-  --input data/generated/anchors_train.jsonl \
-  --output data/generated/anchors_train_augmented.jsonl \
+  --input data/financial_generated/anchors_train.jsonl \
+  --output data/financial_generated/anchors_train_augmented.jsonl \
   --max-inputs 100 \
   --paraphrases-per-example 6 \
   --provider openai \
@@ -86,8 +100,8 @@ python -m sensitive_egress_poc.cli_augment \
 
 ```bash
 python -m sensitive_egress_poc.cli_augment \
-  --input data/generated/anchors_train.jsonl \
-  --output data/generated/anchors_train_augmented.jsonl \
+  --input data/financial_generated/anchors_train.jsonl \
+  --output data/financial_generated/anchors_train_augmented.jsonl \
   --max-inputs 100 \
   --paraphrases-per-example 6 \
   --provider openai \
@@ -101,8 +115,8 @@ The prompt asks for lightweight paraphrase candidates only. Local validators con
 
 ```bash
 python -m sensitive_egress_poc.cli_centroid \
-  --train data/generated/anchors_train_augmented.jsonl \
-  --validation data/generated/anchors_validation.jsonl
+  --train data/financial_generated/anchors_train_augmented.jsonl \
+  --validation data/financial_generated/anchors_validation.jsonl
 ```
 
 The default embedding model is `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`. If `sentence-transformers` or the model is unavailable, the code falls back to a deterministic local hash embedder so the dry-run path still executes end-to-end.
@@ -110,14 +124,14 @@ The default embedding model is `sentence-transformers/paraphrase-multilingual-Mi
 Centroids are saved to:
 
 ```text
-data/generated/centroids.json
+data/financial_generated/centroids.json
 ```
 
 ## Run demo classification
 
 ```bash
 python -m sensitive_egress_poc.cli_demo \
-  --centroids data/generated/centroids.json \
+  --centroids data/financial_generated/centroids.json \
   --text "我 DBS 账户里还剩 SGD 4,200。"
 ```
 
@@ -125,7 +139,7 @@ For a mixed-egress example:
 
 ```bash
 python -m sensitive_egress_poc.cli_demo \
-  --centroids data/generated/centroids.json \
+  --centroids data/financial_generated/centroids.json \
   --text "会议纪要：周五部署新版本。附带备注：我 DBS 账户里还剩 SGD 4,200。"
 ```
 

@@ -1,0 +1,27 @@
+{
+  "description": "Synthetic health-private data for egress detection.",
+  "contains_real_personal_data": false,
+  "labels": [
+    "health_private",
+    "non_private_health",
+    "benign"
+  ],
+  "private_subtypes": [
+    "diagnosis_condition",
+    "medication_prescription",
+    "lab_result",
+    "appointment_visit",
+    "insurance_claim",
+    "medical_bill",
+    "wearable_vitals",
+    "vaccination_record",
+    "mental_health_note"
+  ],
+  "counts": {
+    "anchors_train": 1920,
+    "anchors_validation": 480,
+    "egress_train": 320,
+    "egress_validation": 80
+  },
+  "seed": 1337
+}

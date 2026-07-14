@@ -1,0 +1,1181 @@
+{
+  "entity_pools": {
+    "clinics": [
+      "Raffles Clinic",
+      "Healthway Medical",
+      "OneCare Clinic",
+      "国大医院门诊",
+      "社区诊所",
+      "Parkway Clinic",
+      "家庭医生诊所",
+      "Polyclinic"
+    ],
+    "hospitals": [
+      "SGH",
+      "NUH",
+      "TTSH",
+      "KKH",
+      "仁心医院",
+      "综合医院",
+      "复诊中心"
+    ],
+    "insurers": [
+      "AIA",
+      "Prudential",
+      "Great Eastern",
+      "Integrated Shield plan",
+      "公司保险",
+      "商业医保"
+    ],
+    "medications": [
+      "metformin",
+      "amlodipine",
+      "atorvastatin",
+      "salbutamol inhaler",
+      "抗过敏药",
+      "止痛药",
+      "抗生素",
+      "胃药"
+    ],
+    "conditions": [
+      "高血压",
+      "type 2 diabetes",
+      "asthma",
+      "migraine",
+      "eczema",
+      "胃炎",
+      "焦虑症状",
+      "睡眠障碍"
+    ],
+    "tests": [
+      "HbA1c",
+      "LDL cholesterol",
+      "ALT",
+      "TSH",
+      "血常规",
+      "尿检",
+      "CRP",
+      "血压"
+    ],
+    "vaccines": [
+      "flu vaccine",
+      "COVID booster",
+      "HPV vaccine",
+      "乙肝疫苗",
+      "Tdap",
+      "MMR"
+    ],
+    "masked_refs": [
+      "patient ID ****1234",
+      "MRN ****5678",
+      "病历号 ****2468",
+      "ref ending 7788",
+      "患者编号尾号 9012"
+    ],
+    "lab_values": [
+      "5.8",
+      "7.1",
+      "120/80",
+      "3.4",
+      "正常范围边缘",
+      "偏高",
+      "阴性",
+      "positive"
+    ],
+    "dates": [
+      "3月5日",
+      "4月18日",
+      "5月20日",
+      "6月30日",
+      "下周二",
+      "Friday"
+    ],
+    "time_slots": [
+      "09:30",
+      "11:00",
+      "14:15",
+      "16:00"
+    ],
+    "currencies": [
+      "SGD",
+      "S$",
+      "人民币",
+      "RMB",
+      "¥"
+    ]
+  },
+  "private_scenarios": {
+    "diagnosis_condition": [
+      {
+        "id": "doctor_confirmed_condition",
+        "templates": [
+          "医生说我这次诊断是{condition}，记录在{masked_ref}。"
+        ]
+      },
+      {
+        "id": "followup_diagnosis_summary",
+        "templates": [
+          "复诊摘要：{clinic} confirmed diagnosis={condition}。"
+        ]
+      },
+      {
+        "id": "health_record_condition",
+        "templates": [
+          "我的健康档案里新增了{condition}，下次要带报告。"
+        ]
+      },
+      {
+        "id": "agent_condition_note",
+        "templates": [
+          "Agent note: patient-reported condition is {condition}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "discharge_summary_diagnosis",
+        "templates": [
+          "出院小结写着主要诊断为{condition}，关联{masked_ref}。",
+          "Discharge summary: diagnosis={condition}, patient ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "family_chat_condition",
+        "templates": [
+          "我跟家人说了这次医生确认是{condition}，后面要复查。",
+          "家庭群健康备注：{condition}，{date}再去{clinic}。"
+        ]
+      },
+      {
+        "id": "referral_reason",
+        "templates": [
+          "转诊单原因写的是{condition}，目的地是{hospital}。",
+          "Referral note: condition={condition}; destination={hospital}; {masked_ref}。"
+        ]
+      },
+      {
+        "id": "chronic_condition_tracker",
+        "templates": [
+          "慢病管理表更新：{condition}，下一次跟进在{date}。",
+          "Personal tracker row: condition={condition}, followup={date}, ref={masked_ref}。"
+        ]
+      }
+    ],
+    "medication_prescription": [
+      {
+        "id": "dosage_prescription",
+        "templates": [
+          "医生给我开了{medication}，一天两次，处方关联{masked_ref}。"
+        ]
+      },
+      {
+        "id": "refill_from_clinic",
+        "templates": [
+          "Prescription note: {medication} refill from {clinic}。"
+        ]
+      },
+      {
+        "id": "monthly_medication_note",
+        "templates": [
+          "我这个月继续吃{medication}，复诊时要问剂量。"
+        ]
+      },
+      {
+        "id": "ocr_medicine_list",
+        "templates": [
+          "药单 OCR：medicine={medication}, clinic={clinic}, id={masked_ref}。"
+        ]
+      },
+      {
+        "id": "pharmacy_pickup",
+        "templates": [
+          "药房提醒我{medication}可以领取了，处方号是{masked_ref}。",
+          "Pharmacy pickup note: {medication}, clinic={clinic}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "dose_change_followup",
+        "templates": [
+          "医生把{medication}剂量调整了，{date}要复诊确认。",
+          "Medication follow-up: dose change for {medication}, appointment {date}。"
+        ]
+      },
+      {
+        "id": "side_effect_note",
+        "templates": [
+          "吃{medication}后有点不舒服，我准备问{clinic}能不能换药。",
+          "Private med note: possible side effect after {medication}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "insurance_med_approval",
+        "templates": [
+          "保险预批材料里列了{medication}，关联病历{masked_ref}。",
+          "Medication approval packet: drug={medication}, insurer={insurer}, patient={masked_ref}。"
+        ]
+      }
+    ],
+    "lab_result": [
+      {
+        "id": "result_value_ready",
+        "templates": [
+          "我的{test_name}结果出来了，数值是{lab_value}。"
+        ]
+      },
+      {
+        "id": "lab_portal_result",
+        "templates": [
+          "Lab portal shows {test_name}={lab_value}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "physical_report_flagged",
+        "templates": [
+          "体检报告里{test_name} flagged，医生建议复查。"
+        ]
+      },
+      {
+        "id": "hospital_lab_summary",
+        "templates": [
+          "化验单摘要：{test_name} {lab_value}，来自{hospital}。"
+        ]
+      },
+      {
+        "id": "abnormal_flag_notification",
+        "templates": [
+          "Health app 提醒我的{test_name}结果{lab_value}，需要联系医生。",
+          "App notification: {test_name} flagged {lab_value}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "repeat_test_order",
+        "templates": [
+          "医生让我因为{test_name}={lab_value}再做一次复查。",
+          "Repeat lab order: test={test_name}, value={lab_value}, clinic={clinic}。"
+        ]
+      },
+      {
+        "id": "lab_csv_export",
+        "templates": [
+          "lab_export,{date},{test_name},{lab_value},{masked_ref}",
+          "CSV lab line: date={date}, test={test_name}, result={lab_value}, patient={masked_ref}。"
+        ]
+      },
+      {
+        "id": "insurance_lab_attachment",
+        "templates": [
+          "理赔附件里有我的{test_name}报告，结果是{lab_value}。",
+          "Claim attachment summary: {test_name} result {lab_value}, insurer={insurer}。"
+        ]
+      }
+    ],
+    "appointment_visit": [
+      {
+        "id": "clinic_followup_booking",
+        "templates": [
+          "我在{clinic}的复诊预约是{date} {time_slot}。"
+        ]
+      },
+      {
+        "id": "specialist_appointment",
+        "templates": [
+          "Specialist appointment: {hospital}, {date}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "next_doctor_visit",
+        "templates": [
+          "下次看医生排在{date}，诊所是{clinic}。"
+        ]
+      },
+      {
+        "id": "calendar_medical_visit",
+        "templates": [
+          "Calendar note: medical visit at {clinic} on {date} {time_slot}。"
+        ]
+      },
+      {
+        "id": "specialist_queue_number",
+        "templates": [
+          "专科门诊排到了{date} {time_slot}，医院是{hospital}。",
+          "Specialist queue note: {hospital}, {date} {time_slot}, {masked_ref}。"
+        ]
+      },
+      {
+        "id": "telehealth_session",
+        "templates": [
+          "线上问诊预约在{date} {time_slot}，医生会看我的{condition}记录。",
+          "Telehealth booking: {clinic}, topic={condition}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "preop_visit",
+        "templates": [
+          "术前评估预约是{date}，地点在{hospital}。",
+          "Pre-op visit calendar: hospital={hospital}, date={date}, patient={masked_ref}。"
+        ]
+      },
+      {
+        "id": "therapy_session_booking",
+        "templates": [
+          "心理咨询预约排在{date} {time_slot}，备注是睡眠和焦虑。",
+          "Therapy appointment: {date} {time_slot}, ref {masked_ref}。"
+        ]
+      }
+    ],
+    "insurance_claim": [
+      {
+        "id": "claim_submitted",
+        "templates": [
+          "我的{insurer}理赔提交了，claim amount 是 {amount}。"
+        ]
+      },
+      {
+        "id": "clinic_claim_review",
+        "templates": [
+          "Insurance claim for {clinic} visit: {amount}, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "company_insurance_review",
+        "templates": [
+          "公司保险还在审核这次门诊理赔，金额 {amount}。"
+        ]
+      },
+      {
+        "id": "claim_form_row",
+        "templates": [
+          "理赔表一行：{insurer},{amount},{masked_ref}。"
+        ]
+      },
+      {
+        "id": "claim_status_app",
+        "templates": [
+          "保险 app 显示我的门诊 claim 还在审核，金额 {amount}。",
+          "Claim status: pending, amount={amount}, insurer={insurer}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "preauth_request",
+        "templates": [
+          "预授权申请提交给{insurer}，诊断材料来自{hospital}。",
+          "Preauth request: insurer={insurer}, provider={hospital}, patient={masked_ref}。"
+        ]
+      },
+      {
+        "id": "reimbursement_email",
+        "templates": [
+          "报销邮件里写了这次{clinic}看诊费用 {amount}。",
+          "Reimbursement email snippet: clinic={clinic}; amount={amount}; {masked_ref}。"
+        ]
+      },
+      {
+        "id": "insurer_document_request",
+        "templates": [
+          "{insurer}要求补交我的化验和账单材料，编号{masked_ref}。",
+          "Insurer document request: lab and bill needed for {masked_ref}。"
+        ]
+      }
+    ],
+    "medical_bill": [
+      {
+        "id": "clinic_bill_paid",
+        "templates": [
+          "这次{clinic}账单是 {amount}，我先自己付了。"
+        ]
+      },
+      {
+        "id": "hospital_bill_summary",
+        "templates": [
+          "Medical bill summary: provider={hospital}, amount={amount}, {masked_ref}。"
+        ]
+      },
+      {
+        "id": "medicine_consult_total",
+        "templates": [
+          "药费和诊费合计 {amount}，收据在邮箱里。"
+        ]
+      },
+      {
+        "id": "clinic_invoice_ocr",
+        "templates": [
+          "Clinic invoice OCR: total {amount}, patient {masked_ref}。"
+        ]
+      },
+      {
+        "id": "receipt_photo_ocr",
+        "templates": [
+          "收据照片 OCR：{clinic} total {amount}, patient {masked_ref}。",
+          "Receipt OCR line: provider={clinic}; amount={amount}; ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "payment_plan",
+        "templates": [
+          "医院账单 {amount} 申请分期，病历关联{masked_ref}。",
+          "Payment plan note: hospital={hospital}, balance={amount}, patient={masked_ref}。"
+        ]
+      },
+      {
+        "id": "deductible_note",
+        "templates": [
+          "这次账单自付额是 {amount}，保险还没抵扣完。",
+          "Deductible note: amount={amount}, insurer={insurer}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "reimbursement_pack",
+        "templates": [
+          "报销包里放了{clinic}账单 {amount} 和处方。",
+          "Reimbursement packet: bill={amount}, provider={clinic}, patient={masked_ref}。"
+        ]
+      }
+    ],
+    "wearable_vitals": [
+      {
+        "id": "watch_sleep_hr",
+        "templates": [
+          "昨晚手表记录 resting heart rate {heart_rate} bpm，睡眠 {sleep_hours} 小时。"
+        ]
+      },
+      {
+        "id": "health_app_blood_pressure",
+        "templates": [
+          "Health app 显示今天血压 {blood_pressure}，我有点担心。"
+        ]
+      },
+      {
+        "id": "post_meal_glucose",
+        "templates": [
+          "我的血糖记录是 {glucose} mmol/L，饭后两小时测的。"
+        ]
+      },
+      {
+        "id": "wearable_summary",
+        "templates": [
+          "Wearable summary: HR={heart_rate}, sleep={sleep_hours}h, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "weekly_sleep_report",
+        "templates": [
+          "本周睡眠报告显示平均 {sleep_hours} 小时，静息心率 {heart_rate}。",
+          "Weekly wearable report: sleep={sleep_hours}h, resting_hr={heart_rate}。"
+        ]
+      },
+      {
+        "id": "blood_oxygen_alert",
+        "templates": [
+          "手表提醒昨晚血氧和心率异常，HR peak {heart_rate}。",
+          "Wearable alert: HR={heart_rate}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "glucose_trend_export",
+        "templates": [
+          "血糖趋势导出显示今天 {glucose} mmol/L。",
+          "Glucose export row: value={glucose}, date={date}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "exercise_recovery_note",
+        "templates": [
+          "运动恢复备注：心率 {heart_rate} bpm，睡眠 {sleep_hours} 小时。",
+          "Recovery note from health app: HR={heart_rate}, sleep={sleep_hours}h。"
+        ]
+      }
+    ],
+    "vaccination_record": [
+      {
+        "id": "masked_vaccine_record",
+        "templates": [
+          "我打了{vaccine}，接种记录在{masked_ref}。"
+        ]
+      },
+      {
+        "id": "clinic_vaccination_record",
+        "templates": [
+          "Vaccination record: {vaccine} at {clinic} on {date}。"
+        ]
+      },
+      {
+        "id": "work_vaccine_proof",
+        "templates": [
+          "公司要疫苗证明，我的{vaccine}日期是{date}。"
+        ]
+      },
+      {
+        "id": "healthhub_vaccine_note",
+        "templates": [
+          "HealthHub note: vaccine={vaccine}, clinic={clinic}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "immunization_certificate",
+        "templates": [
+          "免疫证明显示我在{date}接种了{vaccine}。",
+          "Immunization certificate: vaccine={vaccine}, date={date}, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "school_requirement",
+        "templates": [
+          "学校要提交{vaccine}记录，我的接种日期是{date}。",
+          "School health form: vaccine={vaccine}, date={date}, patient={masked_ref}。"
+        ]
+      },
+      {
+        "id": "booster_appointment",
+        "templates": [
+          "booster 预约在{clinic}，时间是{date} {time_slot}。",
+          "Booster appointment: {vaccine}, {clinic}, {date} {time_slot}。"
+        ]
+      },
+      {
+        "id": "post_vaccine_note",
+        "templates": [
+          "打完{vaccine}后我记录了轻微不适，准备观察一天。",
+          "Post-vaccine private note: {vaccine}, ref={masked_ref}。"
+        ]
+      }
+    ],
+    "mental_health_note": [
+      {
+        "id": "counselor_anxiety_score",
+        "templates": [
+          "心理咨询师记录我最近焦虑评分 {score}/10。"
+        ]
+      },
+      {
+        "id": "therapy_sleep_anxiety",
+        "templates": [
+          "Therapy note: sleep anxiety discussed, ref {masked_ref}。"
+        ]
+      },
+      {
+        "id": "mood_consult_booking",
+        "templates": [
+          "我这周情绪低落，咨询预约在{date}。"
+        ]
+      },
+      {
+        "id": "panic_followup_private_note",
+        "templates": [
+          "私人健康备注：panic symptoms after work，准备复诊。"
+        ]
+      },
+      {
+        "id": "mood_tracker_entry",
+        "templates": [
+          "情绪 tracker 写着今天焦虑评分 {score}/10。",
+          "Mood tracker: anxiety_score={score}/10, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "therapy_homework",
+        "templates": [
+          "咨询师让我这周记录睡眠和 panic symptoms。",
+          "Therapy homework note: track sleep anxiety before {date}。"
+        ]
+      },
+      {
+        "id": "psychiatry_med_note",
+        "templates": [
+          "精神科复诊提到{medication}和睡眠情况，关联{masked_ref}。",
+          "Psychiatry note: medication={medication}, sleep issue, ref={masked_ref}。"
+        ]
+      },
+      {
+        "id": "coping_plan_review",
+        "templates": [
+          "私人心理备注：这周要复盘 coping plan 和焦虑触发点。",
+          "Counseling summary: coping plan reviewed, score={score}/10。"
+        ]
+      }
+    ]
+  },
+  "hard_negative_scenarios": {
+    "public_health_info": [
+      {
+        "id": "flu_vaccine_guidance",
+        "label": "non_private_health",
+        "templates": [
+          "卫生部发布流感疫苗接种建议，内容不涉及个人病历。"
+        ]
+      },
+      {
+        "id": "hypertension_article",
+        "label": "non_private_health",
+        "templates": [
+          "公开文章解释高血压常见风险因素。"
+        ]
+      },
+      {
+        "id": "vaccine_storage_article",
+        "label": "non_private_health",
+        "templates": [
+          "The article describes how vaccines are stored safely."
+        ]
+      },
+      {
+        "id": "wellness_program",
+        "label": "non_private_health",
+        "templates": [
+          "团队讨论 wellness program 的报名流程，没有个人健康资料。"
+        ]
+      }
+    ],
+    "health_system_operations": [
+      {
+        "id": "hospital_system_upgrade",
+        "label": "non_private_health",
+        "templates": [
+          "医院系统升级公告：预约服务周末暂停。"
+        ]
+      },
+      {
+        "id": "dummy_patient_training",
+        "label": "non_private_health",
+        "templates": [
+          "Training data uses dummy patient examples only."
+        ]
+      },
+      {
+        "id": "clinic_template_notice",
+        "label": "non_private_health",
+        "templates": [
+          "诊所模板只展示字段名，不包含任何真实患者记录。"
+        ]
+      },
+      {
+        "id": "deidentified_dashboard",
+        "label": "non_private_health",
+        "templates": [
+          "Dashboard shows de-identified aggregate visit volume by clinic."
+        ]
+      }
+    ],
+    "technical_health_terms": [
+      {
+        "id": "health_check_endpoint",
+        "label": "benign",
+        "templates": [
+          "The health check endpoint returned 200 OK."
+        ]
+      },
+      {
+        "id": "service_status_healthy",
+        "label": "benign",
+        "templates": [
+          "Service status is healthy after deployment."
+        ]
+      },
+      {
+        "id": "appointment_settings_page",
+        "label": "benign",
+        "templates": [
+          "这个 appointment settings 页面打不开。"
+        ]
+      },
+      {
+        "id": "dependency_injection",
+        "label": "benign",
+        "templates": [
+          "The Python package has a dependency injection container."
+        ]
+      }
+    ],
+    "public_policy_and_guidance": [
+      {
+        "id": "clinic_visiting_hours",
+        "label": "non_private_health",
+        "non_private_reason": "public clinic information",
+        "templates": [
+          "诊所公告说明本周门诊时间调整，不包含个人预约。"
+        ]
+      },
+      {
+        "id": "screening_campaign",
+        "label": "non_private_health",
+        "non_private_reason": "public health campaign",
+        "templates": [
+          "社区健康筛查活动面向所有居民开放。"
+        ]
+      },
+      {
+        "id": "vaccination_policy",
+        "label": "non_private_health",
+        "non_private_reason": "public policy",
+        "templates": [
+          "公司 wellness policy 建议员工自行预约疫苗，不收集个人记录。"
+        ]
+      },
+      {
+        "id": "public_symptom_article",
+        "label": "non_private_health",
+        "non_private_reason": "general medical education",
+        "templates": [
+          "这篇文章介绍常见感冒症状和就医建议。"
+        ]
+      },
+      {
+        "id": "hospital_map",
+        "label": "non_private_health",
+        "non_private_reason": "public facility information",
+        "templates": [
+          "医院地图标出了药房、收费处和门诊入口。"
+        ]
+      }
+    ],
+    "deidentified_and_aggregate": [
+      {
+        "id": "aggregate_lab_dashboard",
+        "label": "non_private_health",
+        "non_private_reason": "aggregate statistics",
+        "templates": [
+          "Dashboard shows average lab turnaround time by department, with no patient rows."
+        ]
+      },
+      {
+        "id": "deidentified_readmission_stats",
+        "label": "non_private_health",
+        "non_private_reason": "de-identified aggregate data",
+        "templates": [
+          "报告只展示去标识化再入院率统计。"
+        ]
+      },
+      {
+        "id": "synthetic_patient_demo",
+        "label": "non_private_health",
+        "non_private_reason": "dummy synthetic example",
+        "templates": [
+          "Demo uses synthetic patient A with placeholder fields only."
+        ]
+      },
+      {
+        "id": "empty_mrn_column_template",
+        "label": "non_private_health",
+        "non_private_reason": "blank template fields",
+        "templates": [
+          "CSV 模板包含 MRN column header，但没有任何行数据。"
+        ]
+      },
+      {
+        "id": "trial_protocol_summary",
+        "label": "non_private_health",
+        "non_private_reason": "research protocol, no subject data",
+        "templates": [
+          "Clinical trial protocol summary describes inclusion criteria without participant records."
+        ]
+      }
+    ],
+    "software_and_infra": [
+      {
+        "id": "kubernetes_liveness_probe",
+        "label": "benign",
+        "non_private_reason": "software health check",
+        "templates": [
+          "Kubernetes liveness health check returned success."
+        ]
+      },
+      {
+        "id": "service_health_dashboard",
+        "label": "benign",
+        "non_private_reason": "system status",
+        "templates": [
+          "Service health dashboard is green after deployment."
+        ]
+      },
+      {
+        "id": "appointment_api_schema",
+        "label": "benign",
+        "non_private_reason": "API schema only",
+        "templates": [
+          "appointment_id is a test schema field in the API docs."
+        ]
+      },
+      {
+        "id": "mock_ehr_fixture",
+        "label": "non_private_health",
+        "non_private_reason": "mock fixture",
+        "templates": [
+          "Unit test fixture uses fake EHR rows generated at runtime."
+        ]
+      },
+      {
+        "id": "health_word_in_code",
+        "label": "benign",
+        "non_private_reason": "technical use of health term",
+        "templates": [
+          "The cache health metric is sampled every 30 seconds."
+        ]
+      }
+    ],
+    "workflow_without_private_data": [
+      {
+        "id": "hr_benefits_process",
+        "label": "non_private_health",
+        "non_private_reason": "process description only",
+        "templates": [
+          "HR explains how to submit medical claims but asks employees not to paste records."
+        ]
+      },
+      {
+        "id": "pharmacy_stock_notice",
+        "label": "non_private_health",
+        "non_private_reason": "inventory notice",
+        "templates": [
+          "Pharmacy stock notice says flu vaccine supply arrives Friday."
+        ]
+      },
+      {
+        "id": "clinic_queue_status",
+        "label": "non_private_health",
+        "non_private_reason": "operational queue status",
+        "templates": [
+          "Clinic display shows average waiting time by counter."
+        ]
+      },
+      {
+        "id": "wellness_event_signup",
+        "label": "non_private_health",
+        "non_private_reason": "wellness event, no individual health data",
+        "templates": [
+          "Wellness talk signup asks for work email only, not health details."
+        ]
+      },
+      {
+        "id": "medical_term_glossary",
+        "label": "non_private_health",
+        "non_private_reason": "glossary",
+        "templates": [
+          "Glossary explains HbA1c, LDL, and blood pressure ranges in general terms."
+        ]
+      }
+    ]
+  },
+  "benign_scenarios": {
+    "work_notes": [
+      {
+        "id": "meeting_time",
+        "templates": [
+          "会议从下午三点开始。"
+        ]
+      },
+      {
+        "id": "draft_review",
+        "templates": [
+          "请在周五之前 review 这个 draft。"
+        ]
+      },
+      {
+        "id": "calendar_updated",
+        "templates": [
+          "Calendar invite 已经更新。"
+        ]
+      },
+      {
+        "id": "button_color",
+        "templates": [
+          "这个页面的按钮颜色需要调整。"
+        ]
+      }
+    ],
+    "general_text": [
+      {
+        "id": "doc_sections",
+        "templates": [
+          "The document contains three sections."
+        ]
+      },
+      {
+        "id": "weather_hot",
+        "templates": [
+          "今天的天气比较热。"
+        ]
+      },
+      {
+        "id": "boolean_return",
+        "templates": [
+          "The function returns a boolean value."
+        ]
+      },
+      {
+        "id": "lunch_plan",
+        "templates": [
+          "午餐我们去楼下吃。"
+        ]
+      }
+    ],
+    "office_and_product": [
+      {
+        "id": "roadmap_note",
+        "templates": [
+          "Roadmap review moved to next Wednesday."
+        ]
+      },
+      {
+        "id": "support_macro",
+        "templates": [
+          "Support macro needs a shorter closing sentence."
+        ]
+      },
+      {
+        "id": "design_token",
+        "templates": [
+          "Design token spacing should use the 8px scale."
+        ]
+      },
+      {
+        "id": "analytics_event",
+        "templates": [
+          "Analytics event name changed from click_cta to select_cta."
+        ]
+      }
+    ],
+    "daily_life": [
+      {
+        "id": "grocery_list",
+        "templates": [
+          "晚上记得买鸡蛋、青菜和牛奶。"
+        ]
+      },
+      {
+        "id": "travel_pack",
+        "templates": [
+          "出差行李里别忘了充电器。"
+        ]
+      },
+      {
+        "id": "book_note",
+        "templates": [
+          "这本书第二章讲得比较清楚。"
+        ]
+      },
+      {
+        "id": "train_delay",
+        "templates": [
+          "地铁延误了十分钟。"
+        ]
+      }
+    ],
+    "code_and_data": [
+      {
+        "id": "json_parser",
+        "templates": [
+          "JSON parser 要处理空数组和 null 值。"
+        ]
+      },
+      {
+        "id": "feature_flag",
+        "templates": [
+          "Feature flag 先只开给内部用户。"
+        ]
+      },
+      {
+        "id": "cache_key",
+        "templates": [
+          "缓存 key 的命名需要统一。"
+        ]
+      },
+      {
+        "id": "build_log",
+        "templates": [
+          "Build log shows lint passed."
+        ]
+      }
+    ]
+  },
+  "mixed_carriers": [
+    {
+      "id": "work_meeting_tail",
+      "expected_health": false,
+      "intent": "把会议纪要发给老板。",
+      "template": "会议纪要：\n- 周五部署\n- API review\n\n误贴备注：{payload}"
+    },
+    {
+      "id": "sprint_clipboard",
+      "expected_health": false,
+      "intent": "Send the sprint notes to the team.",
+      "template": "Sprint notes:\n- release ready\nClipboard: {payload}"
+    },
+    {
+      "id": "project_update_tail",
+      "expected_health": false,
+      "intent": "请把项目更新同步到工作群。",
+      "template": "项目更新：进度正常。\n临时复制内容：{payload}"
+    },
+    {
+      "id": "support_reply_noise",
+      "expected_health": false,
+      "intent": "回复客户说问题已修复。",
+      "template": "您好，问题已经修复。\n内部误贴：{payload}\n谢谢。"
+    },
+    {
+      "id": "send_to_doctor",
+      "expected_health": true,
+      "intent": "把我的复诊摘要发给医生。",
+      "template": "健康资料如下：\n{payload}"
+    },
+    {
+      "id": "send_claim_review",
+      "expected_health": true,
+      "intent": "Send this health note to my insurance advisor.",
+      "template": "For the claim review: {payload}"
+    },
+    {
+      "id": "send_vaccine_hr",
+      "expected_health": true,
+      "intent": "把疫苗记录发给 HR 做证明。",
+      "template": "请根据这条记录处理：{payload}"
+    },
+    {
+      "id": "send_lab_specialist",
+      "expected_health": true,
+      "intent": "把化验结果发给专科医生。",
+      "template": "Specialist context:\n{payload}"
+    },
+    {
+      "id": "bug_report_block",
+      "expected_health": false,
+      "intent": "提交 bug report。",
+      "template": "Bug: settings page flickers\nSteps: open profile, click save\nDebug paste: {payload}"
+    },
+    {
+      "id": "deployment_log_json",
+      "expected_health": false,
+      "intent": "发送部署状态 JSON。",
+      "template": "{\"status\":\"green\",\"clipboard_note\":\"{payload}\"}"
+    },
+    {
+      "id": "crm_update_noise",
+      "expected_health": false,
+      "intent": "更新客户 CRM 备注。",
+      "template": "CRM update: contract reviewed.\nScratchpad content: {payload}"
+    },
+    {
+      "id": "calendar_invite_noise",
+      "expected_health": false,
+      "intent": "发一个设计评审日程邀请。",
+      "template": "Subject: design review\nWhen: {date} 10:00\nNotes accidentally pasted: {payload}"
+    },
+    {
+      "id": "design_feedback_noise",
+      "expected_health": false,
+      "intent": "把设计反馈发给产品经理。",
+      "template": "设计反馈：按钮层级需要更清楚。\n草稿缓存：{payload}"
+    },
+    {
+      "id": "support_ticket_noise",
+      "expected_health": false,
+      "intent": "回复支持工单。",
+      "template": "Ticket update: issue reproduced.\nInternal clipboard: {payload}"
+    },
+    {
+      "id": "release_email_footer",
+      "expected_health": false,
+      "intent": "把 release email 发给客户。",
+      "template": "Hi team, release is ready.\nChecklist attached.\nLocal clipboard: {payload}"
+    },
+    {
+      "id": "code_review_comment",
+      "expected_health": false,
+      "intent": "提交 code review comment。",
+      "template": "Review comment: rename this helper for clarity.\nUnrelated paste: {payload}"
+    },
+    {
+      "id": "form_submission_noise",
+      "expected_health": false,
+      "intent": "提交内部工具表单。",
+      "template": "form_type=ops_update\nstatus=ready\nnotes={payload}"
+    },
+    {
+      "id": "chat_forward_noise",
+      "expected_health": false,
+      "intent": "把工作群消息转发给老板。",
+      "template": "同事A：接口已经修复\n我：收到\n我误贴：{payload}"
+    },
+    {
+      "id": "research_digest_noise",
+      "expected_health": false,
+      "intent": "发送 research digest。",
+      "template": "Research digest: paper A is relevant.\nNoise from clipboard: {payload}"
+    },
+    {
+      "id": "vendor_email_noise",
+      "expected_health": false,
+      "intent": "回复供应商交付时间。",
+      "template": "Vendor reply: delivery can move to Friday.\nDraft buffer: {payload}"
+    },
+    {
+      "id": "send_medication_to_doctor",
+      "expected_health": true,
+      "intent": "把用药情况发给医生复诊。",
+      "template": "Doctor follow-up medication context:\n{payload}"
+    },
+    {
+      "id": "send_lab_to_specialist",
+      "expected_health": true,
+      "intent": "把化验结果发给专科医生。",
+      "template": "Specialist review material:\n{payload}"
+    },
+    {
+      "id": "send_bill_to_insurer",
+      "expected_health": true,
+      "intent": "把医疗账单发给保险顾问。",
+      "template": "Insurance bill attachment summary: {payload}"
+    },
+    {
+      "id": "send_claim_to_insurance",
+      "expected_health": true,
+      "intent": "提交理赔补充材料给保险公司。",
+      "template": "Claim supplement:\n{payload}\nPlease review."
+    },
+    {
+      "id": "send_appointment_to_caregiver",
+      "expected_health": true,
+      "intent": "把复诊预约发给照护人。",
+      "template": "Caregiver schedule note: {payload}"
+    },
+    {
+      "id": "send_vitals_to_clinician",
+      "expected_health": true,
+      "intent": "把可穿戴设备记录发给医生。",
+      "template": "Vitals export for clinician:\n{payload}"
+    },
+    {
+      "id": "send_mental_note_to_therapist",
+      "expected_health": true,
+      "intent": "把心理咨询备注发给咨询师。",
+      "template": "Therapy context for next session:\n{payload}"
+    },
+    {
+      "id": "send_vaccine_to_school",
+      "expected_health": true,
+      "intent": "把疫苗证明发给学校。",
+      "template": "School immunization proof: {payload}"
+    },
+    {
+      "id": "send_prescription_to_pharmacy",
+      "expected_health": true,
+      "intent": "把处方信息发给药房确认库存。",
+      "template": "Pharmacy confirmation request:\n{payload}"
+    },
+    {
+      "id": "send_preop_to_hospital",
+      "expected_health": true,
+      "intent": "把术前评估信息发给医院。",
+      "template": "Pre-op registration note:\n{payload}"
+    },
+    {
+      "id": "send_invoice_to_hr_benefits",
+      "expected_health": true,
+      "intent": "把门诊收据发给 HR benefits 报销。",
+      "template": "Benefits reimbursement context: {payload}"
+    },
+    {
+      "id": "send_healthhub_backup",
+      "expected_health": true,
+      "intent": "把 HealthHub 记录发给自己邮箱备份。",
+      "template": "Personal backup note:\n{payload}"
+    }
+  ]
+}

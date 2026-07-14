@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import random
 import re
@@ -18,9 +19,18 @@ except Exception:  # pragma: no cover - exercised only when optional dependency 
 from .filters import contains_disallowed_secret_like_content, normalize_text_for_dedup
 from .io_utils import read_jsonl, write_json, write_jsonl
 
+try:
+    from health_egress_poc.filters import contains_disallowed_identifier_or_secret as contains_disallowed_health_identifier_or_secret
+except Exception:  # pragma: no cover - health package may not be installed in financial-only reuse
+    def contains_disallowed_health_identifier_or_secret(text: str) -> bool:
+        return False
+
 GROUP_KEYS = ["label", "subtype", "style", "format", "region", "source", "meta.scenario_id"]
 DEFAULT_CHECKS = ["redundancy", "self_bleu", "safety"]
 LLM_REALISM_CHECK = "llm_realism"
+PRIVATE_LABELS = {"financial_private", "health_private"}
+KNOWN_LABELS = PRIVATE_LABELS | {"non_private_financial", "non_private_health", "benign"}
+MAX_FALLBACK_BLEU_REFERENCES = 50
 
 
 @dataclass
@@ -37,6 +47,10 @@ def row_id(row: dict[str, Any], index: int) -> str:
 
 def row_text(row: dict[str, Any]) -> str:
     return str(row.get("text", ""))
+
+
+def contains_disallowed_private_content(text: str) -> bool:
+    return contains_disallowed_secret_like_content(text) or contains_disallowed_health_identifier_or_secret(text)
 
 
 def nested_get(row: dict[str, Any], key: str, default: str = "unknown") -> str:
@@ -110,7 +124,14 @@ def find_exact_duplicates(rows: list[dict[str, Any]], rejections: dict[int, set[
     return duplicates
 
 
-def find_skeleton_duplicates(rows: list[dict[str, Any]], rejections: dict[int, set[str]]) -> list[dict[str, Any]]:
+def find_skeleton_reuse(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Report repeated template skeletons without treating them as duplicates.
+
+    A skeleton identifies a template/style/format lineage. Multiple rows can
+    legitimately share a skeleton while containing different filled entities,
+    amounts, dates, masked references, or generated paraphrases. Exact, near,
+    and source-copy checks decide whether text is actually redundant.
+    """
     groups: dict[str, list[int]] = defaultdict(list)
     for i, row in enumerate(rows):
         meta = row.get("meta") if isinstance(row.get("meta"), dict) else {}
@@ -118,7 +139,7 @@ def find_skeleton_duplicates(rows: list[dict[str, Any]], rejections: dict[int, s
         if skeleton_id:
             groups[str(skeleton_id)].append(i)
 
-    duplicates = []
+    reuse = []
     for skeleton_id, indices in groups.items():
         if len(indices) < 2:
             continue
@@ -126,17 +147,16 @@ def find_skeleton_duplicates(rows: list[dict[str, Any]], rejections: dict[int, s
         for i in indices:
             if i == rep:
                 continue
-            add_rejection(rejections, i, "skeleton_duplicate")
-            duplicates.append(
+            reuse.append(
                 {
                     "id": row_id(rows[i], i),
                     "index": i,
                     "representative_id": row_id(rows[rep], rep),
                     "skeleton_id": skeleton_id,
-                    "reason": "skeleton_duplicate",
+                    "reason": "skeleton_reuse",
                 }
             )
-    return duplicates
+    return reuse
 
 
 def find_near_duplicates(rows: list[dict[str, Any]], rejections: dict[int, set[str]], threshold: float = 0.92) -> list[dict[str, Any]]:
@@ -208,7 +228,7 @@ def find_augmented_source_redundancy(rows: list[dict[str, Any]], rejections: dic
 def find_safety_issues(rows: list[dict[str, Any]], rejections: dict[int, set[str]]) -> list[dict[str, Any]]:
     issues = []
     for i, row in enumerate(rows):
-        if contains_disallowed_secret_like_content(row_text(row)):
+        if contains_disallowed_private_content(row_text(row)):
             add_rejection(rejections, i, "secret_like_content")
             issues.append({"id": row_id(row, i), "index": i, "reason": "secret_like_content"})
     return issues
@@ -221,10 +241,39 @@ def sentence_bleu(candidate: str, references: list[str]) -> float:
         return sacrebleu.sentence_bleu(candidate, references).score / 100.0
 
     cand_tokens = simple_tokenize(candidate)
-    ref_tokens = set(token for ref in references for token in simple_tokenize(ref))
+    ref_tokens = [simple_tokenize(ref) for ref in bounded_references(references, MAX_FALLBACK_BLEU_REFERENCES)]
     if not cand_tokens or not ref_tokens:
         return 0.0
-    return sum(1 for tok in cand_tokens if tok in ref_tokens) / len(cand_tokens)
+
+    precisions = []
+    for n in range(1, 5):
+        cand_ngrams = ngram_counts(cand_tokens, n)
+        if not cand_ngrams:
+            precisions.append(0.0)
+            continue
+        max_ref_ngrams: Counter[tuple[str, ...]] = Counter()
+        for ref in ref_tokens:
+            max_ref_ngrams |= ngram_counts(ref, n)
+        clipped = sum(min(count, max_ref_ngrams[gram]) for gram, count in cand_ngrams.items())
+        total = sum(cand_ngrams.values())
+        precisions.append((clipped + 0.1) / (total + 0.1))
+
+    closest_ref_len = min((len(ref) for ref in ref_tokens), key=lambda ref_len: (abs(ref_len - len(cand_tokens)), ref_len))
+    brevity_penalty = 1.0 if len(cand_tokens) > closest_ref_len else math.exp(1 - closest_ref_len / max(1, len(cand_tokens)))
+    return brevity_penalty * math.exp(sum(math.log(max(p, 1e-9)) for p in precisions) / len(precisions))
+
+
+def ngram_counts(tokens: list[str], n: int) -> Counter[tuple[str, ...]]:
+    return Counter(tuple(tokens[i : i + n]) for i in range(max(0, len(tokens) - n + 1)))
+
+
+def bounded_references(references: list[str], max_references: int) -> list[str]:
+    if max_references <= 0 or len(references) <= max_references:
+        return references
+    if max_references == 1:
+        return [references[0]]
+    step = (len(references) - 1) / (max_references - 1)
+    return [references[round(i * step)] for i in range(max_references)]
 
 
 def deterministic_sample(values: list[str], max_samples: int, seed: int) -> list[str]:
@@ -295,9 +344,9 @@ def build_judge_prompt(row: dict[str, Any]) -> str:
 
 Scoring rules:
 - realism_score: integer 1-5, where 5 looks like plausible user/agent text and 1 looks artificial or broken.
-- label_correct: whether text matches the label.
-- subtype_correct: true for non-private rows, or whether financial_private subtype fits the text.
-- privacy_safe: false if there is a full account/card number, credential, token, password, real-looking ID, phone, or other secret.
+- label_correct: whether text matches the broad label. `financial_private` means private financial content, `health_private` means private health content, `non_private_financial` and `non_private_health` mean public/generic/non-personal domain content, and `benign` means unrelated non-sensitive content.
+- subtype_correct: true for non-private rows, or whether the private subtype fits the text. It is valid for text to mention the subtype name, such as `card_payment`, while the row label remains `financial_private`.
+- privacy_safe: dataset safety, not sensitivity classification. For rows labeled `financial_private` or `health_private`, private facts such as balances, bills, diagnoses, medications, appointments, lab values, or masked/last-four references are expected and can still be privacy_safe=true. Mark privacy_safe=false only if the row contains a full account/card number, full medical/patient identifier, credential, token, password, real-looking ID, phone, or other secret. Masked references such as `****1234`, `card ending 1234`, `尾号 1234`, or `MRN ****5678` are allowed.
 - is_real_paraphrase: null unless meta.original_text exists; then true only if text is a real paraphrase rather than a copy or tiny wrapper.
 - action: pass, review, or fail.
 - reasons: short list of reason strings.
@@ -344,10 +393,10 @@ def dry_run_judge(row: dict[str, Any], index: int) -> dict[str, Any]:
     subtype = row.get("subtype")
     meta = row.get("meta") if isinstance(row.get("meta"), dict) else {}
     original = meta.get("original_text")
-    privacy_safe = not contains_disallowed_secret_like_content(text)
+    privacy_safe = not contains_disallowed_private_content(text)
     realism_score = 4 if len(text.strip()) >= 12 and "{}" not in text else 2
-    label_correct = bool(label in {"financial_private", "non_private_financial", "benign"} or row.get("expected_decision"))
-    subtype_correct = True if label != "financial_private" else bool(subtype and subtype != "*")
+    label_correct = bool(label in KNOWN_LABELS or row.get("expected_decision"))
+    subtype_correct = True if label not in PRIVATE_LABELS else bool(subtype and subtype != "*")
     if original is None:
         is_real_paraphrase = None
     else:
@@ -375,7 +424,7 @@ class OpenAIJudge:
             from openai import OpenAI
         except ImportError as exc:
             raise RuntimeError("Install the openai package to use provider=openai") from exc
-        self.client = OpenAI()
+        self.client = OpenAI(timeout=30.0, max_retries=1)
         self.model = model
 
     def judge(self, row: dict[str, Any], index: int) -> dict[str, Any]:
@@ -451,12 +500,12 @@ def deterministic_quality_checks(
     redundancy = {
         "exact_duplicates": [],
         "near_duplicates": [],
-        "skeleton_duplicates": [],
+        "skeleton_reuse": [],
         "augmentation_source_redundancy": [],
     }
     if "redundancy" in checks:
         redundancy["exact_duplicates"] = find_exact_duplicates(rows, rejections)
-        redundancy["skeleton_duplicates"] = find_skeleton_duplicates(rows, rejections)
+        redundancy["skeleton_reuse"] = find_skeleton_reuse(rows)
         redundancy["near_duplicates"] = find_near_duplicates(rows, rejections, threshold=near_duplicate_threshold)
         redundancy["augmentation_source_redundancy"] = find_augmented_source_redundancy(
             rows, rejections, threshold=original_similarity_threshold
@@ -466,12 +515,14 @@ def deterministic_quality_checks(
         "redundancy": {
             "exact_duplicate_count": len(redundancy["exact_duplicates"]),
             "near_duplicate_count": len(redundancy["near_duplicates"]),
-            "skeleton_duplicate_count": len(redundancy["skeleton_duplicates"]),
+            "skeleton_duplicate_count": 0,
+            "skeleton_reuse_count": len(redundancy["skeleton_reuse"]),
             "augmentation_source_redundancy_count": len(redundancy["augmentation_source_redundancy"]),
             "items": {
                 "exact_duplicates": redundancy["exact_duplicates"][:100],
                 "near_duplicates": redundancy["near_duplicates"][:100],
-                "skeleton_duplicates": redundancy["skeleton_duplicates"][:100],
+                "skeleton_duplicates": [],
+                "skeleton_reuse": redundancy["skeleton_reuse"][:100],
                 "augmentation_source_redundancy": redundancy["augmentation_source_redundancy"][:100],
             },
         },

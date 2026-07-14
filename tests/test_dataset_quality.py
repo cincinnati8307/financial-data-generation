@@ -56,6 +56,21 @@ def test_quality_checker_rejects_redundant_and_unsafe_rows():
     assert report["recommended_action"] == "fail"
 
 
+def test_skeleton_reuse_is_audit_signal_not_rejection():
+    rows = [
+        row("r1", "我的 DBS 账户余额是 SGD 1,200。", meta={"skeleton_id": "balance_template"}),
+        row("r2", "我的 OCBC 账户余额是 SGD 8,900。", meta={"skeleton_id": "balance_template"}),
+    ]
+
+    report, cleaned = evaluate_dataset(rows, checks=parse_checks("redundancy"))
+
+    assert report["redundancy"]["skeleton_duplicate_count"] == 0
+    assert report["redundancy"]["skeleton_reuse_count"] == 1
+    assert report["rejected_rows"] == []
+    assert [r["id"] for r in cleaned] == ["r1", "r2"]
+    assert report["recommended_action"] == "pass"
+
+
 def test_self_bleu_report_has_grouped_metrics():
     rows = [row(f"p{i}", f"我的 DBS 账户余额是 SGD {1000+i}。", meta={"scenario_id": "bank_balance"}) for i in range(6)]
     rows += [row(f"b{i}", f"会议纪要第 {i} 条。", label="benign", subtype="*", meta={"scenario_id": "meeting"}) for i in range(6)]

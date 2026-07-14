@@ -1,0 +1,1561 @@
+{
+  "summary": {
+    "input_rows": 1920,
+    "checks": [
+      "llm_realism",
+      "redundancy",
+      "safety",
+      "self_bleu"
+    ],
+    "label_counts": {
+      "non_private_health": 362,
+      "health_private": 978,
+      "benign": 580
+    },
+    "source_counts": {
+      "synthetic_template": 1920
+    },
+    "rejected_rows": 0,
+    "accepted_rows": 1920
+  },
+  "redundancy": {
+    "exact_duplicate_count": 0,
+    "near_duplicate_count": 0,
+    "skeleton_duplicate_count": 0,
+    "skeleton_reuse_count": 67,
+    "augmentation_source_redundancy_count": 0,
+    "items": {
+      "exact_duplicates": [],
+      "near_duplicates": [],
+      "skeleton_duplicates": [],
+      "skeleton_reuse": [
+        {
+          "id": "health_priv_000054",
+          "index": 6,
+          "representative_id": "health_priv_000630",
+          "skeleton_id": "private:mental_health_note:mood_consult_booking:t0:email_mixed:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000718",
+          "index": 10,
+          "representative_id": "health_priv_000484",
+          "skeleton_id": "private:wearable_vitals:post_meal_glucose:t0:agent_summary:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000394",
+          "index": 15,
+          "representative_id": "health_priv_000097",
+          "skeleton_id": "private:wearable_vitals:exercise_recovery_note:t1:zh_en_codeswitch:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000111",
+          "index": 48,
+          "representative_id": "health_priv_000372",
+          "skeleton_id": "private:lab_result:physical_report_flagged:t0:mobile_terse:natural_sentence",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001103",
+          "index": 66,
+          "representative_id": "health_priv_000563",
+          "skeleton_id": "private:insurance_claim:clinic_claim_review:t0:zh_en_codeswitch:natural_sentence",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000862",
+          "index": 68,
+          "representative_id": "health_priv_000376",
+          "skeleton_id": "private:wearable_vitals:exercise_recovery_note:t0:zh_formal:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000735",
+          "index": 95,
+          "representative_id": "health_priv_000303",
+          "skeleton_id": "private:medical_bill:clinic_invoice_ocr:t0:agent_summary:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000701",
+          "index": 99,
+          "representative_id": "health_priv_001124",
+          "skeleton_id": "private:vaccination_record:booster_appointment:t1:clinic_note:email_snippet",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001113",
+          "index": 113,
+          "representative_id": "health_priv_000393",
+          "skeleton_id": "private:medical_bill:clinic_invoice_ocr:t0:zh_casual:csv_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000901",
+          "index": 114,
+          "representative_id": "health_priv_001099",
+          "skeleton_id": "private:diagnosis_condition:followup_diagnosis_summary:t0:agent_summary:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000688",
+          "index": 125,
+          "representative_id": "health_priv_000814",
+          "skeleton_id": "private:appointment_visit:next_doctor_visit:t0:clinic_note:app_notification",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001141",
+          "index": 132,
+          "representative_id": "health_priv_000025",
+          "skeleton_id": "private:wearable_vitals:weekly_sleep_report:t1:email_mixed:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000217",
+          "index": 145,
+          "representative_id": "health_priv_000982",
+          "skeleton_id": "private:diagnosis_condition:referral_reason:t0:zh_en_codeswitch:natural_sentence",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000207",
+          "index": 156,
+          "representative_id": "health_priv_001071",
+          "skeleton_id": "private:mental_health_note:therapy_sleep_anxiety:t0:agent_summary:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000427",
+          "index": 161,
+          "representative_id": "health_priv_000598",
+          "skeleton_id": "private:appointment_visit:clinic_followup_booking:t0:zh_formal:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000806",
+          "index": 169,
+          "representative_id": "health_priv_000158",
+          "skeleton_id": "private:insurance_claim:clinic_claim_review:t0:email_mixed:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000615",
+          "index": 211,
+          "representative_id": "health_priv_000741",
+          "skeleton_id": "private:lab_result:hospital_lab_summary:t0:clinic_note:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000944",
+          "index": 223,
+          "representative_id": "health_priv_000476",
+          "skeleton_id": "private:vaccination_record:work_vaccine_proof:t0:mobile_terse:email_snippet",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000226",
+          "index": 227,
+          "representative_id": "health_priv_000082",
+          "skeleton_id": "private:diagnosis_condition:doctor_confirmed_condition:t0:email_mixed:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001131",
+          "index": 254,
+          "representative_id": "health_priv_000816",
+          "skeleton_id": "private:medical_bill:clinic_invoice_ocr:t0:zh_formal:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000101",
+          "index": 309,
+          "representative_id": "health_priv_000380",
+          "skeleton_id": "private:medication_prescription:dosage_prescription:t0:zh_formal:natural_sentence",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000858",
+          "index": 343,
+          "representative_id": "health_priv_000489",
+          "skeleton_id": "private:lab_result:physical_report_flagged:t0:zh_formal:email_snippet",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000724",
+          "index": 361,
+          "representative_id": "health_priv_000085",
+          "skeleton_id": "private:appointment_visit:next_doctor_visit:t0:clinic_note:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000712",
+          "index": 384,
+          "representative_id": "health_priv_000856",
+          "skeleton_id": "private:diagnosis_condition:agent_condition_note:t0:email_mixed:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000690",
+          "index": 400,
+          "representative_id": "health_priv_000312",
+          "skeleton_id": "private:medical_bill:payment_plan:t1:mobile_terse:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000224",
+          "index": 411,
+          "representative_id": "health_priv_001043",
+          "skeleton_id": "private:vaccination_record:healthhub_vaccine_note:t0:email_mixed:app_notification",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000966",
+          "index": 429,
+          "representative_id": "health_priv_000948",
+          "skeleton_id": "private:lab_result:repeat_test_order:t1:zh_casual:chat_transcript",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000655",
+          "index": 453,
+          "representative_id": "health_priv_000448",
+          "skeleton_id": "private:wearable_vitals:glucose_trend_export:t0:zh_en_codeswitch:csv_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000214",
+          "index": 492,
+          "representative_id": "health_priv_000160",
+          "skeleton_id": "private:wearable_vitals:wearable_summary:t0:zh_en_codeswitch:chat_transcript",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000913",
+          "index": 537,
+          "representative_id": "health_priv_000796",
+          "skeleton_id": "private:appointment_visit:preop_visit:t1:zh_en_codeswitch:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000986",
+          "index": 551,
+          "representative_id": "health_priv_000005",
+          "skeleton_id": "private:insurance_claim:claim_status_app:t0:zh_formal:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000781",
+          "index": 609,
+          "representative_id": "health_priv_000016",
+          "skeleton_id": "private:wearable_vitals:exercise_recovery_note:t0:zh_en_codeswitch:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001168",
+          "index": 763,
+          "representative_id": "health_priv_000799",
+          "skeleton_id": "private:wearable_vitals:wearable_summary:t0:agent_summary:agent_summary",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000447",
+          "index": 798,
+          "representative_id": "health_priv_000150",
+          "skeleton_id": "private:medical_bill:medicine_consult_total:t0:zh_en_codeswitch:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000976",
+          "index": 897,
+          "representative_id": "health_priv_000121",
+          "skeleton_id": "private:appointment_visit:specialist_appointment:t0:agent_summary:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000545",
+          "index": 961,
+          "representative_id": "health_priv_000113",
+          "skeleton_id": "private:insurance_claim:clinic_claim_review:t0:zh_formal:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000860",
+          "index": 962,
+          "representative_id": "health_priv_000113",
+          "skeleton_id": "private:insurance_claim:clinic_claim_review:t0:zh_formal:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001118",
+          "index": 974,
+          "representative_id": "health_priv_001028",
+          "skeleton_id": "private:medication_prescription:dosage_prescription:t0:email_mixed:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000557",
+          "index": 1004,
+          "representative_id": "health_priv_001178",
+          "skeleton_id": "private:vaccination_record:work_vaccine_proof:t0:mobile_terse:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000415",
+          "index": 1018,
+          "representative_id": "health_priv_000586",
+          "skeleton_id": "private:diagnosis_condition:doctor_confirmed_condition:t0:zh_en_codeswitch:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000200",
+          "index": 1031,
+          "representative_id": "health_priv_000938",
+          "skeleton_id": "private:medication_prescription:monthly_medication_note:t0:agent_summary:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001201",
+          "index": 1035,
+          "representative_id": "health_priv_000490",
+          "skeleton_id": "private:appointment_visit:preop_visit:t0:zh_casual:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000852",
+          "index": 1135,
+          "representative_id": "health_priv_000078",
+          "skeleton_id": "private:medical_bill:receipt_photo_ocr:t0:zh_en_codeswitch:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000164",
+          "index": 1146,
+          "representative_id": "health_priv_000578",
+          "skeleton_id": "private:medication_prescription:ocr_medicine_list:t0:agent_summary:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000742",
+          "index": 1217,
+          "representative_id": "health_priv_000211",
+          "skeleton_id": "private:appointment_visit:next_doctor_visit:t0:zh_en_codeswitch:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001172",
+          "index": 1222,
+          "representative_id": "health_priv_001190",
+          "skeleton_id": "private:medication_prescription:monthly_medication_note:t0:zh_en_codeswitch:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000896",
+          "index": 1231,
+          "representative_id": "health_priv_000149",
+          "skeleton_id": "private:insurance_claim:claim_form_row:t0:clinic_note:agent_summary",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000646",
+          "index": 1305,
+          "representative_id": "health_priv_000583",
+          "skeleton_id": "private:wearable_vitals:health_app_blood_pressure:t0:zh_formal:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000384",
+          "index": 1330,
+          "representative_id": "health_priv_001086",
+          "skeleton_id": "private:medical_bill:clinic_bill_paid:t0:email_mixed:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000915",
+          "index": 1395,
+          "representative_id": "health_priv_000357",
+          "skeleton_id": "private:medical_bill:reimbursement_pack:t1:mobile_terse:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000036",
+          "index": 1420,
+          "representative_id": "health_priv_001116",
+          "skeleton_id": "private:mental_health_note:psychiatry_med_note:t1:email_mixed:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000175",
+          "index": 1464,
+          "representative_id": "health_priv_000094",
+          "skeleton_id": "private:appointment_visit:specialist_queue_number:t1:agent_summary:key_value",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001015",
+          "index": 1524,
+          "representative_id": "health_priv_000241",
+          "skeleton_id": "private:wearable_vitals:exercise_recovery_note:t1:zh_casual:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000334",
+          "index": 1530,
+          "representative_id": "health_priv_000559",
+          "skeleton_id": "private:diagnosis_condition:followup_diagnosis_summary:t0:zh_formal:agent_summary",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000973",
+          "index": 1543,
+          "representative_id": "health_priv_000928",
+          "skeleton_id": "private:diagnosis_condition:chronic_condition_tracker:t0:zh_formal:natural_sentence",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000412",
+          "index": 1547,
+          "representative_id": "health_priv_000358",
+          "skeleton_id": "private:wearable_vitals:weekly_sleep_report:t1:zh_casual:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001024",
+          "index": 1548,
+          "representative_id": "health_priv_000358",
+          "skeleton_id": "private:wearable_vitals:weekly_sleep_report:t1:zh_casual:json",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000820",
+          "index": 1564,
+          "representative_id": "health_priv_000199",
+          "skeleton_id": "private:diagnosis_condition:followup_diagnosis_summary:t0:mobile_terse:agent_summary",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000023",
+          "index": 1609,
+          "representative_id": "health_priv_001148",
+          "skeleton_id": "private:insurance_claim:claim_submitted:t0:email_mixed:form_dump",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000229",
+          "index": 1685,
+          "representative_id": "health_priv_000571",
+          "skeleton_id": "private:appointment_visit:specialist_appointment:t0:mobile_terse:chat_transcript",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000751",
+          "index": 1687,
+          "representative_id": "health_priv_000571",
+          "skeleton_id": "private:appointment_visit:specialist_appointment:t0:mobile_terse:chat_transcript",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000043",
+          "index": 1712,
+          "representative_id": "health_priv_000079",
+          "skeleton_id": "private:wearable_vitals:post_meal_glucose:t0:zh_en_codeswitch:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000061",
+          "index": 1729,
+          "representative_id": "health_priv_001150",
+          "skeleton_id": "private:wearable_vitals:wearable_summary:t0:email_mixed:app_notification",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_001159",
+          "index": 1731,
+          "representative_id": "health_priv_001150",
+          "skeleton_id": "private:wearable_vitals:wearable_summary:t0:email_mixed:app_notification",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000911",
+          "index": 1746,
+          "representative_id": "health_priv_000848",
+          "skeleton_id": "private:medication_prescription:insurance_med_approval:t1:zh_casual:ocr_fragment",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000561",
+          "index": 1839,
+          "representative_id": "health_priv_000021",
+          "skeleton_id": "private:lab_result:lab_csv_export:t1:zh_casual:spreadsheet_row",
+          "reason": "skeleton_reuse"
+        },
+        {
+          "id": "health_priv_000419",
+          "index": 1856,
+          "representative_id": "health_priv_000140",
+          "skeleton_id": "private:insurance_claim:company_insurance_review:t0:agent_summary:ocr_fragment",
+          "reason": "skeleton_reuse"
+        }
+      ],
+      "augmentation_source_redundancy": []
+    }
+  },
+  "safety": {
+    "secret_like_count": 0,
+    "items": []
+  },
+  "self_bleu": {
+    "overall": {
+      "count": 1920,
+      "self_bleu": 0.528,
+      "flag": false
+    },
+    "groups": {
+      "label": {
+        "non_private_health": {
+          "count": 362,
+          "self_bleu": 0.8636,
+          "flag": true
+        },
+        "health_private": {
+          "count": 978,
+          "self_bleu": 0.5709,
+          "flag": false
+        },
+        "benign": {
+          "count": 580,
+          "self_bleu": 0.8197,
+          "flag": true
+        }
+      },
+      "subtype": {
+        "*": {
+          "count": 942,
+          "self_bleu": 0.7085,
+          "flag": false
+        },
+        "diagnosis_condition": {
+          "count": 113,
+          "self_bleu": 0.8395,
+          "flag": true
+        },
+        "lab_result": {
+          "count": 110,
+          "self_bleu": 0.7652,
+          "flag": true
+        },
+        "appointment_visit": {
+          "count": 113,
+          "self_bleu": 0.8379,
+          "flag": true
+        },
+        "mental_health_note": {
+          "count": 99,
+          "self_bleu": 0.873,
+          "flag": true
+        },
+        "medication_prescription": {
+          "count": 107,
+          "self_bleu": 0.8386,
+          "flag": true
+        },
+        "wearable_vitals": {
+          "count": 118,
+          "self_bleu": 0.8006,
+          "flag": true
+        },
+        "vaccination_record": {
+          "count": 105,
+          "self_bleu": 0.827,
+          "flag": true
+        },
+        "insurance_claim": {
+          "count": 108,
+          "self_bleu": 0.8085,
+          "flag": true
+        },
+        "medical_bill": {
+          "count": 105,
+          "self_bleu": 0.7717,
+          "flag": true
+        }
+      },
+      "style": {
+        "zh_en_codeswitch": {
+          "count": 303,
+          "self_bleu": 0.5135,
+          "flag": false
+        },
+        "mobile_terse": {
+          "count": 305,
+          "self_bleu": 0.4946,
+          "flag": false
+        },
+        "zh_formal": {
+          "count": 325,
+          "self_bleu": 0.6158,
+          "flag": false
+        },
+        "clinic_note": {
+          "count": 198,
+          "self_bleu": 0.5708,
+          "flag": false
+        },
+        "email_mixed": {
+          "count": 317,
+          "self_bleu": 0.6269,
+          "flag": false
+        },
+        "zh_casual": {
+          "count": 291,
+          "self_bleu": 0.6035,
+          "flag": false
+        },
+        "agent_summary": {
+          "count": 181,
+          "self_bleu": 0.6973,
+          "flag": false
+        }
+      },
+      "format": {
+        "form_dump": {
+          "count": 176,
+          "self_bleu": 0.6143,
+          "flag": false
+        },
+        "email_snippet": {
+          "count": 175,
+          "self_bleu": 0.5794,
+          "flag": false
+        },
+        "app_notification": {
+          "count": 185,
+          "self_bleu": 0.5992,
+          "flag": false
+        },
+        "key_value": {
+          "count": 175,
+          "self_bleu": 0.58,
+          "flag": false
+        },
+        "ocr_fragment": {
+          "count": 196,
+          "self_bleu": 0.6208,
+          "flag": false
+        },
+        "json": {
+          "count": 189,
+          "self_bleu": 0.5687,
+          "flag": false
+        },
+        "csv_row": {
+          "count": 163,
+          "self_bleu": 0.5151,
+          "flag": false
+        },
+        "spreadsheet_row": {
+          "count": 154,
+          "self_bleu": 0.6232,
+          "flag": false
+        },
+        "natural_sentence": {
+          "count": 174,
+          "self_bleu": 0.4764,
+          "flag": false
+        },
+        "agent_summary": {
+          "count": 174,
+          "self_bleu": 0.6174,
+          "flag": false
+        },
+        "chat_transcript": {
+          "count": 159,
+          "self_bleu": 0.4766,
+          "flag": false
+        }
+      },
+      "region": {
+        "global": {
+          "count": 942,
+          "self_bleu": 0.7085,
+          "flag": false
+        },
+        "singapore_cn": {
+          "count": 978,
+          "self_bleu": 0.5709,
+          "flag": false
+        }
+      },
+      "source": {
+        "synthetic_template": {
+          "count": 1920,
+          "self_bleu": 0.528,
+          "flag": false
+        }
+      },
+      "meta.scenario_id": {
+        "pharmacy_stock_notice": {
+          "count": 12,
+          "self_bleu": 0.7753,
+          "flag": true
+        },
+        "followup_diagnosis_summary": {
+          "count": 18,
+          "self_bleu": 0.8766,
+          "flag": true
+        },
+        "hospital_system_upgrade": {
+          "count": 21,
+          "self_bleu": 0.9228,
+          "flag": true
+        },
+        "insurance_lab_attachment": {
+          "count": 13,
+          "self_bleu": 0.7012,
+          "flag": false
+        },
+        "specialist_queue_number": {
+          "count": 17,
+          "self_bleu": 0.803,
+          "flag": true
+        },
+        "hypertension_article": {
+          "count": 18,
+          "self_bleu": 0.9099,
+          "flag": true
+        },
+        "mood_consult_booking": {
+          "count": 11,
+          "self_bleu": 0.8791,
+          "flag": true
+        },
+        "refill_from_clinic": {
+          "count": 12,
+          "self_bleu": 0.798,
+          "flag": true
+        },
+        "post_meal_glucose": {
+          "count": 14,
+          "self_bleu": 0.8509,
+          "flag": true
+        },
+        "vaccination_policy": {
+          "count": 16,
+          "self_bleu": 0.9099,
+          "flag": true
+        },
+        "draft_review": {
+          "count": 29,
+          "self_bleu": 0.9175,
+          "flag": true
+        },
+        "build_log": {
+          "count": 21,
+          "self_bleu": 0.8756,
+          "flag": true
+        },
+        "exercise_recovery_note": {
+          "count": 22,
+          "self_bleu": 0.7845,
+          "flag": true
+        },
+        "design_token": {
+          "count": 30,
+          "self_bleu": 0.9176,
+          "flag": true
+        },
+        "school_requirement": {
+          "count": 15,
+          "self_bleu": 0.83,
+          "flag": true
+        },
+        "lab_portal_result": {
+          "count": 12,
+          "self_bleu": 0.7369,
+          "flag": false
+        },
+        "telehealth_session": {
+          "count": 13,
+          "self_bleu": 0.7644,
+          "flag": true
+        },
+        "wellness_program": {
+          "count": 14,
+          "self_bleu": 0.8882,
+          "flag": true
+        },
+        "calendar_medical_visit": {
+          "count": 10,
+          "self_bleu": 0.7345,
+          "flag": false
+        },
+        "analytics_event": {
+          "count": 16,
+          "self_bleu": 0.8727,
+          "flag": true
+        },
+        "kubernetes_liveness_probe": {
+          "count": 15,
+          "self_bleu": 0.7858,
+          "flag": true
+        },
+        "insurance_med_approval": {
+          "count": 21,
+          "self_bleu": 0.8633,
+          "flag": true
+        },
+        "empty_mrn_column_template": {
+          "count": 14,
+          "self_bleu": 0.8814,
+          "flag": true
+        },
+        "agent_condition_note": {
+          "count": 15,
+          "self_bleu": 0.8478,
+          "flag": true
+        },
+        "clinic_claim_review": {
+          "count": 19,
+          "self_bleu": 0.7522,
+          "flag": true
+        },
+        "screening_campaign": {
+          "count": 14,
+          "self_bleu": 0.9147,
+          "flag": true
+        },
+        "service_health_dashboard": {
+          "count": 14,
+          "self_bleu": 0.8593,
+          "flag": true
+        },
+        "claim_status_app": {
+          "count": 20,
+          "self_bleu": 0.7877,
+          "flag": true
+        },
+        "weather_hot": {
+          "count": 20,
+          "self_bleu": 0.8718,
+          "flag": true
+        },
+        "weekly_sleep_report": {
+          "count": 13,
+          "self_bleu": 0.7426,
+          "flag": false
+        },
+        "support_macro": {
+          "count": 22,
+          "self_bleu": 0.8753,
+          "flag": true
+        },
+        "medicine_consult_total": {
+          "count": 11,
+          "self_bleu": 0.7431,
+          "flag": false
+        },
+        "reimbursement_pack": {
+          "count": 13,
+          "self_bleu": 0.6698,
+          "flag": false
+        },
+        "mood_tracker_entry": {
+          "count": 17,
+          "self_bleu": 0.8349,
+          "flag": true
+        },
+        "meeting_time": {
+          "count": 26,
+          "self_bleu": 0.8981,
+          "flag": true
+        },
+        "company_insurance_review": {
+          "count": 10,
+          "self_bleu": 0.8309,
+          "flag": true
+        },
+        "feature_flag": {
+          "count": 27,
+          "self_bleu": 0.9241,
+          "flag": true
+        },
+        "physical_report_flagged": {
+          "count": 10,
+          "self_bleu": 0.7861,
+          "flag": true
+        },
+        "clinic_followup_booking": {
+          "count": 10,
+          "self_bleu": 0.7884,
+          "flag": true
+        },
+        "trial_protocol_summary": {
+          "count": 15,
+          "self_bleu": 0.895,
+          "flag": true
+        },
+        "dosage_prescription": {
+          "count": 20,
+          "self_bleu": 0.9337,
+          "flag": true
+        },
+        "roadmap_note": {
+          "count": 19,
+          "self_bleu": 0.8546,
+          "flag": true
+        },
+        "vaccine_storage_article": {
+          "count": 21,
+          "self_bleu": 0.9233,
+          "flag": true
+        },
+        "therapy_sleep_anxiety": {
+          "count": 12,
+          "self_bleu": 0.8874,
+          "flag": true
+        },
+        "receipt_photo_ocr": {
+          "count": 12,
+          "self_bleu": 0.5825,
+          "flag": false
+        },
+        "watch_sleep_hr": {
+          "count": 15,
+          "self_bleu": 0.809,
+          "flag": true
+        },
+        "result_value_ready": {
+          "count": 13,
+          "self_bleu": 0.8193,
+          "flag": true
+        },
+        "preop_visit": {
+          "count": 16,
+          "self_bleu": 0.8614,
+          "flag": true
+        },
+        "therapy_session_booking": {
+          "count": 14,
+          "self_bleu": 0.767,
+          "flag": true
+        },
+        "json_parser": {
+          "count": 21,
+          "self_bleu": 0.9232,
+          "flag": true
+        },
+        "post_vaccine_note": {
+          "count": 14,
+          "self_bleu": 0.8177,
+          "flag": true
+        },
+        "claim_form_row": {
+          "count": 9,
+          "self_bleu": 0.6427,
+          "flag": false
+        },
+        "cache_key": {
+          "count": 16,
+          "self_bleu": 0.8645,
+          "flag": true
+        },
+        "deidentified_dashboard": {
+          "count": 16,
+          "self_bleu": 0.8597,
+          "flag": true
+        },
+        "clinic_vaccination_record": {
+          "count": 8,
+          "self_bleu": 0.648,
+          "flag": false
+        },
+        "clinic_bill_paid": {
+          "count": 13,
+          "self_bleu": 0.7524,
+          "flag": true
+        },
+        "dummy_patient_training": {
+          "count": 20,
+          "self_bleu": 0.912,
+          "flag": true
+        },
+        "wellness_event_signup": {
+          "count": 19,
+          "self_bleu": 0.9082,
+          "flag": true
+        },
+        "clinic_invoice_ocr": {
+          "count": 16,
+          "self_bleu": 0.7981,
+          "flag": true
+        },
+        "booster_appointment": {
+          "count": 15,
+          "self_bleu": 0.6837,
+          "flag": false
+        },
+        "health_check_endpoint": {
+          "count": 13,
+          "self_bleu": 0.7544,
+          "flag": true
+        },
+        "referral_reason": {
+          "count": 13,
+          "self_bleu": 0.8208,
+          "flag": true
+        },
+        "immunization_certificate": {
+          "count": 12,
+          "self_bleu": 0.7157,
+          "flag": false
+        },
+        "chronic_condition_tracker": {
+          "count": 19,
+          "self_bleu": 0.8054,
+          "flag": true
+        },
+        "masked_vaccine_record": {
+          "count": 10,
+          "self_bleu": 0.8402,
+          "flag": true
+        },
+        "lab_csv_export": {
+          "count": 21,
+          "self_bleu": 0.7827,
+          "flag": true
+        },
+        "work_vaccine_proof": {
+          "count": 20,
+          "self_bleu": 0.9172,
+          "flag": true
+        },
+        "repeat_test_order": {
+          "count": 17,
+          "self_bleu": 0.7551,
+          "flag": true
+        },
+        "clinic_queue_status": {
+          "count": 13,
+          "self_bleu": 0.8466,
+          "flag": true
+        },
+        "glucose_trend_export": {
+          "count": 16,
+          "self_bleu": 0.7897,
+          "flag": true
+        },
+        "next_doctor_visit": {
+          "count": 21,
+          "self_bleu": 0.9163,
+          "flag": true
+        },
+        "ocr_medicine_list": {
+          "count": 14,
+          "self_bleu": 0.8352,
+          "flag": true
+        },
+        "abnormal_flag_notification": {
+          "count": 14,
+          "self_bleu": 0.6816,
+          "flag": false
+        },
+        "deductible_note": {
+          "count": 11,
+          "self_bleu": 0.733,
+          "flag": false
+        },
+        "insurer_document_request": {
+          "count": 11,
+          "self_bleu": 0.8312,
+          "flag": true
+        },
+        "payment_plan": {
+          "count": 18,
+          "self_bleu": 0.8083,
+          "flag": true
+        },
+        "claim_submitted": {
+          "count": 15,
+          "self_bleu": 0.865,
+          "flag": true
+        },
+        "book_note": {
+          "count": 25,
+          "self_bleu": 0.9191,
+          "flag": true
+        },
+        "discharge_summary_diagnosis": {
+          "count": 12,
+          "self_bleu": 0.7273,
+          "flag": false
+        },
+        "flu_vaccine_guidance": {
+          "count": 18,
+          "self_bleu": 0.9184,
+          "flag": true
+        },
+        "family_chat_condition": {
+          "count": 14,
+          "self_bleu": 0.7498,
+          "flag": false
+        },
+        "button_color": {
+          "count": 24,
+          "self_bleu": 0.9138,
+          "flag": true
+        },
+        "calendar_updated": {
+          "count": 28,
+          "self_bleu": 0.8981,
+          "flag": true
+        },
+        "deidentified_readmission_stats": {
+          "count": 8,
+          "self_bleu": 0.776,
+          "flag": true
+        },
+        "health_record_condition": {
+          "count": 10,
+          "self_bleu": 0.8192,
+          "flag": true
+        },
+        "psychiatry_med_note": {
+          "count": 18,
+          "self_bleu": 0.8253,
+          "flag": true
+        },
+        "specialist_appointment": {
+          "count": 12,
+          "self_bleu": 0.7582,
+          "flag": true
+        },
+        "mock_ehr_fixture": {
+          "count": 13,
+          "self_bleu": 0.8991,
+          "flag": true
+        },
+        "hospital_lab_summary": {
+          "count": 10,
+          "self_bleu": 0.6472,
+          "flag": false
+        },
+        "travel_pack": {
+          "count": 26,
+          "self_bleu": 0.9278,
+          "flag": true
+        },
+        "train_delay": {
+          "count": 22,
+          "self_bleu": 0.8982,
+          "flag": true
+        },
+        "panic_followup_private_note": {
+          "count": 14,
+          "self_bleu": 0.9263,
+          "flag": true
+        },
+        "doctor_confirmed_condition": {
+          "count": 12,
+          "self_bleu": 0.8368,
+          "flag": true
+        },
+        "hospital_map": {
+          "count": 10,
+          "self_bleu": 0.876,
+          "flag": true
+        },
+        "wearable_summary": {
+          "count": 15,
+          "self_bleu": 0.7421,
+          "flag": false
+        },
+        "lunch_plan": {
+          "count": 25,
+          "self_bleu": 0.9028,
+          "flag": true
+        },
+        "hr_benefits_process": {
+          "count": 11,
+          "self_bleu": 0.8313,
+          "flag": true
+        },
+        "hospital_bill_summary": {
+          "count": 11,
+          "self_bleu": 0.677,
+          "flag": false
+        },
+        "therapy_homework": {
+          "count": 10,
+          "self_bleu": 0.7266,
+          "flag": false
+        },
+        "synthetic_patient_demo": {
+          "count": 17,
+          "self_bleu": 0.8406,
+          "flag": true
+        },
+        "appointment_settings_page": {
+          "count": 12,
+          "self_bleu": 0.8277,
+          "flag": true
+        },
+        "grocery_list": {
+          "count": 28,
+          "self_bleu": 0.9153,
+          "flag": true
+        },
+        "coping_plan_review": {
+          "count": 8,
+          "self_bleu": 0.7219,
+          "flag": false
+        },
+        "blood_oxygen_alert": {
+          "count": 9,
+          "self_bleu": 0.5863,
+          "flag": false
+        },
+        "healthhub_vaccine_note": {
+          "count": 11,
+          "self_bleu": 0.8091,
+          "flag": true
+        },
+        "monthly_medication_note": {
+          "count": 12,
+          "self_bleu": 0.8526,
+          "flag": true
+        },
+        "doc_sections": {
+          "count": 19,
+          "self_bleu": 0.8761,
+          "flag": true
+        },
+        "boolean_return": {
+          "count": 28,
+          "self_bleu": 0.9003,
+          "flag": true
+        },
+        "appointment_api_schema": {
+          "count": 13,
+          "self_bleu": 0.8589,
+          "flag": true
+        },
+        "dose_change_followup": {
+          "count": 14,
+          "self_bleu": 0.8327,
+          "flag": true
+        },
+        "public_symptom_article": {
+          "count": 18,
+          "self_bleu": 0.9182,
+          "flag": true
+        },
+        "clinic_visiting_hours": {
+          "count": 15,
+          "self_bleu": 0.9059,
+          "flag": true
+        },
+        "health_word_in_code": {
+          "count": 12,
+          "self_bleu": 0.8439,
+          "flag": true
+        },
+        "preauth_request": {
+          "count": 13,
+          "self_bleu": 0.7179,
+          "flag": false
+        },
+        "clinic_template_notice": {
+          "count": 19,
+          "self_bleu": 0.9396,
+          "flag": true
+        },
+        "reimbursement_email": {
+          "count": 11,
+          "self_bleu": 0.646,
+          "flag": false
+        },
+        "medical_term_glossary": {
+          "count": 7,
+          "self_bleu": 0.7972,
+          "flag": true
+        },
+        "aggregate_lab_dashboard": {
+          "count": 13,
+          "self_bleu": 0.8805,
+          "flag": true
+        },
+        "dependency_injection": {
+          "count": 13,
+          "self_bleu": 0.8492,
+          "flag": true
+        },
+        "counselor_anxiety_score": {
+          "count": 9,
+          "self_bleu": 0.8332,
+          "flag": true
+        },
+        "health_app_blood_pressure": {
+          "count": 14,
+          "self_bleu": 0.7943,
+          "flag": true
+        },
+        "service_status_healthy": {
+          "count": 16,
+          "self_bleu": 0.8259,
+          "flag": true
+        },
+        "pharmacy_pickup": {
+          "count": 5,
+          "self_bleu": 0.6625,
+          "flag": false
+        },
+        "side_effect_note": {
+          "count": 9,
+          "self_bleu": 0.7191,
+          "flag": false
+        }
+      }
+    },
+    "high_threshold": 0.75,
+    "max_samples": 100
+  },
+  "llm_realism": {
+    "enabled": true,
+    "provider": "dry-run",
+    "model": "gpt-5-nano",
+    "sampled_rows": 20,
+    "aggregate": {
+      "pass_rate": 1.0,
+      "actions": {
+        "pass": 20
+      },
+      "average_realism_score": 4.0
+    },
+    "judgments": [
+      {
+        "id": "health_priv_000417",
+        "index": 339,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000734",
+        "index": 630,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000991",
+        "index": 681,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "benign_003695",
+        "index": 736,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002631",
+        "index": 749,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000166",
+        "index": 785,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002554",
+        "index": 801,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "benign_003698",
+        "index": 1092,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000659",
+        "index": 1169,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002657",
+        "index": 1199,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000202",
+        "index": 1265,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002369",
+        "index": 1300,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002571",
+        "index": 1427,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002652",
+        "index": 1453,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000863",
+        "index": 1498,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "hard_neg_002758",
+        "index": 1587,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "benign_003562",
+        "index": 1617,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000624",
+        "index": 1688,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000251",
+        "index": 1887,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      },
+      {
+        "id": "health_priv_000001",
+        "index": 1895,
+        "realism_score": 4,
+        "label_correct": true,
+        "subtype_correct": true,
+        "privacy_safe": true,
+        "is_real_paraphrase": null,
+        "action": "pass",
+        "reasons": []
+      }
+    ]
+  },
+  "rejected_rows": [],
+  "recommended_action": "pass"
+}

@@ -1,0 +1,25 @@
+{
+  "input": "data/generated/anchors_train.jsonl",
+  "output": "data/generated/anchors_train_augmented.jsonl",
+  "provider": "openai",
+  "model": "gpt-5-nano",
+  "max_inputs": 1000,
+  "paraphrases_per_example": 3,
+  "include_original": true,
+  "attempted_sources": 971,
+  "accepted_examples": 3881,
+  "rejected_examples": 1,
+  "rejection_reasons": {
+    "parse_error": 1,
+    "duplicate": 0
+  },
+  "token_estimate": {
+    "method": "heuristic_cjk_word_estimate",
+    "attempted_sources": 971,
+    "paraphrases_per_example": 3,
+    "estimated_prompt_tokens": 384625,
+    "estimated_completion_tokens": 251133,
+    "estimated_total_tokens": 635758,
+    "estimated_total_tokens_with_buffer": 794697
+  }
+}
