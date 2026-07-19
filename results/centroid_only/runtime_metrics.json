@@ -1,0 +1,24 @@
+{
+  "centroid_query_similarity": {
+    "model_name": "centroid_query_similarity",
+    "loading_time_s": 9.54098760150373,
+    "total_inference_time_s": 8.836572618223727,
+    "mean_latency_ms": 14.557780260665119,
+    "p50_latency_ms": 14.30456805974245,
+    "p95_latency_ms": 16.382905561476942,
+    "examples_per_second": 68.69179106254155,
+    "successful_predictions": 607,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 1504.4765625,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": null,
+    "artifact_storage_size_mb": 0.11065101623535156,
+    "metadata": {
+      "parameter_count": null,
+      "artifact_storage_size_mb": 0.11065101623535156,
+      "method_config": {
+        "class": "CentroidBenchmarkModel"
+      }
+    }
+  }
+}

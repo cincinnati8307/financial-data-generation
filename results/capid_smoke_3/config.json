@@ -1,0 +1,32 @@
+{
+  "anchor_train": null,
+  "anchor_validation": "data/financial_generated/anchors_validation.jsonl",
+  "egress_train": null,
+  "egress_validation": "data/financial_generated/egress_validation.jsonl",
+  "max_anchor_validation": 3,
+  "max_egress_train": null,
+  "max_egress_validation": 3,
+  "centroids": "data/financial_generated/centroids.json",
+  "methods": [
+    "capid"
+  ],
+  "output_dir": "results/capid_smoke_3",
+  "device": "auto",
+  "seed": 42,
+  "offline": false,
+  "batch_size": 16,
+  "cache_dir": null,
+  "pii_backend": "regex",
+  "pii_model": null,
+  "reranker_model": null,
+  "capid_model": "ponoma16/capid-llama8b-lora",
+  "capid_base_model": null,
+  "capid_load_in_4bit": true,
+  "capid_max_new_tokens": 256,
+  "capid_trust_remote_code": false,
+  "llm_provider": "none",
+  "llm_model": null,
+  "alignment_evidence_mode": "financial_evidence",
+  "alignment_overrides": "data/financial_generated/alignment_overrides.jsonl",
+  "manual_override_count": 0
+}

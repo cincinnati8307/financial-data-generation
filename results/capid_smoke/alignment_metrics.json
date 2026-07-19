@@ -1,0 +1,59 @@
+{
+  "coarse_policy_alignment": {
+    "capid": {
+      "status": "scored",
+      "status_counts": {
+        "success": 1
+      },
+      "successful_predictions": 1,
+      "accuracy": 1.0,
+      "macro_f1": 0.5,
+      "misaligned_sensitive_precision": null,
+      "misaligned_sensitive_recall": null,
+      "misaligned_sensitive_f1": null,
+      "leakage_rate": null,
+      "false_block_rate": 0.0,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 1,
+          "misaligned_sensitive": 0,
+          "non_sensitive": 0
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 0,
+          "non_sensitive": 0
+        }
+      }
+    }
+  },
+  "fine_grained_semantic_alignment": {
+    "capid": {
+      "status": "scored",
+      "status_counts": {
+        "success": 1
+      },
+      "successful_predictions": 1,
+      "accuracy": 1.0,
+      "macro_f1": 0.5,
+      "misaligned_sensitive_precision": null,
+      "misaligned_sensitive_recall": null,
+      "misaligned_sensitive_f1": null,
+      "leakage_rate": null,
+      "false_block_rate": 0.0,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 1,
+          "misaligned_sensitive": 0,
+          "non_sensitive": 0
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 0,
+          "non_sensitive": 0
+        }
+      }
+    }
+  },
+  "fine_grained_note": "Fine-grained metrics use only manual overrides and explicit subtype-constrained examples; they are never mixed with coarse policy labels."
+}

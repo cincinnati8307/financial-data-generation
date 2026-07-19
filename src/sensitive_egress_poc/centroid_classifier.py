@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import math
+import os
 from typing import Any
 
 DEFAULT_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
@@ -11,9 +12,12 @@ class Embedder:
     def __init__(self, model_name: str = DEFAULT_MODEL) -> None:
         self.model_name = model_name
         self.model = None
+        if model_name == "hash-only":
+            return
         try:
             from sentence_transformers import SentenceTransformer
-            self.model = SentenceTransformer(model_name)
+            kwargs = {"local_files_only": True} if os.getenv("SENSITIVE_EGRESS_OFFLINE") == "1" else {}
+            self.model = SentenceTransformer(model_name, **kwargs)
         except Exception:
             self.model = None
 
@@ -21,6 +25,16 @@ class Embedder:
         if self.model is not None:
             return [list(map(float, row)) for row in self.model.encode(texts, normalize_embeddings=True)]
         return [_hash_embed(text) for text in texts]
+
+
+_EMBEDDER_CACHE: dict[tuple[str, str], Embedder] = {}
+
+
+def get_embedder(model_name: str = DEFAULT_MODEL) -> Embedder:
+    key = (model_name, os.getenv("SENSITIVE_EGRESS_OFFLINE", "0"))
+    if key not in _EMBEDDER_CACHE:
+        _EMBEDDER_CACHE[key] = Embedder(model_name)
+    return _EMBEDDER_CACHE[key]
 
 
 def _tokens(text: str) -> list[str]:
@@ -62,7 +76,7 @@ def _cos(a: Vector, b: Vector) -> float:
 
 
 def build_centroids(rows: list[dict[str, Any]], model_name: str = DEFAULT_MODEL) -> dict[str, Any]:
-    emb = Embedder(model_name)
+    emb = get_embedder(model_name)
     groups: dict[str, list[str]] = {}
     for r in rows:
         label = r.get("label")
@@ -73,7 +87,7 @@ def build_centroids(rows: list[dict[str, Any]], model_name: str = DEFAULT_MODEL)
 
 
 def classify_text(text: str, centroid_obj: dict[str, Any], threshold: float | None = None, margin_threshold: float | None = None) -> dict[str, Any]:
-    v = Embedder(centroid_obj.get("model", DEFAULT_MODEL)).encode([text])[0]
+    v = get_embedder(centroid_obj.get("model", DEFAULT_MODEL)).encode([text])[0]
     financial = {k: c for k, c in centroid_obj["centroids"].items() if k.startswith("financial_private.")}
     negative = {k: c for k, c in centroid_obj["centroids"].items() if not k.startswith("financial_private.")}
     fin_scores = {k: _cos(v, c) for k, c in financial.items()}

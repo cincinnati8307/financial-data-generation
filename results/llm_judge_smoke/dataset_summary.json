@@ -1,0 +1,78 @@
+{
+  "anchors_validation": {
+    "rows": 2,
+    "labels": {
+      "benign": 1,
+      "non_private_financial": 1
+    },
+    "task_a_labels": {
+      "non_sensitive": 2
+    },
+    "subtypes": {
+      "*": 2
+    },
+    "languages": {
+      "zh_en": 2
+    },
+    "formats": {
+      "chat_transcript": 1,
+      "natural_sentence": 1
+    },
+    "styles": {
+      "ocr_fragment": 1,
+      "sg_cn_codeswitch": 1
+    }
+  },
+  "egress_train": {
+    "rows": 0,
+    "decisions": {},
+    "task_b_labels": {},
+    "subtypes": {},
+    "carriers": {},
+    "expected_financial": {}
+  },
+  "egress_validation": {
+    "rows": 2,
+    "decisions": {
+      "allow": 2
+    },
+    "task_b_labels": {
+      "aligned_sensitive": 2
+    },
+    "subtypes": {
+      "investment": 1,
+      "transaction": 1
+    },
+    "carriers": {
+      "send_tax_note": 1,
+      "send_transaction_dispute": 1
+    },
+    "expected_financial": {
+      "True": 2
+    }
+  },
+  "fine_grained_semantic_alignment": {
+    "rows": 1,
+    "labels": {
+      "aligned_sensitive": 1
+    },
+    "sources": {
+      "explicit_subtype_constraint": 1
+    }
+  },
+  "anchor_train": {
+    "rows": 0
+  },
+  "alignment_audit": {
+    "rows": 2,
+    "status_counts": {
+      "likely_aligned": 1,
+      "possibly_misaligned": 1
+    },
+    "suspicious_by_carrier": {
+      "send_tax_note": 1
+    },
+    "possibly_misaligned_count": 1,
+    "requires_manual_review_count": 0
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "pii_plus_reranker": {
+    "model_name": "pii_plus_reranker",
+    "loading_time_s": 29.43569882400334,
+    "total_inference_time_s": 1.6455777361989021,
+    "mean_latency_ms": 2.7110012128482737,
+    "p50_latency_ms": 0.04150252789258957,
+    "p95_latency_ms": 14.254661276936531,
+    "examples_per_second": 368.86741151597073,
+    "successful_predictions": 607,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 1370.2890625,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": null,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": null,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "PiiRerankerModel"
+      }
+    }
+  }
+}

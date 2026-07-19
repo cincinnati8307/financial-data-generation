@@ -1,0 +1,207 @@
+{
+  "anchors_validation": {
+    "rows": 480,
+    "labels": {
+      "benign": 144,
+      "financial_private": 229,
+      "non_private_financial": 107
+    },
+    "task_a_labels": {
+      "non_sensitive": 251,
+      "sensitive": 229
+    },
+    "subtypes": {
+      "*": 251,
+      "bank_balance": 25,
+      "card_payment": 23,
+      "investment": 22,
+      "invoice_receipt": 33,
+      "loan_debt": 22,
+      "salary_income": 19,
+      "tax": 36,
+      "transaction": 22,
+      "wallet_payment": 27
+    },
+    "languages": {
+      "zh": 6,
+      "zh_en": 474
+    },
+    "formats": {
+      "agent_summary": 57,
+      "chat_transcript": 65,
+      "csv_row": 74,
+      "email_snippet": 49,
+      "json": 61,
+      "key_value": 59,
+      "natural_sentence": 56,
+      "spreadsheet_row": 59
+    },
+    "styles": {
+      "agent_summary": 44,
+      "email_mixed": 47,
+      "mainland_cn": 54,
+      "mobile_terse": 65,
+      "ocr_fragment": 56,
+      "sg_cn_codeswitch": 61,
+      "zh_casual": 53,
+      "zh_en_codeswitch": 60,
+      "zh_formal": 40
+    }
+  },
+  "egress_train": {
+    "rows": 320,
+    "decisions": {
+      "allow": 152,
+      "request_approval": 168
+    },
+    "task_b_labels": {
+      "aligned_sensitive": 152,
+      "misaligned_sensitive": 168
+    },
+    "subtypes": {
+      "bank_balance": 44,
+      "card_payment": 35,
+      "investment": 32,
+      "invoice_receipt": 36,
+      "loan_debt": 40,
+      "salary_income": 36,
+      "tax": 37,
+      "transaction": 34,
+      "wallet_payment": 26
+    },
+    "carriers": {
+      "bug_report_block": 17,
+      "calendar_invite": 12,
+      "chat_forward": 10,
+      "deployment_log": 10,
+      "design_feedback": 9,
+      "handoff_doc": 12,
+      "meeting_minutes_prefix": 6,
+      "okr_summary": 9,
+      "project_update_quote": 6,
+      "release_email_footer": 9,
+      "research_digest": 7,
+      "send_bank_balance_to_spouse": 17,
+      "send_brokerage_csv": 16,
+      "send_budget_sheet": 6,
+      "send_card_autopay": 13,
+      "send_card_bill": 6,
+      "send_investment_snapshot": 7,
+      "send_invoice_vendor": 9,
+      "send_loan_info": 5,
+      "send_payroll_hr": 12,
+      "send_receipt": 5,
+      "send_receipt_family": 7,
+      "send_salary_to_advisor": 14,
+      "send_tax_note": 9,
+      "send_tax_portal": 9,
+      "send_transaction_dispute": 9,
+      "send_wallet_payment": 8,
+      "sprint_notes_middle": 12,
+      "status_json": 13,
+      "support_reply": 15,
+      "task_list_tail": 9,
+      "work_note_tail": 12
+    },
+    "expected_financial": {
+      "False": 168,
+      "True": 152
+    }
+  },
+  "egress_validation": {
+    "rows": 80,
+    "decisions": {
+      "allow": 42,
+      "request_approval": 38
+    },
+    "task_b_labels": {
+      "aligned_sensitive": 42,
+      "misaligned_sensitive": 38
+    },
+    "subtypes": {
+      "bank_balance": 7,
+      "card_payment": 7,
+      "investment": 5,
+      "invoice_receipt": 6,
+      "loan_debt": 8,
+      "salary_income": 13,
+      "tax": 11,
+      "transaction": 10,
+      "wallet_payment": 13
+    },
+    "carriers": {
+      "bug_report_block": 1,
+      "calendar_invite": 3,
+      "chat_forward": 5,
+      "deployment_log": 3,
+      "design_feedback": 2,
+      "handoff_doc": 3,
+      "meeting_minutes_prefix": 3,
+      "okr_summary": 1,
+      "project_update_quote": 4,
+      "release_email_footer": 1,
+      "research_digest": 3,
+      "send_bank_balance_to_spouse": 4,
+      "send_brokerage_csv": 2,
+      "send_card_autopay": 2,
+      "send_card_bill": 6,
+      "send_investment_snapshot": 1,
+      "send_invoice_vendor": 3,
+      "send_payroll_hr": 3,
+      "send_receipt": 5,
+      "send_receipt_family": 2,
+      "send_salary_to_advisor": 3,
+      "send_tax_note": 4,
+      "send_tax_portal": 1,
+      "send_transaction_dispute": 3,
+      "send_wallet_payment": 3,
+      "sprint_notes_middle": 1,
+      "status_json": 1,
+      "support_reply": 2,
+      "task_list_tail": 1,
+      "work_note_tail": 4
+    },
+    "expected_financial": {
+      "False": 38,
+      "True": 42
+    }
+  },
+  "fine_grained_semantic_alignment": {
+    "rows": 47,
+    "labels": {
+      "aligned_sensitive": 9,
+      "misaligned_sensitive": 38
+    },
+    "sources": {
+      "explicit_non_financial_carrier": 38,
+      "explicit_subtype_constraint": 9
+    }
+  },
+  "anchor_train": {
+    "rows": 0
+  },
+  "alignment_audit": {
+    "rows": 80,
+    "status_counts": {
+      "likely_aligned": 47,
+      "possibly_misaligned": 33
+    },
+    "suspicious_by_carrier": {
+      "send_tax_note": 3,
+      "send_salary_to_advisor": 3,
+      "send_transaction_dispute": 1,
+      "send_wallet_payment": 3,
+      "send_brokerage_csv": 1,
+      "send_investment_snapshot": 1,
+      "send_invoice_vendor": 2,
+      "send_payroll_hr": 3,
+      "send_receipt_family": 2,
+      "send_bank_balance_to_spouse": 4,
+      "send_card_bill": 5,
+      "send_receipt": 3,
+      "send_card_autopay": 2
+    },
+    "possibly_misaligned_count": 33,
+    "requires_manual_review_count": 0
+  }
+}

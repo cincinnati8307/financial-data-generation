@@ -165,6 +165,162 @@ python -m sensitive_egress_poc.cli_demo \
 
 `MixedEgressExample` rows contain user intent, mixed outgoing text, expected categories, payload labels, unexpected categories, expected decision, financial subtype, and financial evidence.
 
+## Benchmark against query-aware privacy baselines
+
+This repository includes a reproducible benchmark for comparing the existing centroid detector with ready-to-use privacy baselines. It evaluates two separate tasks:
+
+- **Task A: financial sensitivity detection** maps outgoing text to `sensitive` or `non_sensitive`. Anchor labels are mapped as `financial_private -> sensitive`, while `non_private_financial` and `benign` are mapped to `non_sensitive`.
+- **Task B: coarse policy alignment** maps mixed-egress rows to `aligned_sensitive` or `misaligned_sensitive` using the existing `expected_decision` field. This is intentionally called `coarse_policy_alignment`, not strict semantic alignment, because current carrier metadata treats any financial payload as aligned when `expected_financial=true`.
+
+Supported benchmark methods:
+
+- `centroid`: wraps the existing centroid classifier for Task A and adds `centroid_query_similarity` for Task B without changing centroid construction.
+- `pii`: local PII/private-financial detection only. It does not treat a plain `MONEY` entity as private financial data and reports Task B as unsupported.
+- `pii_reranker`: PII/private-financial detection followed by query-evidence relevance scoring. Semantic relevance is useful evidence, but it is not equivalent to user authorization.
+- `capid`: optional CAPID-compatible query-aware model that receives `question=user_intent` and `text=outgoing text`. Public CAPID checkpoints may be LoRA adapters and can require a compatible base model and Hugging Face access.
+- `llm_judge`: optional prompted multilingual privacy judge. It is disabled unless an explicit local Hugging Face or OpenAI-compatible provider is selected.
+
+Install the existing project dependencies first:
+
+```bash
+pip install -r requirements.txt
+```
+
+Optional benchmark extras are separated so heavyweight model packages are not part of the minimum installation:
+
+```bash
+pip install -r requirements-benchmark.txt
+```
+
+Lightweight centroid-only run:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods centroid \
+  --output-dir results/centroid_only
+```
+
+Complete benchmark command. Optional methods skip cleanly when dependencies, local models, or API credentials are unavailable:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-train data/financial_generated/anchors_train_augmented_clean.jsonl \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods centroid pii pii_reranker capid llm_judge \
+  --output-dir results/financial_benchmark \
+  --device auto \
+  --seed 42
+```
+
+Use offline mode to prevent model downloads and rely only on local files/caches:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods centroid pii pii_reranker capid llm_judge \
+  --output-dir results/offline_benchmark \
+  --offline
+```
+
+For small API-backed smoke tests, cap the validation rows explicitly:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods llm_judge \
+  --llm-provider openai-compatible \
+  --llm-model gpt-5-nano \
+  --max-anchor-validation 2 \
+  --max-egress-validation 2 \
+  --output-dir results/llm_judge_smoke
+```
+
+CAPID LoRA smoke run. This model is documented as English-only and may require Hugging Face access to the Llama base model:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods capid \
+  --capid-model ponoma16/capid-llama8b-lora \
+  --capid-base-model unsloth/Meta-Llama-3.1-8B-bnb-4bit \
+  --capid-load-in-4bit \
+  --capid-max-new-tokens 256 \
+  --max-anchor-validation 1 \
+  --max-egress-validation 1 \
+  --output-dir results/capid_smoke
+```
+
+Run the alignment audit separately:
+
+```bash
+python -m sensitive_egress_poc.cli_alignment_audit \
+  --input data/financial_generated/egress_validation.jsonl \
+  --output results/alignment_audit.csv
+```
+
+The benchmark writes:
+
+```text
+results/<run_name>/
+  config.json
+  dataset_summary.json
+  sensitivity_metrics.json
+  alignment_metrics.json
+  subgroup_metrics.csv
+  predictions.jsonl
+  runtime_metrics.json
+  alignment_audit.csv
+  skipped_models.json
+  errors.jsonl
+  plots/
+```
+
+Every prediction row includes the sample id, model name, task, user intent, outgoing text, financial evidence, subtype, carrier id, ground truth, prediction, scores, detected entities, status, error, and per-row runtime.
+
+For Task B, **leakage rate** is the fraction of `misaligned_sensitive` examples predicted as `aligned_sensitive` or `non_sensitive`. **False-block rate** is the fraction of `aligned_sensitive` examples predicted as `misaligned_sensitive`.
+
+Manual fine-grained alignment overrides can be added at:
+
+```text
+data/financial_generated/alignment_overrides.jsonl
+```
+
+Each row should look like:
+
+```json
+{"sample_id":"egress_000001","semantic_alignment_label":"aligned_sensitive","annotator":"manual","reason":"The tax-income evidence is necessary for the tax filing request."}
+```
+
+Fine-grained semantic metrics are reported separately from coarse policy metrics and use only manual overrides or explicitly subtype-constrained carrier examples. The benchmark never uses model-generated labels as ground truth and never mutates the original JSONL files.
+
+Reproducibility notes:
+
+- Keep validation files untouched; thresholds are tuned only with `egress_train.jsonl`.
+- Use `--seed` to record the run seed in `config.json`.
+- Use `--offline` when benchmark runs must not download models.
+- Record `--pii-backend`, `--pii-model`, `--reranker-model`, `--capid-model`, `--capid-base-model`, `--llm-provider`, and `--llm-model` in the run config.
+
+Benchmark limitations:
+
+- Synthetic examples are useful for controlled comparison but do not replace evaluation on consented, privacy-safe real-world corpora.
+- `coarse_policy_alignment` inherits category-level generator labels: a carrier with `expected_financial=true` may still contain a semantically unrelated financial subtype.
+- The audit flags suspicious carrier/subtype pairs for review but does not silently relabel them.
+- PII and DLP baselines may miss private financial facts that do not contain explicit account, card, or identifier-like spans.
+
 ## Limitations
 
 - Template-generated data is useful for PoC iteration but does not replace real-world evaluation with consented, privacy-safe corpora.

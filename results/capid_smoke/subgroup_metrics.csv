@@ -1,0 +1,16 @@
+task,model_name,group_field,group_value,n,accuracy,f1,precision,recall,false_positive_rate,false_negative_rate,leakage_rate,false_block_rate
+sensitivity,capid,financial_subtype,*,1,1.0,0.0,0.0,0.0,0.0,0.0,,
+sensitivity,capid,language,zh_en,1,1.0,0.0,0.0,0.0,0.0,0.0,,
+sensitivity,capid,format,chat_transcript,1,1.0,0.0,0.0,0.0,0.0,0.0,,
+sensitivity,capid,style,ocr_fragment,1,1.0,0.0,0.0,0.0,0.0,0.0,,
+sensitivity,capid,original_label,non_private_financial,1,1.0,0.0,0.0,0.0,0.0,0.0,,
+coarse_policy_alignment,capid,financial_subtype,transaction,1,1.0,0.5,,,,,,0.0
+coarse_policy_alignment,capid,carrier_id,send_transaction_dispute,1,1.0,0.5,,,,,,0.0
+coarse_policy_alignment,capid,language,zh_en,1,1.0,0.5,,,,,,0.0
+coarse_policy_alignment,capid,payload_format,email_snippet,1,1.0,0.5,,,,,,0.0
+coarse_policy_alignment,capid,expected_financial,True,1,1.0,0.5,,,,,,0.0
+fine_grained_semantic_alignment,capid,financial_subtype,transaction,1,1.0,0.5,,,,,,0.0
+fine_grained_semantic_alignment,capid,carrier_id,send_transaction_dispute,1,1.0,0.5,,,,,,0.0
+fine_grained_semantic_alignment,capid,language,zh_en,1,1.0,0.5,,,,,,0.0
+fine_grained_semantic_alignment,capid,payload_format,email_snippet,1,1.0,0.5,,,,,,0.0
+fine_grained_semantic_alignment,capid,expected_financial,True,1,1.0,0.5,,,,,,0.0

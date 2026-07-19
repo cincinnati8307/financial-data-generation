@@ -1,0 +1,25 @@
+{
+  "pii_plus_reranker": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.8777292576419214,
+    "f1": 0.9348837209302325,
+    "accuracy": 0.9416666666666667,
+    "balanced_accuracy": 0.9388646288209608,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.1222707423580786,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.9388646288209608,
+    "auprc": 0.9360625909752548,
+    "confusion": {
+      "tp": 201,
+      "fp": 0,
+      "tn": 251,
+      "fn": 28
+    }
+  }
+}

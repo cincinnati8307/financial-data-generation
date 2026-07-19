@@ -1,0 +1,85 @@
+{
+  "centroid_query_similarity": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.5764192139737991,
+    "f1": 0.7313019390581718,
+    "accuracy": 0.7979166666666667,
+    "balanced_accuracy": 0.7882096069868996,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.42358078602620086,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.7538753283808,
+    "auprc": 0.8194442673971771,
+    "confusion": {
+      "tp": 132,
+      "fp": 0,
+      "tn": 251,
+      "fn": 97
+    }
+  },
+  "pii_only": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.8777292576419214,
+    "f1": 0.9348837209302325,
+    "accuracy": 0.9416666666666667,
+    "balanced_accuracy": 0.9388646288209608,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.1222707423580786,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.9388646288209608,
+    "auprc": 0.9360625909752548,
+    "confusion": {
+      "tp": 201,
+      "fp": 0,
+      "tn": 251,
+      "fn": 28
+    }
+  },
+  "pii_plus_reranker": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.8777292576419214,
+    "f1": 0.9348837209302325,
+    "accuracy": 0.9416666666666667,
+    "balanced_accuracy": 0.9388646288209608,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.1222707423580786,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.9388646288209608,
+    "auprc": 0.9360625909752548,
+    "confusion": {
+      "tp": 201,
+      "fp": 0,
+      "tn": 251,
+      "fn": 28
+    }
+  },
+  "capid": {
+    "status": "not_scored",
+    "status_counts": {
+      "skipped": 480
+    },
+    "successful_predictions": 0
+  },
+  "llm_judge": {
+    "status": "not_scored",
+    "status_counts": {
+      "skipped": 480
+    },
+    "successful_predictions": 0
+  }
+}

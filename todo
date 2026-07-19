@@ -1,0 +1,127 @@
+  # Real-World Grounding Layer Plan
+
+  ## Summary
+
+  Add a shared egress_grounding package that converts local public/deidentified datasets into privacy-safe normalized JSONL grounding records, then lets both
+  existing generators optionally use those records while still rendering through local templates. Default generator behavior remains synthetic-only, so
+  existing commands and tests keep working without grounding files.
+
+  The implementation will not copy raw CFPB narratives, Banking77 utterances, PubMed abstracts, NHANES participant rows, or Berka identifiers into generated
+  examples. Grounded outputs will remain synthetic, with provenance stored only under meta.grounding.
+
+  ## Key Changes
+
+  - Add src/egress_grounding/ with:
+      - schemas.py: GroundingRecord, validation enums, JSONL serialization.
+      - store.py: GroundingStore loading/indexing/sampling by domain, label, subtype, role, dataset.
+      - registry.py: adapter registry for cfpb, banking77, berka, nhanes, pubmed, generic_jsonl.
+      - sanitization.py: hashed IDs, unsafe identifier checks, numeric rounding/perturbation helpers.
+      - overlap.py: English token-span and CJK character-span source-copy detection.
+      - cli_prepare.py: offline conversion CLI with --dataset, --input, --output, --seed, --limit.
+      - cli_validate.py: schema/safety/coverage validation CLI with non-zero exit on invalid files.
+
+  - Add adapters:
+      - CFPB CSV: categorical scenario/style features only, hashed complaint IDs, no raw narrative retention.
+      - Banking77 CSV/JSON/JSONL: intent mapping to private candidates or public financial hard negatives, no utterance copying.
+      - Berka directory: aggregate distribution records from .asc files, no raw account/client/transaction/loan IDs.
+      - NHANES CSV/XPT: alias-based variable extraction, plausible clinical filtering, hashed/discarded SEQN, safe rounded fact bundles.
+      - PubMed XML/JSONL: streaming XML parsing into public health hard-negative topics.
+      - Generic JSONL: strict validation of already-normalized fact bundles.
+
+  - Add data/grounding/README.md, data/grounding/raw/.gitkeep, data/grounding/processed/.gitkeep, and .gitignore rules that ignore real raw/processed
+    grounding files while preserving docs/placeholders.
+
+  ## Generator Integration
+
+  - Extend SyntheticFinancialGenerator and SyntheticHealthGenerator constructors with:
+      - grounding_store: GroundingStore | None = None
+      - grounding_mode: str = "synthetic-only"
+      - grounding_ratio: float = 0.0
+      - optional dataset filter support
+
+  - Modes:
+      - synthetic-only: current behavior, unchanged default.
+      - hybrid: use compatible grounding records for about grounding_ratio of eligible private and hard-negative rows; fall back to existing catalog
+        generation and report fallback counts.
+
+      - grounded-only: require compatible grounding coverage; fail with a coverage report if no safe compatible record exists for requested generation paths.
+
+  - Grounded rows still use existing templates, formats, styles, and validators. Grounding facts only override compatible context fields.
+  - Grounded private rows use source="grounded_synthetic".
+  - Grounded public hard negatives use source="grounded_public_negative".
+  - Mixed-egress rows inherit the embedded private payload’s meta.grounding.
+  - Add repeatable CLI options to both generation CLIs:
+      - --grounding PATH
+      - --grounding-mode synthetic-only|hybrid|grounded-only
+      - --grounding-ratio FLOAT
+      - --grounding-dataset DATASET
+
+  - Extend manifests with an optional grounding section containing mode, requested/actual ratio, datasets, grounded counts, fallback counts, source-role
+    counts, raw_text_copied=false, and grounded_in_public_or_deidentified_data=true.
+
+  - Preserve contains_real_personal_data=false.
+
+  ## Splitting And Safety
+
+  - Replace current split grouping key with a grounding-aware key:
+      - grounded rows: grounding:{dataset}:{source_group_id}
+      - non-grounded rows: existing meta.skeleton_id fallback behavior
+
+  - Keep all variants from the same grounded source group in one split.
+  - Keep current financial and health filters intact; add shared grounding validation before generation.
+  - For narrative adapters, run overlap checks against temporary source text and reject generated/normalized content that contains suspicious long spans.
+  - For NHANES and Berka, use rounded, bucketed, sampled, or slightly perturbed values; never reproduce complete source rows.
+
+  ## Tests
+
+  Add artificial fixtures under tests/fixtures/ only. No real dataset extracts.
+
+  Required test coverage:
+
+  - Adapter mapping and safety tests for CFPB, Banking77, Berka, NHANES, PubMed, and generic JSONL.
+  - CLI tests for prepare/validate, valid and invalid grounding records, manifests, multiple --grounding inputs.
+  - Generator tests for:
+      - unchanged synthetic-only behavior
+      - financial and health hybrid grounded metadata
+      - grounded-only insufficient coverage failure
+      - deterministic output for fixed seed
+      - mixed-egress grounding inheritance
+      - source-group-isolated train/validation split
+      - existing centroid and dataset-quality tooling accepting grounded rows
+
+  - Run the full suite with:
+      - uv run python -m pytest
+
+  ## Documentation
+
+  Create README_grounding.md covering architecture, local dataset acquisition, input formats, preparation, validation, generation, privacy transformations,
+  source-group splitting, generic JSONL use, licensing/access notes, and limitations.
+
+  Update README.md and README_health.md with the full workflow:
+
+  Acquire dataset manually
+  → place under data/grounding/raw
+  → prepare normalized grounding JSONL
+  → validate grounding records
+  → generate hybrid anchors and mixed egress
+  → run dataset quality checks
+  → build centroids
+  → evaluate on source-group-isolated validation data
+
+  Include commands for:
+
+  - CFPB, Banking77, Berka, NHANES, PubMed preparation.
+  - Financial grounded generation.
+  - Health grounded generation.
+  - Validation and quality checking.
+
+  ## Assumptions And Defaults
+
+  - No automatic downloads and no network use in tests.
+  - pandas is optional: required only for NHANES XPT; CSV NHANES fixtures work without it.
+  - --grounding-dataset filters loaded normalized records by dataset name; if omitted, all loaded records are eligible.
+  - Multiple generated variants may use the same grounding source group, but splitting keeps that group isolated.
+  - Existing benchmark, centroid, augmentation, and quality-check behavior is preserved except that they accept new source values and optional
+    meta.grounding.
+
+  - Current uncommitted benchmark-related work is left untouched unless a grounding change must interact with it.

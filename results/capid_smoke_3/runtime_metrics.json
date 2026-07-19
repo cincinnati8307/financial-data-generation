@@ -1,0 +1,24 @@
+{
+  "capid": {
+    "model_name": "capid",
+    "loading_time_s": 10.479030939750373,
+    "total_inference_time_s": 58.0894202394411,
+    "mean_latency_ms": 7261.177529930137,
+    "p50_latency_ms": 6814.08585049212,
+    "p95_latency_ms": 11474.38489310443,
+    "examples_per_second": 0.1377187096552949,
+    "successful_predictions": 8,
+    "total_predictions": 8,
+    "peak_cpu_memory_mb": 12093.22265625,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": 4624486400,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 4624486400,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "CapidAdapter"
+      }
+    }
+  }
+}

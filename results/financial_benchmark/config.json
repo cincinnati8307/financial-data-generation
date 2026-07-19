@@ -1,0 +1,29 @@
+{
+  "anchor_train": "data/financial_generated/anchors_train_augmented_clean.jsonl",
+  "anchor_validation": "data/financial_generated/anchors_validation.jsonl",
+  "egress_train": "data/financial_generated/egress_train.jsonl",
+  "egress_validation": "data/financial_generated/egress_validation.jsonl",
+  "centroids": "data/financial_generated/centroids.json",
+  "methods": [
+    "centroid",
+    "pii",
+    "pii_reranker",
+    "capid",
+    "llm_judge"
+  ],
+  "output_dir": "results/financial_benchmark",
+  "device": "auto",
+  "seed": 42,
+  "offline": false,
+  "batch_size": 16,
+  "cache_dir": null,
+  "pii_backend": "regex",
+  "pii_model": null,
+  "reranker_model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+  "capid_model": null,
+  "llm_provider": "none",
+  "llm_model": null,
+  "alignment_evidence_mode": "financial_evidence",
+  "alignment_overrides": "data/financial_generated/alignment_overrides.jsonl",
+  "manual_override_count": 0
+}

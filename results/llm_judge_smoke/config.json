@@ -1,0 +1,28 @@
+{
+  "anchor_train": null,
+  "anchor_validation": "data/financial_generated/anchors_validation.jsonl",
+  "egress_train": null,
+  "egress_validation": "data/financial_generated/egress_validation.jsonl",
+  "max_anchor_validation": 2,
+  "max_egress_train": null,
+  "max_egress_validation": 2,
+  "centroids": "data/financial_generated/centroids.json",
+  "methods": [
+    "llm_judge"
+  ],
+  "output_dir": "results/llm_judge_smoke",
+  "device": "auto",
+  "seed": 42,
+  "offline": false,
+  "batch_size": 16,
+  "cache_dir": null,
+  "pii_backend": "regex",
+  "pii_model": null,
+  "reranker_model": null,
+  "capid_model": null,
+  "llm_provider": "openai-compatible",
+  "llm_model": "gpt-5-nano",
+  "alignment_evidence_mode": "financial_evidence",
+  "alignment_overrides": "data/financial_generated/alignment_overrides.jsonl",
+  "manual_override_count": 0
+}

@@ -1,0 +1,59 @@
+{
+  "coarse_policy_alignment": {
+    "centroid_query_similarity": {
+      "status": "scored",
+      "status_counts": {
+        "success": 80
+      },
+      "successful_predictions": 80,
+      "accuracy": 0.3125,
+      "macro_f1": 0.32028985507246377,
+      "misaligned_sensitive_precision": 0.5,
+      "misaligned_sensitive_recall": 0.10526315789473684,
+      "misaligned_sensitive_f1": 0.17391304347826086,
+      "leakage_rate": 0.8947368421052632,
+      "false_block_rate": 0.09523809523809523,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 21,
+          "misaligned_sensitive": 4,
+          "non_sensitive": 17
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 27,
+          "misaligned_sensitive": 4,
+          "non_sensitive": 7
+        }
+      }
+    }
+  },
+  "fine_grained_semantic_alignment": {
+    "centroid_query_similarity": {
+      "status": "scored",
+      "status_counts": {
+        "success": 47
+      },
+      "successful_predictions": 47,
+      "accuracy": 0.1702127659574468,
+      "macro_f1": 0.19302325581395346,
+      "misaligned_sensitive_precision": 0.8,
+      "misaligned_sensitive_recall": 0.10526315789473684,
+      "misaligned_sensitive_f1": 0.18604651162790697,
+      "leakage_rate": 0.8947368421052632,
+      "false_block_rate": 0.1111111111111111,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 4,
+          "misaligned_sensitive": 1,
+          "non_sensitive": 4
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 27,
+          "misaligned_sensitive": 4,
+          "non_sensitive": 7
+        }
+      }
+    }
+  },
+  "fine_grained_note": "Fine-grained metrics use only manual overrides and explicit subtype-constrained examples; they are never mixed with coarse policy labels."
+}
