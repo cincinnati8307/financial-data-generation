@@ -1,0 +1,152 @@
+{
+  "centroid_query_similarity": {
+    "model_name": "centroid_query_similarity",
+    "loading_time_s": 28.659461219329387,
+    "total_inference_time_s": 3.7960175569169223,
+    "mean_latency_ms": 6.253735678611075,
+    "p50_latency_ms": 4.340708255767822,
+    "p95_latency_ms": 14.901527995243665,
+    "examples_per_second": 159.90442375429836,
+    "successful_predictions": 607,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 8993.08984375,
+    "peak_gpu_memory_mb": 11131.29150390625,
+    "parameter_count": null,
+    "artifact_storage_size_mb": 0.11065101623535156,
+    "metadata": {
+      "parameter_count": null,
+      "artifact_storage_size_mb": 0.11065101623535156,
+      "method_config": {
+        "class": "CentroidBenchmarkModel"
+      }
+    }
+  },
+  "capid": {
+    "model_name": "capid",
+    "loading_time_s": 9.361862568184733,
+    "total_inference_time_s": 2534.594882415142,
+    "mean_latency_ms": 4175.609361474699,
+    "p50_latency_ms": 3032.268912997097,
+    "p95_latency_ms": 7056.241774186467,
+    "examples_per_second": 0.2280443332424157,
+    "successful_predictions": 578,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 8993.08984375,
+    "peak_gpu_memory_mb": 11263.61669921875,
+    "parameter_count": 4624486400,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 4624486400,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "CapidAdapter"
+      }
+    }
+  },
+  "openai_privacy_filter_plus_granite_guardian": {
+    "model_name": "openai_privacy_filter_plus_granite_guardian",
+    "loading_time_s": 10.011305888183415,
+    "total_inference_time_s": 83.68611652217805,
+    "mean_latency_ms": 137.86839624741032,
+    "p50_latency_ms": 109.33511471375823,
+    "p95_latency_ms": 542.0038765761999,
+    "examples_per_second": 7.253293918103322,
+    "successful_predictions": 607,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 8993.08984375,
+    "peak_gpu_memory_mb": 11263.61669921875,
+    "parameter_count": 4698280337,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 4698280337,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "OpenAIPrivacyFilterGraniteModel"
+      },
+      "components": {
+        "privacy_filter": {
+          "model": "openai/privacy-filter",
+          "parameter_count": 1399486865,
+          "loading_time_s": 6.322648701258004
+        },
+        "granite_guardian": {
+          "model": "ibm-granite/granite-guardian-3.2-3b-a800m",
+          "parameter_count": 3298793472,
+          "loading_time_s": 3.687941014766693,
+          "load_in_4bit": false,
+          "device": "auto",
+          "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+        }
+      },
+      "granite_invocation_count": 23,
+      "granite_skipped_by_gate_count": 57,
+      "oracle_evidence": false,
+      "end_to_end_detector": true,
+      "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+    }
+  },
+  "granite_guardian_oracle_evidence": {
+    "model_name": "granite_guardian_oracle_evidence",
+    "loading_time_s": 3.577994918450713,
+    "total_inference_time_s": 57.86019661370665,
+    "mean_latency_ms": 455.59209932052477,
+    "p50_latency_ms": 430.67759508267045,
+    "p95_latency_ms": 675.7366237696257,
+    "examples_per_second": 2.194945877005794,
+    "successful_predictions": 127,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 8993.08984375,
+    "peak_gpu_memory_mb": 11263.61669921875,
+    "parameter_count": 3298793472,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 3298793472,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "OpenAIPrivacyFilterGraniteModel"
+      },
+      "components": {
+        "privacy_filter": {
+          "model": "openai/privacy-filter",
+          "parameter_count": null,
+          "loading_time_s": null
+        },
+        "granite_guardian": {
+          "model": "ibm-granite/granite-guardian-3.2-3b-a800m",
+          "parameter_count": 3298793472,
+          "loading_time_s": 3.577347920741886,
+          "load_in_4bit": false,
+          "device": "auto",
+          "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+        }
+      },
+      "granite_invocation_count": 80,
+      "granite_skipped_by_gate_count": 0,
+      "oracle_evidence": true,
+      "end_to_end_detector": false,
+      "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+    }
+  },
+  "pii_only": {
+    "model_name": "pii_only",
+    "loading_time_s": 5.457084625959396e-06,
+    "total_inference_time_s": 0.017962677404284477,
+    "mean_latency_ms": 0.037422244592259325,
+    "p50_latency_ms": 0.03076554276049137,
+    "p95_latency_ms": 0.06547360680997372,
+    "examples_per_second": 26722.0742875174,
+    "successful_predictions": 480,
+    "total_predictions": 607,
+    "peak_cpu_memory_mb": 8993.08984375,
+    "peak_gpu_memory_mb": 11263.61669921875,
+    "parameter_count": null,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": null,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "PiiOnlyModel"
+      }
+    }
+  }
+}
