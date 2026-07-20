@@ -1,6 +1,6 @@
-# sensitive-egress-financial-poc
+# Sensitive Egress Privacy Detection Framework
 
-Proof-of-concept for **synthetic Chinese-nuance private financial data generation** and **embedding-centroid sensitive financial data detection**. The project is intended for research on reducing sensitive data leakage by AI agents running on personal devices.
+A research framework for **synthetic Chinese-nuance private data generation** and **embedding-centroid sensitive data detection**. The project is intended for research on reducing sensitive data leakage by AI agents running on personal devices.
 
 > **Synthetic-only warning:** generated examples are fabricated templates and paraphrases. They are not real leaked data and should not be treated as representative of real users without further validation.
 
@@ -467,6 +467,22 @@ Benchmark limitations:
 - The fallback hash embedder is for offline execution only and is not a quality substitute for multilingual semantic embeddings.
 - Policy decisions should combine semantic detection with allowlists, user intent checks, structured secret scanners, and user approval flows.
 - LLM augmentation quality depends on the selected model and prompt adherence; all augmented rows are still filtered by local validators.
+
+## Documentation
+
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture, design principles, and component overview
+- **[docs/COMPONENTS.md](docs/COMPONENTS.md)** - Detailed component documentation and code structure  
+- **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** - Development guidelines, coding standards, and debugging
+- **[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md)** - Contribution guidelines and workflow
+- **[docs/TECHNICAL_DEBT.md](docs/TECHNICAL_DEBT.md)** - Known issues, technical debt, and improvement areas
+
+### Getting Started
+
+1. **Installation**: See Installation section above
+2. **Quick Start**: Generate synthetic data and test detection
+3. **Understanding the System**: Read ARCHITECTURE.md for system design
+4. **Development**: Follow DEVELOPMENT.md for coding guidelines
+5. **Contributing**: Review CONTRIBUTING.md before submitting changes
 
 ## Tests
 
