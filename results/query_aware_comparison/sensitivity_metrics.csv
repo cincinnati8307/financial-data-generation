@@ -1,0 +1,10 @@
+alignment_scope,model,success,tp,fp,tn,fn,failed,unsupported
+centroid_query_similarity,status_counts,480,,,,,,
+centroid_query_similarity,confusion,,132,0,251,97,,
+capid,status_counts,467,,,,,13,
+capid,confusion,,218,163,84,2,,
+openai_privacy_filter_plus_granite_guardian,status_counts,480,,,,,,
+openai_privacy_filter_plus_granite_guardian,confusion,,80,0,251,149,,
+granite_guardian_oracle_evidence,status_counts,,,,,,,480
+pii_only,status_counts,480,,,,,,
+pii_only,confusion,,201,0,251,28,,
