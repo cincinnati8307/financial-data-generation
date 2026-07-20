@@ -1,0 +1,87 @@
+{
+  "description": "Synthetic health-private data for egress detection.",
+  "contains_real_personal_data": false,
+  "labels": [
+    "health_private",
+    "non_private_health",
+    "benign"
+  ],
+  "private_subtypes": [
+    "diagnosis_condition",
+    "medication_prescription",
+    "lab_result",
+    "appointment_visit",
+    "insurance_claim",
+    "medical_bill",
+    "wearable_vitals",
+    "vaccination_record",
+    "mental_health_note"
+  ],
+  "counts": {
+    "anchors_train": 288,
+    "anchors_validation": 72,
+    "egress_train": 48,
+    "egress_validation": 12
+  },
+  "seed": 20260720,
+  "grounding": {
+    "mode": "hybrid",
+    "requested_ratio": 0.5,
+    "actual_ratio": 0.119,
+    "inputs": [
+      "data/grounding/processed/nhanes.jsonl",
+      "data/grounding/processed/pubmed.jsonl",
+      "data/grounding/processed/generic.jsonl"
+    ],
+    "datasets": [
+      "generic_jsonl",
+      "nhanes",
+      "pubmed"
+    ],
+    "grounded_counts": {
+      "grounded_synthetic": 8,
+      "grounded_public_negative": 51,
+      "synthetic_mixed": 6
+    },
+    "fallback_counts": {
+      "health_private:diagnosis_condition": 23,
+      "health_private:medication_prescription": 26,
+      "health_private:medical_bill": 26,
+      "health_private:wearable_vitals": 23,
+      "health_private:vaccination_record": 16,
+      "health_private:mental_health_note": 19,
+      "health_private:insurance_claim": 22,
+      "health_private:appointment_visit": 22
+    },
+    "eligible_counts": {
+      "health_private:diagnosis_condition": 41,
+      "health_private:medication_prescription": 48,
+      "health_private:lab_result": 45,
+      "health_private:appointment_visit": 42,
+      "health_private:insurance_claim": 44,
+      "health_private:medical_bill": 39,
+      "health_private:wearable_vitals": 40,
+      "health_private:vaccination_record": 41,
+      "health_private:mental_health_note": 44,
+      "non_private_health:*": 162
+    },
+    "attempt_counts": {
+      "health_private:diagnosis_condition": 23,
+      "health_private:medication_prescription": 26,
+      "health_private:lab_result": 21,
+      "health_private:medical_bill": 26,
+      "health_private:wearable_vitals": 23,
+      "health_private:vaccination_record": 16,
+      "health_private:mental_health_note": 19,
+      "health_private:insurance_claim": 22,
+      "health_private:appointment_visit": 22,
+      "non_private_health:*": 89
+    },
+    "source_role_counts": {
+      "private_candidate": 14,
+      "public_negative": 51
+    },
+    "raw_text_copied": false,
+    "grounded_in_public_or_deidentified_data": true
+  }
+}

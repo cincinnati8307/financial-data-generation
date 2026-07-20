@@ -26,6 +26,19 @@ PRIVATE_FINANCIAL_ENTITY_LABELS = {
 
 MONEY_LABELS = {"MONEY", "AMOUNT", "CURRENCY"}
 
+DEFAULT_OPENAI_PRIVACY_FILTER_MODEL = "openai/privacy-filter"
+OPENAI_PRIVACY_FILTER_LABEL_MAPPING = {
+    "account_number": "ACCOUNT_NUMBER",
+    "private_address": "PRIVATE_ADDRESS",
+    "private_email": "PRIVATE_EMAIL",
+    "private_person": "PRIVATE_PERSON",
+    "private_phone": "PRIVATE_PHONE",
+    "private_url": "PRIVATE_URL",
+    "private_date": "PRIVATE_DATE",
+    "secret": "SECRET",
+}
+DEFAULT_OPENAI_PRIVACY_FILTER_FINANCIAL_LABELS = {"ACCOUNT_NUMBER"}
+
 
 class PiiDetector(Protocol):
     name: str
@@ -51,6 +64,33 @@ def is_private_financial_entity(entity: dict[str, Any]) -> bool:
 
 def private_financial_entities(entities: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [entity for entity in entities if is_private_financial_entity(entity)]
+
+
+def is_openai_privacy_filter_financial_entity(
+    entity: dict[str, Any],
+    financial_labels: set[str] | frozenset[str] | None = None,
+) -> bool:
+    labels = financial_labels or DEFAULT_OPENAI_PRIVACY_FILTER_FINANCIAL_LABELS
+    label = str(entity.get("label") or entity.get("type") or "").upper()
+    return label in labels
+
+
+def openai_privacy_filter_financial_entities(
+    entities: list[dict[str, Any]],
+    financial_labels: set[str] | frozenset[str] | None = None,
+) -> list[dict[str, Any]]:
+    return [entity for entity in entities if is_openai_privacy_filter_financial_entity(entity, financial_labels=financial_labels)]
+
+
+def openai_privacy_filter_entities_to_sensitivity(
+    entities: list[dict[str, Any]],
+    financial_labels: set[str] | frozenset[str] | None = None,
+) -> tuple[str, float | None]:
+    private = openai_privacy_filter_financial_entities(entities, financial_labels=financial_labels)
+    if not private:
+        return NON_SENSITIVE, 0.0
+    scores = [entity.get("score") for entity in private if entity.get("score") is not None]
+    return SENSITIVE, float(max(scores)) if scores else 1.0
 
 
 def pii_entities_to_sensitivity(entities: list[dict[str, Any]]) -> tuple[str, float | None]:
@@ -123,6 +163,146 @@ class RegexPiiDetector:
         if sentence_start >= 0:
             return sentence_start, sentence_start + len(sentence)
         return start, end
+
+
+def _clean_openai_privacy_filter_label(label: str) -> str:
+    normalized = label.strip()
+    if "-" in normalized and normalized[:2].upper() in {"B-", "I-"}:
+        normalized = normalized[2:]
+    normalized = normalized.lower().replace(" ", "_").replace("-", "_")
+    return OPENAI_PRIVACY_FILTER_LABEL_MAPPING.get(normalized, normalized.upper())
+
+
+def _coerce_int(value: Any) -> int | None:
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except Exception:
+        return None
+
+
+def _coerce_float(value: Any) -> float | None:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except Exception:
+        return None
+
+
+def normalize_openai_privacy_filter_entity(item: dict[str, Any], source_text: str | None = None) -> dict[str, Any]:
+    raw_label = str(item.get("entity_group") or item.get("entity") or item.get("label") or item.get("type") or "")
+    label = _clean_openai_privacy_filter_label(raw_label)
+    start = _coerce_int(item.get("start"))
+    end = _coerce_int(item.get("end"))
+    raw_text = str(item.get("word") or item.get("text") or "")
+
+    if source_text is not None and start is not None and end is not None and 0 <= start <= end <= len(source_text):
+        span_text = source_text[start:end]
+    else:
+        span_text = raw_text
+
+    leading_ws = len(span_text) - len(span_text.lstrip())
+    if leading_ws:
+        span_text = span_text[leading_ws:]
+        if start is not None:
+            start += leading_ws
+
+    if not span_text and raw_text:
+        span_text = raw_text.lstrip()
+
+    return normalize_entity(span_text, label, _coerce_float(item.get("score")), start, end)
+
+
+def normalize_openai_privacy_filter_outputs(
+    items: list[dict[str, Any]],
+    source_text: str | None = None,
+    score_threshold: float = 0.5,
+) -> list[dict[str, Any]]:
+    entities = []
+    for item in items:
+        entity = normalize_openai_privacy_filter_entity(item, source_text=source_text)
+        score = entity.get("score")
+        if score is not None and float(score) < score_threshold:
+            continue
+        entities.append(entity)
+    return _dedupe_entities(entities)
+
+
+def _pipeline_device(device: str) -> int:
+    selected = (device or "auto").lower()
+    if selected == "cpu":
+        return -1
+    if selected.startswith("cuda"):
+        if ":" in selected:
+            try:
+                return int(selected.split(":", 1)[1])
+            except Exception:
+                return 0
+        return 0
+    if selected == "auto":
+        try:
+            import torch
+
+            return 0 if torch.cuda.is_available() else -1
+        except Exception:
+            return -1
+    try:
+        return int(selected)
+    except Exception:
+        return -1
+
+
+class OpenAIPrivacyFilterDetector:
+    name = "openai_privacy_filter"
+
+    def __init__(
+        self,
+        model_id: str = DEFAULT_OPENAI_PRIVACY_FILTER_MODEL,
+        device: str = "auto",
+        cache_dir: str | None = None,
+        offline: bool = False,
+        score_threshold: float = 0.5,
+    ) -> None:
+        started = time.perf_counter()
+        self.model_id = model_id
+        self.device = device
+        self.cache_dir = cache_dir
+        self.offline = offline
+        self.score_threshold = score_threshold
+        try:
+            from transformers import AutoModelForTokenClassification, AutoTokenizer, pipeline
+        except Exception as exc:
+            raise ModelUnavailable(f"transformers unavailable for OpenAI Privacy Filter: {exc}") from exc
+
+        kwargs: dict[str, Any] = {"local_files_only": offline}
+        if cache_dir:
+            kwargs["cache_dir"] = cache_dir
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(model_id, **kwargs)
+            self.model = AutoModelForTokenClassification.from_pretrained(model_id, **kwargs)
+            self.pipeline = pipeline(
+                "token-classification",
+                model=self.model,
+                tokenizer=self.tokenizer,
+                aggregation_strategy="simple",
+                device=_pipeline_device(device),
+            )
+        except Exception as exc:
+            mode = "local/offline" if offline else "Hugging Face"
+            raise ModelUnavailable(f"failed to load OpenAI Privacy Filter model {model_id} from {mode}: {exc}") from exc
+        self.loading_time_s = time.perf_counter() - started
+        self.parameter_count = _parameter_count(getattr(self, "model", None))
+        self.artifact_storage_size_mb = None
+
+    def detect(self, text: str, language: str | None = None) -> list[dict[str, Any]]:
+        del language
+        try:
+            raw = self.pipeline(text)
+        except Exception as exc:
+            raise ModelUnavailable(f"OpenAI Privacy Filter inference failed: {exc}") from exc
+        return normalize_openai_privacy_filter_outputs(list(raw), source_text=text, score_threshold=self.score_threshold)
 
 
 class PresidioPiiDetector:
@@ -215,7 +395,23 @@ def _dedupe_entities(entities: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
-def make_pii_detector(backend: str = "regex", model_id: str | None = None, offline: bool = False) -> PiiDetector:
+def _parameter_count(model: Any) -> int | None:
+    if model is None:
+        return None
+    try:
+        return int(sum(param.numel() for param in model.parameters()))
+    except Exception:
+        return None
+
+
+def make_pii_detector(
+    backend: str = "regex",
+    model_id: str | None = None,
+    offline: bool = False,
+    device: str = "auto",
+    cache_dir: str | None = None,
+    score_threshold: float | None = None,
+) -> PiiDetector:
     backend = (backend or "regex").lower()
     if backend == "regex":
         return RegexPiiDetector()
@@ -223,28 +419,48 @@ def make_pii_detector(backend: str = "regex", model_id: str | None = None, offli
         return PresidioPiiDetector()
     if backend == "gliner":
         return GlinerPiiDetector(model_id or "urchade/gliner_multi_pii-v1", offline=offline)
-    if backend in {"openmed_privacy_filter", "openai_privacy_filter"}:
-        raise ModelUnavailable(f"{backend} backend is not installed in this repository; select regex, presidio, or gliner")
+    if backend == "openai_privacy_filter":
+        return OpenAIPrivacyFilterDetector(
+            model_id or DEFAULT_OPENAI_PRIVACY_FILTER_MODEL,
+            device=device,
+            cache_dir=cache_dir,
+            offline=offline,
+            score_threshold=0.5 if score_threshold is None else score_threshold,
+        )
+    if backend == "openmed_privacy_filter":
+        raise ModelUnavailable("openmed_privacy_filter backend is not installed in this repository; select regex, presidio, gliner, or openai_privacy_filter")
     raise ModelUnavailable(f"unknown PII backend: {backend}")
 
 
 class PiiOnlyModel:
     name = "pii_only"
 
-    def __init__(self, backend: str = "regex", model_id: str | None = None, offline: bool = False, detector: PiiDetector | None = None) -> None:
+    def __init__(
+        self,
+        backend: str = "regex",
+        model_id: str | None = None,
+        offline: bool = False,
+        detector: PiiDetector | None = None,
+        device: str = "auto",
+        cache_dir: str | None = None,
+        score_threshold: float | None = None,
+    ) -> None:
         started = time.perf_counter()
         self.backend = backend
         self.model_id = model_id
         self.offline = offline
+        self.device = device
+        self.cache_dir = cache_dir
+        self.score_threshold = score_threshold
         self.init_error: str | None = None
         try:
-            self.detector = detector or make_pii_detector(backend, model_id=model_id, offline=offline)
+            self.detector = detector or make_pii_detector(backend, model_id=model_id, offline=offline, device=device, cache_dir=cache_dir, score_threshold=score_threshold)
         except ModelUnavailable as exc:
             self.detector = None
             self.init_error = str(exc)
         self.loading_time_s = time.perf_counter() - started
-        self.parameter_count = None
-        self.artifact_storage_size_mb = None
+        self.parameter_count = _parameter_count(getattr(self.detector, "model", None)) if self.detector is not None else None
+        self.artifact_storage_size_mb = getattr(self.detector, "artifact_storage_size_mb", None) if self.detector is not None else None
 
     def predict_sensitivity(self, rows: list[dict[str, Any]]) -> list[BenchmarkPrediction]:
         if self.detector is None:

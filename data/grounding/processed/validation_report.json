@@ -1,0 +1,26 @@
+{
+  "valid": true,
+  "errors": [],
+  "records": 16,
+  "datasets": {
+    "cfpb": 2,
+    "banking77": 3,
+    "berka": 3,
+    "nhanes": 2,
+    "pubmed": 2,
+    "generic_jsonl": 4
+  },
+  "roles": {
+    "private_candidate": 8,
+    "public_negative": 5,
+    "distribution": 3
+  },
+  "labels": {
+    "financial_private": 8,
+    "non_private_financial": 2,
+    "health_private": 3,
+    "non_private_health": 3
+  },
+  "raw_text_copied": false,
+  "grounded_in_public_or_deidentified_data": true
+}

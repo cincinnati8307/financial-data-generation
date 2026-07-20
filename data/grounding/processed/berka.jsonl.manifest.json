@@ -1,0 +1,11 @@
+{
+  "dataset": "berka",
+  "input": "tests/fixtures/grounding/berka",
+  "output": "data/grounding/processed/berka.jsonl",
+  "seed": 1337,
+  "limit": null,
+  "records": 3,
+  "contains_real_personal_data": false,
+  "raw_text_copied": false,
+  "grounded_in_public_or_deidentified_data": true
+}

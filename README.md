@@ -71,6 +71,59 @@ Outputs:
 - `data/financial_generated/egress_validation.jsonl`
 - `data/financial_generated/manifest.json`
 
+
+## Optional Real-World Grounding
+
+Grounding is opt-in. The default generator remains synthetic-only. For the full architecture, privacy transformations, generic JSONL schema, licensing notes, and limitations, see [README_grounding.md](README_grounding.md).
+
+Workflow:
+
+1. Acquire public or deidentified datasets manually.
+2. Place them under `data/grounding/raw/`.
+3. Prepare normalized grounding JSONL under `data/grounding/processed/`.
+4. Validate grounding records.
+5. Generate hybrid anchors and mixed egress.
+6. Run dataset quality checks.
+7. Build centroids.
+8. Evaluate on source-group-isolated validation data.
+
+Prepare financial grounding files:
+
+```bash
+PYTHONPATH=src uv run python -m egress_grounding.cli_prepare --dataset cfpb --input data/grounding/raw/cfpb_complaints.csv --output data/grounding/processed/cfpb.jsonl
+PYTHONPATH=src uv run python -m egress_grounding.cli_prepare --dataset banking77 --input data/grounding/raw/banking77.csv --output data/grounding/processed/banking77.jsonl
+PYTHONPATH=src uv run python -m egress_grounding.cli_prepare --dataset berka --input data/grounding/raw/berka --output data/grounding/processed/berka.jsonl
+PYTHONPATH=src uv run python -m egress_grounding.cli_validate --input data/grounding/processed/cfpb.jsonl --input data/grounding/processed/banking77.jsonl --input data/grounding/processed/berka.jsonl
+```
+
+Generate grounded financial data:
+
+```bash
+PYTHONPATH=src uv run python -m sensitive_egress_poc.cli_generate \
+  --out-dir data/financial_generated \
+  --private 1000 --hard-negative 500 --benign 500 --mixed 300 \
+  --grounding data/grounding/processed/cfpb.jsonl \
+  --grounding data/grounding/processed/banking77.jsonl \
+  --grounding data/grounding/processed/berka.jsonl \
+  --grounding-mode hybrid \
+  --grounding-ratio 0.35
+```
+
+Then run quality checks and centroids as usual:
+
+```bash
+PYTHONPATH=src uv run python -m sensitive_egress_poc.dataset_quality \
+  --input data/financial_generated/anchors_train.jsonl \
+  --report-out data/financial_generated/quality_report.json \
+  --checks redundancy,self_bleu,safety
+
+PYTHONPATH=src uv run python -m sensitive_egress_poc.cli_centroid \
+  --train data/financial_generated/anchors_train.jsonl \
+  --validation data/financial_generated/anchors_validation.jsonl
+```
+
+Grounded rows remain synthetic and use `source=grounded_synthetic` or `source=grounded_public_negative`; provenance is stored only under `meta.grounding`. The split keeps all rows with the same `grounding:{dataset}:{source_group_id}` in one split.
+
 ## Optional LLM augmentation
 
 Dry-run augmentation is deterministic and does not call external APIs:
@@ -179,6 +232,8 @@ Supported benchmark methods:
 - `pii_reranker`: PII/private-financial detection followed by query-evidence relevance scoring. Semantic relevance is useful evidence, but it is not equivalent to user authorization.
 - `capid`: optional CAPID-compatible query-aware model that receives `question=user_intent` and `text=outgoing text`. Public CAPID checkpoints may be LoRA adapters and can require a compatible base model and Hugging Face access.
 - `llm_judge`: optional prompted multilingual privacy judge. It is disabled unless an explicit local Hugging Face or OpenAI-compatible provider is selected.
+- `opf_granite`: strict composed baseline using OpenAI Privacy Filter followed by Granite Guardian only when an account-number span is detected.
+- `opf_granite_oracle`: Granite Guardian diagnostic using dataset `financial_evidence` for Task B only. It is not an end-to-end privacy detector and reports Task A as unsupported.
 
 Install the existing project dependencies first:
 
@@ -264,6 +319,89 @@ python -m sensitive_egress_poc.cli_benchmark \
   --output-dir results/capid_smoke
 ```
 
+### OpenAI Privacy Filter + Granite Guardian
+
+`opf_granite` composes two Hugging Face models:
+
+1. OpenAI Privacy Filter detects explicit privacy spans according to a fixed taxonomy.
+2. The strict composed baseline only continues to Granite Guardian when an `ACCOUNT_NUMBER` span is detected.
+3. Granite Guardian evaluates whether the detected evidence is relevant to the user query using its `context_relevance` risk.
+
+A Granite result of `Yes` means irrelevance risk was detected and maps to `misaligned_sensitive`. A result of `No` means the evidence is relevant and maps to `aligned_sensitive`.
+
+OpenAI Privacy Filter native labels are normalized as:
+
+```text
+account_number  -> ACCOUNT_NUMBER
+private_address -> PRIVATE_ADDRESS
+private_email   -> PRIVATE_EMAIL
+private_person  -> PRIVATE_PERSON
+private_phone   -> PRIVATE_PHONE
+private_url     -> PRIVATE_URL
+private_date    -> PRIVATE_DATE
+secret          -> SECRET
+```
+
+By default, only `ACCOUNT_NUMBER` is treated as financial-sensitive for this composed baseline. `PRIVATE_PERSON`, `PRIVATE_DATE`, `PRIVATE_EMAIL`, `PRIVATE_PHONE`, `PRIVATE_ADDRESS`, `PRIVATE_URL`, `SECRET`, and arbitrary currency or `MONEY` spans do not establish private financial information by themselves.
+
+OpenAI Privacy Filter detects explicit identifiers according to its fixed taxonomy. It does not natively represent semantic financial facts such as salary, account balance, debt, investment value, tax income, or transaction amount without an identifier.
+
+Limitations:
+
+- OpenAI Privacy Filter is primarily an explicit PII detector.
+- Its native taxonomy does not include semantic salary, balance, debt, investment, invoice, tax, or transaction-fact labels.
+- Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is and are not translated automatically.
+- Relevance is not identical to authorization or necessity.
+- The strict baseline may have low recall on the current semantic-financial dataset.
+- The oracle-evidence variant is diagnostic only and must not be compared as a complete detector.
+
+Strict smoke command:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods opf_granite \
+  --openai-privacy-filter-model openai/privacy-filter \
+  --granite-guardian-model ibm-granite/granite-guardian-3.2-3b-a800m \
+  --max-anchor-validation 2 \
+  --max-egress-validation 2 \
+  --output-dir results/opf_granite_smoke
+```
+
+Oracle diagnostic command:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods opf_granite_oracle \
+  --granite-guardian-model ibm-granite/granite-guardian-3.2-3b-a800m \
+  --max-egress-validation 10 \
+  --output-dir results/granite_oracle_diagnostic
+```
+
+Full query-aware comparison command:
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-train data/financial_generated/egress_train.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods centroid capid opf_granite opf_granite_oracle \
+  --capid-model ponoma16/capid-llama8b-lora \
+  --capid-base-model unsloth/Meta-Llama-3.1-8B-bnb-4bit \
+  --capid-load-in-4bit \
+  --openai-privacy-filter-model openai/privacy-filter \
+  --granite-guardian-model ibm-granite/granite-guardian-3.2-3b-a800m \
+  --output-dir results/query_aware_comparison
+```
+
 Run the alignment audit separately:
 
 ```bash
@@ -312,7 +450,7 @@ Reproducibility notes:
 - Keep validation files untouched; thresholds are tuned only with `egress_train.jsonl`.
 - Use `--seed` to record the run seed in `config.json`.
 - Use `--offline` when benchmark runs must not download models.
-- Record `--pii-backend`, `--pii-model`, `--reranker-model`, `--capid-model`, `--capid-base-model`, `--llm-provider`, and `--llm-model` in the run config.
+- Record `--pii-backend`, `--pii-model`, `--reranker-model`, `--capid-model`, `--capid-base-model`, `--llm-provider`, `--llm-model`, `--openai-privacy-filter-model`, `--openai-privacy-filter-threshold`, `--granite-guardian-model`, `--granite-max-new-tokens`, `--granite-load-in-4bit`, and `--granite-trust-remote-code` in the run config.
 
 Benchmark limitations:
 
@@ -320,6 +458,7 @@ Benchmark limitations:
 - `coarse_policy_alignment` inherits category-level generator labels: a carrier with `expected_financial=true` may still contain a semantically unrelated financial subtype.
 - The audit flags suspicious carrier/subtype pairs for review but does not silently relabel them.
 - PII and DLP baselines may miss private financial facts that do not contain explicit account, card, or identifier-like spans.
+- The strict OpenAI Privacy Filter + Granite Guardian baseline may miss semantic financial facts unless OpenAI Privacy Filter first detects a supported financial identifier.
 
 ## Limitations
 

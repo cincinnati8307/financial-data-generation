@@ -1,0 +1,24 @@
+{
+  "input": "data/health_grounded_generated_large/anchors_train.jsonl",
+  "output": "data/health_grounded_generated_large/anchors_train_augmented_small_llm.jsonl",
+  "provider": "openai",
+  "model": "gpt-5-nano",
+  "max_inputs": 30,
+  "paraphrases_per_example": 1,
+  "include_original": true,
+  "attempted_sources": 30,
+  "accepted_examples": 60,
+  "rejected_examples": 0,
+  "rejection_reasons": {
+    "duplicate": 0
+  },
+  "token_estimate": {
+    "method": "heuristic_cjk_word_estimate",
+    "attempted_sources": 30,
+    "paraphrases_per_example": 1,
+    "estimated_prompt_tokens": 9028,
+    "estimated_completion_tokens": 2598,
+    "estimated_total_tokens": 11626,
+    "estimated_total_tokens_with_buffer": 14532
+  }
+}

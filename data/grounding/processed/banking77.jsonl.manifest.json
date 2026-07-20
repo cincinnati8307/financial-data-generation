@@ -1,0 +1,11 @@
+{
+  "dataset": "banking77",
+  "input": "tests/fixtures/grounding/banking77_sample.csv",
+  "output": "data/grounding/processed/banking77.jsonl",
+  "seed": 1337,
+  "limit": null,
+  "records": 3,
+  "contains_real_personal_data": false,
+  "raw_text_copied": false,
+  "grounded_in_public_or_deidentified_data": true
+}

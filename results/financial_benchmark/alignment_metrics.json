@@ -26,52 +26,57 @@
         }
       }
     },
-    "pii_only": {
-      "status": "not_scored",
-      "status_counts": {
-        "unsupported": 80
-      },
-      "successful_predictions": 0
-    },
-    "pii_plus_reranker": {
+    "openai_privacy_filter_plus_granite_guardian": {
       "status": "scored",
       "status_counts": {
         "success": 80
       },
       "successful_predictions": 80,
-      "accuracy": 0.7,
-      "macro_f1": 0.7172050098879367,
-      "misaligned_sensitive_precision": 0.7222222222222222,
-      "misaligned_sensitive_recall": 0.6842105263157895,
-      "misaligned_sensitive_f1": 0.7027027027027027,
-      "leakage_rate": 0.3157894736842105,
-      "false_block_rate": 0.23809523809523808,
+      "accuracy": 0.15,
+      "macro_f1": 0.2065891472868217,
+      "misaligned_sensitive_precision": 0.5,
+      "misaligned_sensitive_recall": 0.2894736842105263,
+      "misaligned_sensitive_f1": 0.3666666666666667,
+      "leakage_rate": 0.7105263157894737,
+      "false_block_rate": 0.2619047619047619,
       "confusion": {
         "aligned_sensitive": {
-          "aligned_sensitive": 30,
-          "misaligned_sensitive": 10,
-          "non_sensitive": 2
+          "aligned_sensitive": 1,
+          "misaligned_sensitive": 11,
+          "non_sensitive": 30
         },
         "misaligned_sensitive": {
-          "aligned_sensitive": 10,
-          "misaligned_sensitive": 26,
-          "non_sensitive": 2
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 11,
+          "non_sensitive": 27
         }
       }
     },
-    "capid": {
-      "status": "not_scored",
+    "granite_guardian_oracle_evidence": {
+      "status": "scored",
       "status_counts": {
-        "skipped": 80
+        "success": 80
       },
-      "successful_predictions": 0
-    },
-    "llm_judge": {
-      "status": "not_scored",
-      "status_counts": {
-        "skipped": 80
-      },
-      "successful_predictions": 0
+      "successful_predictions": 80,
+      "accuracy": 0.475,
+      "macro_f1": 0.3220338983050847,
+      "misaligned_sensitive_precision": 0.475,
+      "misaligned_sensitive_recall": 1.0,
+      "misaligned_sensitive_f1": 0.6440677966101694,
+      "leakage_rate": 0.0,
+      "false_block_rate": 1.0,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 42,
+          "non_sensitive": 0
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 38,
+          "non_sensitive": 0
+        }
+      }
     }
   },
   "fine_grained_semantic_alignment": {
@@ -101,52 +106,57 @@
         }
       }
     },
-    "pii_only": {
-      "status": "not_scored",
-      "status_counts": {
-        "unsupported": 47
-      },
-      "successful_predictions": 0
-    },
-    "pii_plus_reranker": {
+    "openai_privacy_filter_plus_granite_guardian": {
       "status": "scored",
       "status_counts": {
         "success": 47
       },
       "successful_predictions": 47,
-      "accuracy": 0.6808510638297872,
-      "macro_f1": 0.6280597014925373,
-      "misaligned_sensitive_precision": 0.896551724137931,
-      "misaligned_sensitive_recall": 0.6842105263157895,
-      "misaligned_sensitive_f1": 0.7761194029850746,
-      "leakage_rate": 0.3157894736842105,
+      "accuracy": 0.23404255319148937,
+      "macro_f1": 0.2115384615384615,
+      "misaligned_sensitive_precision": 0.7857142857142857,
+      "misaligned_sensitive_recall": 0.2894736842105263,
+      "misaligned_sensitive_f1": 0.423076923076923,
+      "leakage_rate": 0.7105263157894737,
       "false_block_rate": 0.3333333333333333,
       "confusion": {
         "aligned_sensitive": {
-          "aligned_sensitive": 6,
+          "aligned_sensitive": 0,
           "misaligned_sensitive": 3,
-          "non_sensitive": 0
+          "non_sensitive": 6
         },
         "misaligned_sensitive": {
-          "aligned_sensitive": 10,
-          "misaligned_sensitive": 26,
-          "non_sensitive": 2
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 11,
+          "non_sensitive": 27
         }
       }
     },
-    "capid": {
-      "status": "not_scored",
+    "granite_guardian_oracle_evidence": {
+      "status": "scored",
       "status_counts": {
-        "skipped": 47
+        "success": 47
       },
-      "successful_predictions": 0
-    },
-    "llm_judge": {
-      "status": "not_scored",
-      "status_counts": {
-        "skipped": 47
-      },
-      "successful_predictions": 0
+      "successful_predictions": 47,
+      "accuracy": 0.8085106382978723,
+      "macro_f1": 0.44705882352941173,
+      "misaligned_sensitive_precision": 0.8085106382978723,
+      "misaligned_sensitive_recall": 1.0,
+      "misaligned_sensitive_f1": 0.8941176470588235,
+      "leakage_rate": 0.0,
+      "false_block_rate": 1.0,
+      "confusion": {
+        "aligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 9,
+          "non_sensitive": 0
+        },
+        "misaligned_sensitive": {
+          "aligned_sensitive": 0,
+          "misaligned_sensitive": 38,
+          "non_sensitive": 0
+        }
+      }
     }
   },
   "fine_grained_note": "Fine-grained metrics use only manual overrides and explicit subtype-constrained examples; they are never mixed with coarse policy labels."

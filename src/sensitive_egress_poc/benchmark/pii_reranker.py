@@ -144,6 +144,7 @@ class PiiRerankerModel:
         cache_dir: str | None = None,
         detector: PiiDetector | None = None,
         scorer: RerankerScorer | None = None,
+        pii_score_threshold: float | None = None,
     ) -> None:
         started = time.perf_counter()
         self.pii_backend = pii_backend
@@ -151,10 +152,19 @@ class PiiRerankerModel:
         self.reranker_model = reranker_model or DEFAULT_RERANKER_MODEL
         self.batch_size = batch_size
         self.offline = offline
+        self.cache_dir = cache_dir
+        self.pii_score_threshold = pii_score_threshold
         self.detector_error: str | None = None
         self.reranker_error: str | None = None
         try:
-            self.detector = detector or make_pii_detector(pii_backend, model_id=pii_model, offline=offline)
+            self.detector = detector or make_pii_detector(
+                pii_backend,
+                model_id=pii_model,
+                offline=offline,
+                device=device,
+                cache_dir=cache_dir,
+                score_threshold=pii_score_threshold,
+            )
         except ModelUnavailable as exc:
             self.detector = None
             self.detector_error = str(exc)

@@ -1,8 +1,13 @@
 import json
+import math
+import sys
+from collections import UserDict
+from types import SimpleNamespace
 
 import pytest
 
 from sensitive_egress_poc.benchmark.audit import audit_row
+from sensitive_egress_poc.benchmark.base import ModelUnavailable
 from sensitive_egress_poc.benchmark.capid_adapter import CapidAdapter, CapidParseError, capid_prompt, parse_capid_response
 from sensitive_egress_poc.benchmark.centroid_adapter import CentroidBenchmarkModel
 from sensitive_egress_poc.benchmark.dataset import (
@@ -14,7 +19,23 @@ from sensitive_egress_poc.benchmark.dataset import (
     map_egress_decision,
 )
 from sensitive_egress_poc.benchmark.metrics import alignment_metrics
-from sensitive_egress_poc.benchmark.pii_adapter import PiiOnlyModel, RegexPiiDetector, normalize_entity, pii_entities_to_sensitivity
+from sensitive_egress_poc.benchmark.granite_guardian import (
+    GraniteGuardianParseError,
+    HuggingFaceGraniteGuardianRunner,
+    decision_probabilities_from_logits,
+    parse_granite_guardian_output,
+)
+from sensitive_egress_poc.benchmark.opf_granite_adapter import OpenAIPrivacyFilterGraniteModel
+from sensitive_egress_poc.benchmark.pii_adapter import (
+    OpenAIPrivacyFilterDetector,
+    PiiOnlyModel,
+    RegexPiiDetector,
+    is_openai_privacy_filter_financial_entity,
+    normalize_entity,
+    normalize_openai_privacy_filter_outputs,
+    openai_privacy_filter_entities_to_sensitivity,
+    pii_entities_to_sensitivity,
+)
 from sensitive_egress_poc.benchmark.pii_reranker import PiiRerankerModel, tune_reranker_alignment_threshold
 from sensitive_egress_poc.benchmark.schemas import (
     ALIGNED_SENSITIVE as LABEL_ALIGNED,
@@ -24,6 +45,7 @@ from sensitive_egress_poc.benchmark.schemas import (
     STATUS_FAILED,
     STATUS_SKIPPED,
     STATUS_SUCCESS,
+    STATUS_UNSUPPORTED,
     TASK_COARSE_ALIGNMENT,
     BenchmarkPrediction,
 )
@@ -108,6 +130,413 @@ def test_money_entity_alone_is_not_private_financial():
     assert any(entity["label"] == "MONEY" for entity in entities)
     assert label == NON_SENSITIVE
     assert score == 0.0
+
+
+def test_openai_privacy_filter_label_normalization_and_leading_whitespace():
+    text = "My account ****9012 belongs to Alice."
+    entities = normalize_openai_privacy_filter_outputs(
+        [
+            {"entity_group": "account_number", "word": " ****9012", "start": 10, "end": 19, "score": 0.96},
+            {"entity_group": "private_person", "word": "Alice", "start": 31, "end": 36, "score": 0.91},
+            {"entity_group": "secret", "word": "token", "start": None, "end": None, "score": 0.80},
+        ],
+        source_text=text,
+        score_threshold=0.5,
+    )
+
+    assert [entity["label"] for entity in entities] == ["ACCOUNT_NUMBER", "PRIVATE_PERSON", "SECRET"]
+    assert entities[0]["text"] == "****9012"
+    assert entities[0]["start"] == 11
+    assert entities[0]["end"] == 19
+
+
+def test_openai_privacy_filter_financial_policy_defaults_to_account_number_only():
+    assert is_openai_privacy_filter_financial_entity(normalize_entity("****9012", "ACCOUNT_NUMBER")) is True
+    assert is_openai_privacy_filter_financial_entity(normalize_entity("Alice", "PRIVATE_PERSON")) is False
+    assert is_openai_privacy_filter_financial_entity(normalize_entity("2026-01-01", "PRIVATE_DATE")) is False
+    assert is_openai_privacy_filter_financial_entity(normalize_entity("SGD 1,200", "MONEY")) is False
+
+
+def test_openai_privacy_filter_private_person_alone_is_not_financial_sensitive():
+    label, score = openai_privacy_filter_entities_to_sensitivity([normalize_entity("Alice", "PRIVATE_PERSON", 0.91, 0, 5)])
+
+    assert label == NON_SENSITIVE
+    assert score == 0.0
+
+
+def test_openai_privacy_filter_currency_amount_without_account_number_is_not_sensitive():
+    label, score = openai_privacy_filter_entities_to_sensitivity([normalize_entity("SGD 1,200", "MONEY", 0.99, 0, 9)])
+
+    assert label == NON_SENSITIVE
+    assert score == 0.0
+
+
+class FakeOpenAIPrivacyFilterDetector:
+    name = "fake-opf"
+    model_id = "fake-opf"
+    loading_time_s = 0.0
+    parameter_count = 0
+    artifact_storage_size_mb = 0.0
+
+    def __init__(self, mode="account_when_present"):
+        self.mode = mode
+        self.calls = []
+
+    def detect(self, text, language=None):
+        self.calls.append((text, language))
+        if self.mode == "person_only":
+            start = text.index("Alice") if "Alice" in text else 0
+            return [normalize_entity("Alice", "PRIVATE_PERSON", 0.92, start, start + 5)]
+        if self.mode == "money_only":
+            return [normalize_entity("SGD 1,200", "MONEY", 0.90, 0, 9)]
+        if "****9012" in text:
+            start = text.index("****9012")
+            return [normalize_entity("****9012", "ACCOUNT_NUMBER", 0.96, start, start + len("****9012"))]
+        return []
+
+
+class FakeGraniteGuardianRunner:
+    model_name = "fake-granite"
+    loading_time_s = 0.0
+    parameter_count = 0
+    artifact_storage_size_mb = 0.0
+
+    def __init__(self, raw_label="No"):
+        self.raw_label = raw_label
+        self.calls = []
+
+    def score_context_relevance(self, user_query, evidence):
+        self.calls.append((user_query, evidence))
+        risk = self.raw_label == "Yes"
+        return {
+            "risk_detected": risk,
+            "raw_label": self.raw_label,
+            "risk_probability": 0.83 if risk else 0.17,
+            "relevance_probability": 0.17 if risk else 0.83,
+            "confidence": "High",
+            "raw_output": f"{self.raw_label}<confidence>High</confidence>",
+        }
+
+
+def test_opf_granite_task_a_detects_account_number_only():
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=FakeGraniteGuardianRunner())
+    rows = [
+        anchor(text="Account ****9012 should be blocked.", row_id="a_account"),
+        anchor(label="benign", text="No identifier here.", row_id="a_benign"),
+    ]
+
+    predictions = model.predict_sensitivity(rows)
+
+    assert predictions[0].predicted_label == SENSITIVE
+    assert predictions[0].sensitivity_score == 0.96
+    assert predictions[0].metadata["financial_detected_labels"] == ["ACCOUNT_NUMBER"]
+    assert predictions[1].predicted_label == NON_SENSITIVE
+
+
+def test_opf_granite_task_a_private_person_does_not_make_sample_sensitive():
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector("person_only"), guardian_runner=FakeGraniteGuardianRunner())
+    prediction = model.predict_sensitivity([anchor(text="Alice mentioned a public budget article.")])[0]
+
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == NON_SENSITIVE
+    assert prediction.metadata["native_detected_labels"] == ["PRIVATE_PERSON"]
+    assert prediction.metadata["financial_detected_labels"] == []
+
+
+def test_opf_granite_task_a_money_without_account_number_is_non_sensitive():
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector("money_only"), guardian_runner=FakeGraniteGuardianRunner())
+    prediction = model.predict_sensitivity([anchor(label="non_private_financial", text="Public revenue was SGD 1,200.")])[0]
+
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == NON_SENSITIVE
+    assert prediction.metadata["financial_detected_labels"] == []
+
+
+def test_strict_opf_granite_gate_skips_granite_when_no_financial_pii():
+    detector = FakeOpenAIPrivacyFilterDetector("person_only")
+    runner = FakeGraniteGuardianRunner("No")
+    model = OpenAIPrivacyFilterGraniteModel(detector=detector, guardian_runner=runner)
+
+    prediction = model.predict_alignment([egress(text="Alice wrote a public status update.")])[0]
+
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == NON_SENSITIVE
+    assert prediction.alignment_score is None
+    assert runner.calls == []
+    assert prediction.metadata["granite_called"] is False
+    assert prediction.metadata["pipeline_gate"] == "no_financial_pii_detected"
+    assert model.granite_skipped_by_gate_count == 1
+
+
+def test_strict_opf_granite_yes_maps_to_misaligned_sensitive_without_oracle_fallback():
+    runner = FakeGraniteGuardianRunner("Yes")
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=runner)
+    row = egress("request_approval", text="Work update. Account ****9012 has a payment due.", carrier="work_note_tail")
+    row["financial_evidence"] = "ORACLE EVIDENCE MUST NOT BE USED"
+
+    prediction = model.predict_alignment([row])[0]
+
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == LABEL_MISALIGNED
+    assert prediction.alignment_score == 0.17
+    assert runner.calls
+    assert runner.calls[0][1] != row["financial_evidence"]
+    assert "Account ****9012 has a payment due." in runner.calls[0][1]
+    assert prediction.metadata["granite_raw_label"] == "Yes"
+    assert prediction.metadata["granite_context_relevance_yes_means_irrelevant"] is True
+
+
+def test_strict_opf_granite_no_maps_to_aligned_sensitive():
+    runner = FakeGraniteGuardianRunner("No")
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=runner)
+    row = egress("allow", text="Please include account ****9012 in the budget note.")
+
+    prediction = model.predict_alignment([row])[0]
+
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == LABEL_ALIGNED
+    assert prediction.alignment_score == 0.83
+    assert prediction.metadata["granite_raw_label"] == "No"
+
+
+def test_granite_context_relevance_mapping_is_negative_semantics():
+    yes_result = {"raw_label": "Yes"}
+    no_result = {"raw_label": "No"}
+
+    assert OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=FakeGraniteGuardianRunner("Yes")).predict_alignment(
+        [egress("request_approval", text="Account ****9012 should not go here.")]
+    )[0].predicted_label == LABEL_MISALIGNED
+    assert OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=FakeGraniteGuardianRunner("No")).predict_alignment(
+        [egress("allow", text="Account ****9012 should go here.")]
+    )[0].predicted_label == LABEL_ALIGNED
+    assert yes_result["raw_label"] == "Yes"
+    assert no_result["raw_label"] == "No"
+
+
+class RaisingDetector:
+    name = "raising-detector"
+
+    def detect(self, text, language=None):
+        raise AssertionError("oracle mode must not run the privacy filter detector")
+
+
+def test_oracle_opf_granite_uses_financial_evidence_without_detector_gate():
+    runner = FakeGraniteGuardianRunner("No")
+    model = OpenAIPrivacyFilterGraniteModel(detector=RaisingDetector(), guardian_runner=runner, oracle_evidence=True)
+    row = egress("allow", text="No account number in outgoing text.")
+    row["financial_evidence"] = "Account ****9012 appears only in oracle evidence."
+
+    prediction = model.predict_alignment([row])[0]
+
+    assert prediction.model_name == "granite_guardian_oracle_evidence"
+    assert prediction.status == STATUS_SUCCESS
+    assert prediction.predicted_label == LABEL_ALIGNED
+    assert runner.calls == [(row["user_intent"], row["financial_evidence"])]
+    assert prediction.metadata["oracle_evidence"] is True
+    assert prediction.metadata["evidence_source"] == "dataset_financial_evidence"
+    assert prediction.metadata["end_to_end_detector"] is False
+
+
+def test_oracle_opf_granite_task_a_is_unsupported():
+    model = OpenAIPrivacyFilterGraniteModel(detector=RaisingDetector(), guardian_runner=FakeGraniteGuardianRunner(), oracle_evidence=True)
+    prediction = model.predict_sensitivity([anchor()])[0]
+
+    assert prediction.status == STATUS_UNSUPPORTED
+    assert prediction.predicted_label is None
+    assert prediction.metadata["diagnostic_only"] is True
+
+
+def test_granite_output_parser_handles_decisions_confidence_whitespace_and_suffixes():
+    assert parse_granite_guardian_output("Yes")["raw_label"] == "Yes"
+    assert parse_granite_guardian_output("No")["risk_detected"] is False
+    assert parse_granite_guardian_output("  Yes<confidence>High</confidence>")["confidence"] == "High"
+    parsed = parse_granite_guardian_output("\nNo <confidence>Low</confidence> trailing text")
+    assert parsed["raw_label"] == "No"
+    assert parsed["confidence"] == "Low"
+
+
+class MalformedGraniteRunner:
+    model_name = "malformed-granite"
+
+    def score_context_relevance(self, user_query, evidence):
+        raise GraniteGuardianParseError("could not parse Granite Guardian decision token as Yes or No")
+
+
+def test_malformed_granite_output_is_marked_failed():
+    model = OpenAIPrivacyFilterGraniteModel(detector=FakeOpenAIPrivacyFilterDetector(), guardian_runner=MalformedGraniteRunner())
+    prediction = model.predict_alignment([egress(text="Account ****9012 should be checked.")])[0]
+
+    assert prediction.status == STATUS_FAILED
+    assert prediction.predicted_label is None
+    assert "could not parse" in prediction.error
+
+
+def test_granite_probability_uses_single_yes_no_token_logits():
+    class SingleTokenTokenizer:
+        def encode(self, text, add_special_tokens=False):
+            return {"Yes": [1], "No": [2]}[text]
+
+    risk, relevance = decision_probabilities_from_logits(SingleTokenTokenizer(), [[0.0, 2.0, 0.0]])
+
+    expected = math.exp(2.0) / (math.exp(2.0) + math.exp(0.0))
+    assert risk == pytest.approx(expected)
+    assert relevance == pytest.approx(1.0 - expected)
+
+
+def test_granite_probability_remains_none_when_decisions_are_not_single_tokens():
+    class MultiTokenTokenizer:
+        def encode(self, text, add_special_tokens=False):
+            return {"Yes": [1, 2], "No": [3]}[text]
+
+    risk, relevance = decision_probabilities_from_logits(MultiTokenTokenizer(), [[0.0, 2.0, 0.0, 1.0]])
+    parsed = parse_granite_guardian_output("Yes", risk_probability=risk, relevance_probability=relevance)
+
+    assert risk is None
+    assert relevance is None
+    assert parsed["raw_label"] == "Yes"
+    assert parsed["risk_probability"] is None
+    assert parsed["relevance_probability"] is None
+
+
+def test_granite_runner_handles_dict_chat_template_outputs():
+    class FakeShape:
+        shape = (1, 3)
+
+    class FakeTokenizer:
+        pad_token_id = 0
+        eos_token_id = 9
+
+        def apply_chat_template(self, messages, guardian_config, add_generation_prompt, return_tensors):
+            assert messages[-1]["role"] == "user"
+            assert guardian_config == {"risk_name": "context_relevance"}
+            assert add_generation_prompt is True
+            assert return_tensors == "pt"
+            return UserDict({"input_ids": FakeShape(), "attention_mask": FakeShape()})
+
+        def encode(self, text, add_special_tokens=False):
+            return {"Yes": [1], "No": [2]}[text]
+
+        def decode(self, tokens, skip_special_tokens=True):
+            assert tokens == [2]
+            return "No <confidence>Low</confidence>"
+
+    class FakeModel:
+        def __init__(self):
+            self.calls = []
+
+        def parameters(self):
+            return iter(())
+
+        def generate(self, **kwargs):
+            self.calls.append(kwargs)
+            assert "input_ids" in kwargs
+            assert "attention_mask" in kwargs
+            return SimpleNamespace(sequences=[[7, 8, 9, 2]], scores=[[[0.0, 0.0, 2.0]]])
+
+    runner = HuggingFaceGraniteGuardianRunner.__new__(HuggingFaceGraniteGuardianRunner)
+    runner.tokenizer = FakeTokenizer()
+    runner.model = FakeModel()
+    runner.max_new_tokens = 20
+
+    result = runner.score_context_relevance("send account details", "Account ****9012")
+
+    assert result["raw_label"] == "No"
+    assert result["risk_detected"] is False
+    assert result["confidence"] == "Low"
+    assert result["relevance_probability"] > result["risk_probability"]
+    assert runner.model.calls
+
+
+def test_openai_privacy_filter_offline_mode_passes_local_files_only(monkeypatch):
+    calls = []
+
+    class FakeTokenizer:
+        @classmethod
+        def from_pretrained(cls, model_id, **kwargs):
+            calls.append(("tokenizer", model_id, kwargs))
+            if kwargs.get("local_files_only") is not True:
+                raise AssertionError("offline loading must pass local_files_only=True")
+            return cls()
+
+    class FakeTokenClassifier:
+        @classmethod
+        def from_pretrained(cls, model_id, **kwargs):
+            calls.append(("model", model_id, kwargs))
+            if kwargs.get("local_files_only") is not True:
+                raise AssertionError("offline loading must pass local_files_only=True")
+            return cls()
+
+        def parameters(self):
+            return []
+
+    def fake_pipeline(*args, **kwargs):
+        return lambda text: []
+
+    monkeypatch.setitem(
+        sys.modules,
+        "transformers",
+        SimpleNamespace(AutoTokenizer=FakeTokenizer, AutoModelForTokenClassification=FakeTokenClassifier, pipeline=fake_pipeline),
+    )
+
+    detector = OpenAIPrivacyFilterDetector(model_id="fake-opf", offline=True, device="cpu")
+
+    assert detector.detect("hello") == []
+    assert [call[0] for call in calls] == ["tokenizer", "model"]
+
+
+def test_granite_guardian_offline_mode_passes_local_files_only(monkeypatch):
+    calls = []
+
+    class FakeTokenizer:
+        pad_token_id = 0
+        eos_token_id = 1
+
+        @classmethod
+        def from_pretrained(cls, model_id, **kwargs):
+            calls.append(("tokenizer", model_id, kwargs))
+            if kwargs.get("local_files_only") is not True:
+                raise AssertionError("offline loading must pass local_files_only=True")
+            return cls()
+
+    class FakeCausalLM:
+        @classmethod
+        def from_pretrained(cls, model_id, **kwargs):
+            calls.append(("model", model_id, kwargs))
+            if kwargs.get("local_files_only") is not True:
+                raise AssertionError("offline loading must pass local_files_only=True")
+            return cls()
+
+        def eval(self):
+            return None
+
+        def parameters(self):
+            return []
+
+    monkeypatch.setitem(
+        sys.modules,
+        "transformers",
+        SimpleNamespace(AutoTokenizer=FakeTokenizer, AutoModelForCausalLM=FakeCausalLM),
+    )
+
+    runner = HuggingFaceGraniteGuardianRunner(model_id="fake-granite", offline=True)
+
+    assert runner.model_name == "fake-granite"
+    assert [call[0] for call in calls] == ["tokenizer", "model"]
+
+
+def test_missing_opf_model_is_skipped_not_zero_scored(monkeypatch):
+    def unavailable_detector(*args, **kwargs):
+        raise ModelUnavailable("missing local OpenAI Privacy Filter files")
+
+    monkeypatch.setattr("sensitive_egress_poc.benchmark.opf_granite_adapter.OpenAIPrivacyFilterDetector", unavailable_detector)
+    model = OpenAIPrivacyFilterGraniteModel(guardian_runner=FakeGraniteGuardianRunner(), offline=True)
+
+    prediction = model.predict_sensitivity([anchor()])[0]
+
+    assert prediction.status == STATUS_SKIPPED
+    assert prediction.predicted_label is None
+    assert prediction.sensitivity_score is None
+    assert "missing local OpenAI Privacy Filter files" in prediction.error
 
 
 class FakeDetector:

@@ -62,6 +62,13 @@ class GenerationManifest(JsonMixin):
     private_subtypes: list[str]
     counts: dict[str, int]
     seed: int
+    grounding: dict[str, Any] | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        data = asdict(self)
+        if data.get("grounding") is None:
+            data.pop("grounding", None)
+        return data
 
 
 @dataclass

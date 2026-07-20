@@ -1,15 +1,15 @@
 {
   "centroid_query_similarity": {
     "model_name": "centroid_query_similarity",
-    "loading_time_s": 24.420057382434607,
-    "total_inference_time_s": 10.459073814563453,
-    "mean_latency_ms": 17.230764109659724,
-    "p50_latency_ms": 14.72228392958641,
-    "p95_latency_ms": 35.19766498357056,
-    "examples_per_second": 58.03573153435435,
+    "loading_time_s": 25.964585438370705,
+    "total_inference_time_s": 9.204251556657255,
+    "mean_latency_ms": 15.163511625464999,
+    "p50_latency_ms": 12.881274335086346,
+    "p95_latency_ms": 30.858460906893008,
+    "examples_per_second": 65.9477847018391,
     "successful_predictions": 607,
     "total_predictions": 607,
-    "peak_cpu_memory_mb": 2126.91015625,
+    "peak_cpu_memory_mb": 2023.09375,
     "peak_gpu_memory_mb": null,
     "parameter_count": null,
     "artifact_storage_size_mb": 0.11065101623535156,
@@ -21,92 +21,88 @@
       }
     }
   },
-  "pii_only": {
-    "model_name": "pii_only",
-    "loading_time_s": 4.656612873077393e-06,
-    "total_inference_time_s": 0.019271258264780045,
-    "mean_latency_ms": 0.04014845471829176,
-    "p50_latency_ms": 0.03563473001122475,
-    "p95_latency_ms": 0.07565789856016633,
-    "examples_per_second": 24907.558884063274,
-    "successful_predictions": 480,
-    "total_predictions": 607,
-    "peak_cpu_memory_mb": 2126.91015625,
-    "peak_gpu_memory_mb": null,
-    "parameter_count": null,
-    "artifact_storage_size_mb": null,
-    "metadata": {
-      "parameter_count": null,
-      "artifact_storage_size_mb": null,
-      "method_config": {
-        "class": "PiiOnlyModel"
-      }
-    }
-  },
-  "pii_plus_reranker": {
-    "model_name": "pii_plus_reranker",
-    "loading_time_s": 6.681665156036615,
-    "total_inference_time_s": 1.9069103188812733,
-    "mean_latency_ms": 3.141532650545755,
-    "p50_latency_ms": 0.04065223038196564,
-    "p95_latency_ms": 16.723626572638747,
-    "examples_per_second": 318.3159658793543,
+  "openai_privacy_filter_plus_granite_guardian": {
+    "model_name": "openai_privacy_filter_plus_granite_guardian",
+    "loading_time_s": 6.203875148668885,
+    "total_inference_time_s": 226.08395906817168,
+    "mean_latency_ms": 372.4612175752416,
+    "p50_latency_ms": 313.8025291264057,
+    "p95_latency_ms": 1276.3126565143461,
+    "examples_per_second": 2.684843287873288,
     "successful_predictions": 607,
     "total_predictions": 607,
-    "peak_cpu_memory_mb": 2129.91015625,
+    "peak_cpu_memory_mb": 11007.73046875,
     "peak_gpu_memory_mb": null,
-    "parameter_count": null,
+    "parameter_count": 4698280337,
     "artifact_storage_size_mb": null,
     "metadata": {
-      "parameter_count": null,
+      "parameter_count": 4698280337,
       "artifact_storage_size_mb": null,
       "method_config": {
-        "class": "PiiRerankerModel"
-      }
+        "class": "OpenAIPrivacyFilterGraniteModel"
+      },
+      "components": {
+        "privacy_filter": {
+          "model": "openai/privacy-filter",
+          "parameter_count": 1399486865,
+          "loading_time_s": 3.799284441396594
+        },
+        "granite_guardian": {
+          "model": "ibm-granite/granite-guardian-3.2-3b-a800m",
+          "parameter_count": 3298793472,
+          "loading_time_s": 2.4037277149036527,
+          "load_in_4bit": false,
+          "device": "cpu",
+          "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+        }
+      },
+      "granite_invocation_count": 23,
+      "granite_skipped_by_gate_count": 57,
+      "oracle_evidence": false,
+      "end_to_end_detector": true,
+      "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
     }
   },
-  "capid": {
-    "model_name": "capid",
-    "loading_time_s": 2.212822437286377e-06,
-    "total_inference_time_s": null,
-    "mean_latency_ms": null,
-    "p50_latency_ms": null,
-    "p95_latency_ms": null,
-    "examples_per_second": null,
-    "successful_predictions": 0,
+  "granite_guardian_oracle_evidence": {
+    "model_name": "granite_guardian_oracle_evidence",
+    "loading_time_s": 2.295705744996667,
+    "total_inference_time_s": 121.43403242621571,
+    "mean_latency_ms": 956.1734836709899,
+    "p50_latency_ms": 948.9487856626511,
+    "p95_latency_ms": 970.1049572788179,
+    "examples_per_second": 1.0458353186711988,
+    "successful_predictions": 127,
     "total_predictions": 607,
-    "peak_cpu_memory_mb": 2129.91015625,
+    "peak_cpu_memory_mb": 17317.73046875,
     "peak_gpu_memory_mb": null,
-    "parameter_count": null,
+    "parameter_count": 3298793472,
     "artifact_storage_size_mb": null,
     "metadata": {
-      "parameter_count": null,
+      "parameter_count": 3298793472,
       "artifact_storage_size_mb": null,
       "method_config": {
-        "class": "CapidAdapter"
-      }
-    }
-  },
-  "llm_judge": {
-    "model_name": "llm_judge",
-    "loading_time_s": 9.143725037574768e-06,
-    "total_inference_time_s": null,
-    "mean_latency_ms": null,
-    "p50_latency_ms": null,
-    "p95_latency_ms": null,
-    "examples_per_second": null,
-    "successful_predictions": 0,
-    "total_predictions": 607,
-    "peak_cpu_memory_mb": 2129.91015625,
-    "peak_gpu_memory_mb": null,
-    "parameter_count": null,
-    "artifact_storage_size_mb": null,
-    "metadata": {
-      "parameter_count": null,
-      "artifact_storage_size_mb": null,
-      "method_config": {
-        "class": "LlmJudgeModel"
-      }
+        "class": "OpenAIPrivacyFilterGraniteModel"
+      },
+      "components": {
+        "privacy_filter": {
+          "model": "openai/privacy-filter",
+          "parameter_count": null,
+          "loading_time_s": null
+        },
+        "granite_guardian": {
+          "model": "ibm-granite/granite-guardian-3.2-3b-a800m",
+          "parameter_count": 3298793472,
+          "loading_time_s": 2.2946068355813622,
+          "load_in_4bit": false,
+          "device": "cpu",
+          "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
+        }
+      },
+      "granite_invocation_count": 80,
+      "granite_skipped_by_gate_count": 0,
+      "oracle_evidence": true,
+      "end_to_end_detector": false,
+      "language_limitation": "Granite Guardian 3.2 is trained and tested primarily in English; samples are passed as-is without translation."
     }
   }
 }

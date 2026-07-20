@@ -51,6 +51,58 @@ Outputs:
 
 The train/validation split groups by `meta.skeleton_id`, so rows created from the same template skeleton do not leak across splits.
 
+
+## Optional Real-World Grounding
+
+Grounding is opt-in. The default health generator remains synthetic-only. For the full architecture, privacy transformations, generic JSONL schema, licensing notes, and limitations, see [README_grounding.md](README_grounding.md).
+
+Workflow:
+
+1. Acquire public or deidentified health datasets manually.
+2. Place them under `data/grounding/raw/`.
+3. Prepare normalized grounding JSONL under `data/grounding/processed/`.
+4. Validate grounding records.
+5. Generate hybrid anchors and mixed egress.
+6. Run dataset quality checks.
+7. Build centroids.
+8. Evaluate on source-group-isolated validation data.
+
+Prepare health grounding files:
+
+```bash
+PYTHONPATH=src uv run python -m egress_grounding.cli_prepare --dataset nhanes --input data/grounding/raw/nhanes_lab.csv --output data/grounding/processed/nhanes.jsonl
+PYTHONPATH=src uv run python -m egress_grounding.cli_prepare --dataset pubmed --input data/grounding/raw/pubmed.xml --output data/grounding/processed/pubmed.jsonl
+PYTHONPATH=src uv run python -m egress_grounding.cli_validate --input data/grounding/processed/nhanes.jsonl --input data/grounding/processed/pubmed.jsonl
+```
+
+Generate grounded health data:
+
+```bash
+PYTHONPATH=src uv run python -m health_egress_poc.cli_generate \
+  --out-dir data/health_generated \
+  --private 1000 --hard-negative 500 --benign 500 --mixed 300 \
+  --grounding data/grounding/processed/nhanes.jsonl \
+  --grounding data/grounding/processed/pubmed.jsonl \
+  --grounding-mode hybrid \
+  --grounding-ratio 0.35
+```
+
+Then run quality checks and centroids as usual:
+
+```bash
+PYTHONPATH=src uv run python -m sensitive_egress_poc.dataset_quality \
+  --input data/health_generated/anchors_train.jsonl \
+  --report-out data/health_generated/quality_report.json \
+  --checks redundancy,self_bleu,safety
+
+PYTHONPATH=src uv run python -m health_egress_poc.cli_centroid \
+  --train data/health_generated/anchors_train.jsonl \
+  --validation data/health_generated/anchors_validation.jsonl \
+  --out data/health_generated/centroids.json
+```
+
+Grounded rows remain synthetic and use `source=grounded_synthetic` or `source=grounded_public_negative`; provenance is stored only under `meta.grounding`. The split keeps all rows with the same `grounding:{dataset}:{source_group_id}` in one split.
+
 ## Optional Health LLM Augmentation
 
 Dry-run augmentation is deterministic and does not call external APIs:

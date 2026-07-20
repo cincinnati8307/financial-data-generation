@@ -1,0 +1,11 @@
+{
+  "dataset": "generic_jsonl",
+  "input": "tests/fixtures/grounding/generic_valid.jsonl",
+  "output": "data/grounding/processed/generic.jsonl",
+  "seed": 1337,
+  "limit": null,
+  "records": 4,
+  "contains_real_personal_data": false,
+  "raw_text_copied": false,
+  "grounded_in_public_or_deidentified_data": true
+}

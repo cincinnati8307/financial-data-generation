@@ -1,0 +1,4 @@
+text,category
+"What is the exchange rate today for euros?",cash_withdrawal
+"Can I read about supported currencies?",cash_withdrawal_card
+"This artificial utterance should not be copied.",exchange_rate

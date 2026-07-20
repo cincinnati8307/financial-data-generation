@@ -1,26 +1,10 @@
 {
-  "pii_only": {
+  "granite_guardian_oracle_evidence": {
     "statuses": {
-      "unsupported": 127
+      "unsupported": 480
     },
     "reasons": {
-      "pure PII detection does not evaluate query alignment": 127
-    }
-  },
-  "capid": {
-    "statuses": {
-      "skipped": 607
-    },
-    "reasons": {
-      "CAPID model is not configured; pass --capid-model to enable this optional baseline": 607
-    }
-  },
-  "llm_judge": {
-    "statuses": {
-      "skipped": 607
-    },
-    "reasons": {
-      "LLM judge disabled; pass --llm-provider openai-compatible or local_hf to enable": 607
+      "oracle evidence variant is an alignment-only diagnostic and does not run Task A": 480
     }
   }
 }

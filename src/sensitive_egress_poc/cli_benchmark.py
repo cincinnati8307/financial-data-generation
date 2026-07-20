@@ -20,6 +20,7 @@ from .benchmark.dataset import (
 )
 from .benchmark.llm_judge import LlmJudgeModel
 from .benchmark.metrics import alignment_metrics, binary_sensitivity_metrics, build_subgroup_metrics, write_subgroup_metrics_csv
+from .benchmark.opf_granite_adapter import OpenAIPrivacyFilterGraniteModel
 from .benchmark.pii_adapter import PiiOnlyModel
 from .benchmark.pii_reranker import PiiRerankerModel
 from .benchmark.plots import generate_plots
@@ -33,6 +34,8 @@ METHOD_ALIASES = {
     "pii_reranker": "pii_reranker",
     "capid": "capid",
     "llm_judge": "llm_judge",
+    "opf_granite": "opf_granite",
+    "opf_granite_oracle": "opf_granite_oracle",
 }
 
 
@@ -55,7 +58,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cache-dir")
     parser.add_argument("--pii-backend", default="regex")
     parser.add_argument("--pii-model")
+    parser.add_argument("--openai-privacy-filter-model", default="openai/privacy-filter")
+    parser.add_argument("--openai-privacy-filter-threshold", type=float, default=0.5)
     parser.add_argument("--reranker-model", default=None)
+    parser.add_argument("--granite-guardian-model", default="ibm-granite/granite-guardian-3.2-3b-a800m")
+    parser.add_argument("--granite-max-new-tokens", type=int, default=20)
+    parser.add_argument("--granite-load-in-4bit", action="store_true")
+    parser.add_argument("--granite-trust-remote-code", action="store_true")
     parser.add_argument("--capid-model")
     parser.add_argument("--capid-base-model")
     parser.add_argument("--capid-load-in-4bit", action="store_true")
@@ -81,18 +90,64 @@ def build_models(args: argparse.Namespace, egress_train: list[dict[str, Any]]) -
                 )
             )
         elif method == "pii":
-            models.append(PiiOnlyModel(backend=args.pii_backend, model_id=args.pii_model, offline=args.offline))
+            pii_model = args.pii_model
+            if (args.pii_backend or "").lower() == "openai_privacy_filter" and not pii_model:
+                pii_model = args.openai_privacy_filter_model
+            models.append(
+                PiiOnlyModel(
+                    backend=args.pii_backend,
+                    model_id=pii_model,
+                    offline=args.offline,
+                    device=args.device,
+                    cache_dir=args.cache_dir,
+                    score_threshold=args.openai_privacy_filter_threshold,
+                )
+            )
         elif method == "pii_reranker":
+            pii_model = args.pii_model
+            if (args.pii_backend or "").lower() == "openai_privacy_filter" and not pii_model:
+                pii_model = args.openai_privacy_filter_model
             models.append(
                 PiiRerankerModel(
                     egress_train_rows=egress_train,
                     pii_backend=args.pii_backend,
-                    pii_model=args.pii_model,
+                    pii_model=pii_model,
                     reranker_model=args.reranker_model,
                     device=args.device,
                     offline=args.offline,
                     batch_size=args.batch_size,
                     cache_dir=args.cache_dir,
+                    pii_score_threshold=args.openai_privacy_filter_threshold,
+                )
+            )
+        elif method == "opf_granite":
+            models.append(
+                OpenAIPrivacyFilterGraniteModel(
+                    privacy_filter_model=args.openai_privacy_filter_model,
+                    granite_model=args.granite_guardian_model,
+                    privacy_filter_threshold=args.openai_privacy_filter_threshold,
+                    device=args.device,
+                    offline=args.offline,
+                    cache_dir=args.cache_dir,
+                    granite_max_new_tokens=args.granite_max_new_tokens,
+                    granite_load_in_4bit=args.granite_load_in_4bit,
+                    granite_trust_remote_code=args.granite_trust_remote_code,
+                    oracle_evidence=False,
+                )
+            )
+        elif method == "opf_granite_oracle":
+            models.append(
+                OpenAIPrivacyFilterGraniteModel(
+                    privacy_filter_model=args.openai_privacy_filter_model,
+                    granite_model=args.granite_guardian_model,
+                    privacy_filter_threshold=args.openai_privacy_filter_threshold,
+                    device=args.device,
+                    offline=args.offline,
+                    cache_dir=args.cache_dir,
+                    granite_max_new_tokens=args.granite_max_new_tokens,
+                    granite_load_in_4bit=args.granite_load_in_4bit,
+                    granite_trust_remote_code=args.granite_trust_remote_code,
+                    oracle_evidence=True,
                 )
             )
         elif method == "capid":
@@ -191,7 +246,13 @@ def main() -> None:
         "cache_dir": args.cache_dir,
         "pii_backend": args.pii_backend,
         "pii_model": args.pii_model,
+        "openai_privacy_filter_model": args.openai_privacy_filter_model,
+        "openai_privacy_filter_threshold": args.openai_privacy_filter_threshold,
         "reranker_model": args.reranker_model,
+        "granite_guardian_model": args.granite_guardian_model,
+        "granite_max_new_tokens": args.granite_max_new_tokens,
+        "granite_load_in_4bit": args.granite_load_in_4bit,
+        "granite_trust_remote_code": args.granite_trust_remote_code,
         "capid_model": args.capid_model,
         "capid_base_model": args.capid_base_model,
         "capid_load_in_4bit": args.capid_load_in_4bit,
@@ -230,6 +291,7 @@ def main() -> None:
                 "parameter_count": getattr(model, "parameter_count", None),
                 "artifact_storage_size_mb": getattr(model, "artifact_storage_size_mb", None),
                 "method_config": {"class": model.__class__.__name__},
+                **(getattr(model, "runtime_metadata", {}) or {}),
             },
         )
 

@@ -1,0 +1,87 @@
+{
+  "description": "Synthetic Chinese-nuance financial-private data for egress detection.",
+  "contains_real_personal_data": false,
+  "labels": [
+    "financial_private",
+    "non_private_financial",
+    "benign"
+  ],
+  "private_subtypes": [
+    "bank_balance",
+    "transaction",
+    "salary_income",
+    "card_payment",
+    "loan_debt",
+    "invoice_receipt",
+    "investment",
+    "tax",
+    "wallet_payment"
+  ],
+  "counts": {
+    "anchors_train": 288,
+    "anchors_validation": 72,
+    "egress_train": 49,
+    "egress_validation": 11
+  },
+  "seed": 20260720,
+  "grounding": {
+    "mode": "hybrid",
+    "requested_ratio": 0.5,
+    "actual_ratio": 0.3061,
+    "inputs": [
+      "data/grounding/processed/cfpb.jsonl",
+      "data/grounding/processed/banking77.jsonl",
+      "data/grounding/processed/berka.jsonl",
+      "data/grounding/processed/generic.jsonl"
+    ],
+    "datasets": [
+      "banking77",
+      "berka",
+      "cfpb",
+      "generic_jsonl"
+    ],
+    "grounded_counts": {
+      "grounded_synthetic": 45,
+      "grounded_public_negative": 48,
+      "synthetic_mixed": 8
+    },
+    "fallback_counts": {
+      "financial_private:invoice_receipt": 13,
+      "financial_private:wallet_payment": 14,
+      "financial_private:salary_income": 14,
+      "financial_private:tax": 14,
+      "financial_private:investment": 11
+    },
+    "eligible_counts": {
+      "financial_private:bank_balance": 26,
+      "financial_private:transaction": 25,
+      "financial_private:salary_income": 28,
+      "financial_private:card_payment": 26,
+      "financial_private:loan_debt": 28,
+      "financial_private:invoice_receipt": 27,
+      "financial_private:investment": 29,
+      "financial_private:tax": 26,
+      "financial_private:wallet_payment": 25,
+      "non_private_financial:*": 90
+    },
+    "attempt_counts": {
+      "financial_private:bank_balance": 13,
+      "financial_private:transaction": 12,
+      "financial_private:card_payment": 12,
+      "financial_private:loan_debt": 16,
+      "financial_private:invoice_receipt": 13,
+      "financial_private:wallet_payment": 14,
+      "financial_private:salary_income": 14,
+      "financial_private:tax": 14,
+      "financial_private:investment": 11,
+      "non_private_financial:*": 48
+    },
+    "source_role_counts": {
+      "private_candidate": 22,
+      "distribution": 31,
+      "public_negative": 48
+    },
+    "raw_text_copied": false,
+    "grounded_in_public_or_deidentified_data": true
+  }
+}

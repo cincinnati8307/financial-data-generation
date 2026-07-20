@@ -1,0 +1,11 @@
+{
+  "dataset": "pubmed",
+  "input": "tests/fixtures/grounding/pubmed_sample.xml",
+  "output": "data/grounding/processed/pubmed.jsonl",
+  "seed": 1337,
+  "limit": null,
+  "records": 2,
+  "contains_real_personal_data": false,
+  "raw_text_copied": false,
+  "grounded_in_public_or_deidentified_data": true
+}

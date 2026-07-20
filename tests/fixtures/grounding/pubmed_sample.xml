@@ -1,0 +1,24 @@
+<PubmedArticleSet>
+  <PubmedArticle>
+    <MedlineCitation>
+      <PMID>123456</PMID>
+      <Article>
+        <ArticleTitle>Population diabetes prevention trial fixture title</ArticleTitle>
+        <Abstract>
+          <AbstractText>This artificial public abstract discusses HbA1c and diabetes prevention, and must not be copied.</AbstractText>
+        </Abstract>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+  <PubmedArticle>
+    <MedlineCitation>
+      <PMID>123457</PMID>
+      <Article>
+        <ArticleTitle>Vaccine uptake in a public health campaign</ArticleTitle>
+        <Abstract>
+          <AbstractText>This artificial abstract discusses booster communication at population level.</AbstractText>
+        </Abstract>
+      </Article>
+    </MedlineCitation>
+  </PubmedArticle>
+</PubmedArticleSet>

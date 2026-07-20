@@ -1,0 +1,1 @@
+{"id":"bad","dataset":"generic_jsonl","domain":"financial","role":"private_candidate","label":"financial_private","subtype":"bank_balance","source_group_id":"grp_bad","facts":{"raw_text":"this should fail"},"region":"global","tags":[],"meta":{}}
