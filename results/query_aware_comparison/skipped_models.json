@@ -1,0 +1,18 @@
+{
+  "granite_guardian_oracle_evidence": {
+    "statuses": {
+      "unsupported": 480
+    },
+    "reasons": {
+      "oracle evidence variant is an alignment-only diagnostic and does not run Task A": 480
+    }
+  },
+  "pii_only": {
+    "statuses": {
+      "unsupported": 127
+    },
+    "reasons": {
+      "pure PII detection does not evaluate query alignment": 127
+    }
+  }
+}
