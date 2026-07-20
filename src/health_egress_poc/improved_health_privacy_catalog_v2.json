@@ -1,0 +1,770 @@
+{
+  "version": "health_privacy_catalog_v2",
+  "language": "zh-Hans",
+  "purpose": "Generate synthetic Simplified Chinese mixed-context examples for classifying whether text contains private health data.",
+  "label_schema": {
+    "contains_private_health": {
+      "type": "boolean",
+      "definition": "True if the text reveals an individual's health condition, diagnosis, medication, test result, appointment, medical bill/claim, vaccination record, wearable/vital data, mental health state, or medical document."
+    },
+    "health_privacy_subtype": [
+      "diagnosis_condition",
+      "symptom_history",
+      "medication_prescription",
+      "lab_result",
+      "appointment_visit",
+      "insurance_claim",
+      "medical_bill",
+      "wearable_vitals",
+      "vaccination_record",
+      "mental_health",
+      "medical_document",
+      "family_health"
+    ],
+    "contains_other_private": {
+      "type": "boolean",
+      "definition": "True if the text contains non-health sensitive data such as finance, identity, address, account, work confidential data, or credentials."
+    },
+    "content_class": [
+      "private_health",
+      "non_private_health",
+      "benign",
+      "other_private_non_health"
+    ],
+    "recipient_intent_class": [
+      "authorized_health_sharing",
+      "unrelated_egress_possible_leak",
+      "public_or_general_discussion",
+      "non_health_task"
+    ],
+    "recommended_egress_action": [
+      "allow",
+      "review",
+      "block"
+    ],
+    "important_rule": "For centroid/content classification, accidental paste of private health payload into a work message must still have contains_private_health=true. Intent is a separate field."
+  },
+  "entity_pools": {
+    "clinics": [
+      "莱佛士诊所",
+      "Healthway Medical",
+      "OneCare Clinic",
+      "国大医院门诊",
+      "社区诊所",
+      "Parkway Clinic",
+      "家庭医生诊所",
+      "综合诊所",
+      "公司合作诊所",
+      "线上问诊平台"
+    ],
+    "hospitals": [
+      "新加坡中央医院",
+      "国大医院",
+      "陈笃生医院",
+      "竹脚妇幼医院",
+      "仁心医院",
+      "综合医院",
+      "复诊中心",
+      "专科门诊",
+      "急诊中心"
+    ],
+    "insurers": [
+      "AIA",
+      "Prudential",
+      "Great Eastern",
+      "Integrated Shield Plan",
+      "公司保险",
+      "商业医保",
+      "员工福利保险",
+      "医疗理赔部门"
+    ],
+    "medications": [
+      "二甲双胍",
+      "氨氯地平",
+      "阿托伐他汀",
+      "沙丁胺醇吸入器",
+      "抗过敏药",
+      "止痛药",
+      "抗生素",
+      "胃药",
+      "舍曲林",
+      "褪黑素",
+      "胰岛素",
+      "抗焦虑药"
+    ],
+    "conditions": [
+      "高血压",
+      "二型糖尿病",
+      "哮喘",
+      "偏头痛",
+      "湿疹",
+      "胃炎",
+      "焦虑症状",
+      "睡眠障碍",
+      "甲状腺结节",
+      "脂肪肝",
+      "贫血",
+      "过敏性鼻炎"
+    ],
+    "symptoms": [
+      "胸闷",
+      "持续咳嗽",
+      "头晕",
+      "胃痛",
+      "心悸",
+      "失眠",
+      "皮疹",
+      "低烧",
+      "呼吸困难",
+      "情绪低落"
+    ],
+    "tests": [
+      "糖化血红蛋白",
+      "低密度胆固醇",
+      "肝功能ALT",
+      "甲状腺TSH",
+      "血常规",
+      "尿检",
+      "C反应蛋白",
+      "血压",
+      "空腹血糖",
+      "心电图",
+      "CT检查",
+      "核磁共振"
+    ],
+    "lab_values": [
+      "5.8%",
+      "7.1%",
+      "120/80",
+      "3.4",
+      "正常范围边缘",
+      "偏高",
+      "阴性",
+      "阳性",
+      "13.5 mmol/L",
+      "160/100",
+      "240 mg/dL",
+      "异常阴影"
+    ],
+    "vaccines": [
+      "流感疫苗",
+      "新冠加强针",
+      "HPV疫苗",
+      "乙肝疫苗",
+      "Tdap疫苗",
+      "MMR疫苗"
+    ],
+    "masked_refs": [
+      "patient ID ****1234",
+      "MRN ****5678",
+      "病历号 ****2468",
+      "ref ending 7788",
+      "患者编号尾号9012",
+      "报告编号****3344"
+    ],
+    "dates": [
+      "3月5日",
+      "4月18日",
+      "5月20日",
+      "6月30日",
+      "下周二",
+      "本周五",
+      "明天下午",
+      "下个月初"
+    ],
+    "time_slots": [
+      "09:30",
+      "11:00",
+      "14:15",
+      "16:00",
+      "上午十点",
+      "下午三点半"
+    ],
+    "amount": [
+      "S$38.50",
+      "S$120",
+      "S$480.75",
+      "人民币320元",
+      "¥880",
+      "SGD 1,250",
+      "S$2,400"
+    ],
+    "heart_rates": [
+      "58",
+      "72",
+      "96",
+      "108",
+      "120"
+    ],
+    "sleep_hours": [
+      "4.5",
+      "5",
+      "6.2",
+      "7",
+      "8"
+    ],
+    "blood_pressures": [
+      "118/76",
+      "130/85",
+      "145/95",
+      "160/100"
+    ],
+    "glucoses": [
+      "5.6",
+      "7.8",
+      "10.2",
+      "13.5"
+    ],
+    "scores": [
+      "3",
+      "5",
+      "7",
+      "9"
+    ],
+    "family_members": [
+      "妈妈",
+      "爸爸",
+      "女朋友",
+      "孩子",
+      "室友",
+      "伴侣"
+    ],
+    "document_types": [
+      "化验报告",
+      "出院小结",
+      "处方单",
+      "医疗账单",
+      "理赔表",
+      "疫苗证明",
+      "影像报告",
+      "心理咨询记录"
+    ],
+    "non_health_private": [
+      "银行卡余额是S$4,230",
+      "护照号码尾号7788",
+      "家门密码是2580",
+      "公司VPN验证码是493102",
+      "租房合同里有我的住址",
+      "信用卡账单今天到期",
+      "工资单显示本月收入S$5,800"
+    ],
+    "benign_payload": [
+      "会议改到下午三点",
+      "代码审查已经完成",
+      "今天要买鸡蛋和牛奶",
+      "部署状态显示绿色",
+      "文档有三处需要修改",
+      "周五前提交项目更新"
+    ]
+  },
+  "private_scenarios": {
+    "diagnosis_condition": [
+      {
+        "id": "confirmed_diagnosis_self",
+        "templates": [
+          "医生说我这次诊断是{condition}，记录在{masked_ref}。",
+          "复诊摘要写着：我的主要诊断为{condition}，下次需要带报告。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "diagnosis_condition"
+        }
+      },
+      {
+        "id": "diagnosis_in_record",
+        "templates": [
+          "健康档案新增了{condition}，来源是{hospital}的检查记录。",
+          "出院小结写着主要诊断为{condition}，关联{masked_ref}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "diagnosis_condition"
+        }
+      }
+    ],
+    "symptom_history": [
+      {
+        "id": "personal_symptom_followup",
+        "templates": [
+          "我最近一直有{symptom}，医生让我观察到{date}再复诊。",
+          "私人健康备注：这周{symptom}更明显，准备预约{clinic}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "symptom_history"
+        }
+      },
+      {
+        "id": "family_symptom_note",
+        "templates": [
+          "{family_member}最近{symptom}，我帮忙记录给医生看。",
+          "家庭群健康备注：{family_member}有{symptom}，{date}去{clinic}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "family_health"
+        }
+      }
+    ],
+    "medication_prescription": [
+      {
+        "id": "prescription_dosage",
+        "templates": [
+          "医生给我开了{medication}，一天两次，处方关联{masked_ref}。",
+          "药单写着{medication}继续服用，复诊时再确认剂量。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "medication_prescription"
+        }
+      },
+      {
+        "id": "side_effect_or_refill",
+        "templates": [
+          "吃{medication}后有点不舒服，我准备问{clinic}能不能换药。",
+          "药房提醒我{medication}可以领取了，处方号是{masked_ref}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "medication_prescription"
+        }
+      }
+    ],
+    "lab_result": [
+      {
+        "id": "lab_value_self",
+        "templates": [
+          "我的{test_name}结果出来了，数值是{lab_value}。",
+          "化验单摘要：{test_name}={lab_value}，来自{hospital}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "lab_result"
+        }
+      },
+      {
+        "id": "abnormal_followup",
+        "templates": [
+          "医生让我因为{test_name}结果{lab_value}再做一次复查。",
+          "Health app提醒我的{test_name}结果{lab_value}，需要联系医生。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "lab_result"
+        }
+      }
+    ],
+    "appointment_visit": [
+      {
+        "id": "clinic_appointment",
+        "templates": [
+          "我在{clinic}的复诊预约是{date} {time_slot}。",
+          "下次看医生排在{date}，诊所是{clinic}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "appointment_visit"
+        }
+      },
+      {
+        "id": "specialist_or_therapy_booking",
+        "templates": [
+          "专科门诊排到了{date} {time_slot}，医院是{hospital}。",
+          "心理咨询预约排在{date} {time_slot}，备注是睡眠和焦虑。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "appointment_visit"
+        }
+      }
+    ],
+    "insurance_claim": [
+      {
+        "id": "claim_status",
+        "templates": [
+          "我的{insurer}理赔提交了，claim amount是{amount}。",
+          "保险app显示我的门诊claim还在审核，金额{amount}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "contains_other_private": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "insurance_claim"
+        }
+      },
+      {
+        "id": "claim_document_request",
+        "templates": [
+          "{insurer}要求补交我的化验和账单材料，编号{masked_ref}。",
+          "预授权申请提交给{insurer}，诊断材料来自{hospital}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "contains_other_private": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "insurance_claim"
+        }
+      }
+    ],
+    "medical_bill": [
+      {
+        "id": "bill_receipt",
+        "templates": [
+          "这次{clinic}账单是{amount}，我先自己付了。",
+          "收据照片OCR：{clinic} total {amount}, patient {masked_ref}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "contains_other_private": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "medical_bill"
+        }
+      },
+      {
+        "id": "reimbursement_packet",
+        "templates": [
+          "报销包里放了{clinic}账单{amount}和处方。",
+          "医院账单{amount}申请分期，病历关联{masked_ref}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "contains_other_private": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "medical_bill"
+        }
+      }
+    ],
+    "wearable_vitals": [
+      {
+        "id": "watch_vitals",
+        "templates": [
+          "昨晚手表记录静息心率{heart_rate} bpm，睡眠{sleep_hours}小时。",
+          "Health app显示今天血压{blood_pressure}，我有点担心。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "wearable_vitals"
+        }
+      },
+      {
+        "id": "glucose_or_alert",
+        "templates": [
+          "我的血糖记录是{glucose} mmol/L，饭后两小时测的。",
+          "手表提醒昨晚血氧和心率异常，HR peak {heart_rate}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "wearable_vitals"
+        }
+      }
+    ],
+    "vaccination_record": [
+      {
+        "id": "vaccine_record",
+        "templates": [
+          "我打了{vaccine}，接种记录在{masked_ref}。",
+          "免疫证明显示我在{date}接种了{vaccine}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "vaccination_record"
+        }
+      },
+      {
+        "id": "work_or_school_vaccine_proof",
+        "templates": [
+          "公司要疫苗证明，我的{vaccine}日期是{date}。",
+          "学校要提交{vaccine}记录，我的接种日期是{date}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "vaccination_record"
+        }
+      }
+    ],
+    "mental_health": [
+      {
+        "id": "therapy_or_mood",
+        "templates": [
+          "心理咨询师记录我最近焦虑评分{score}/10。",
+          "我这周情绪低落，咨询预约在{date}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "mental_health"
+        }
+      },
+      {
+        "id": "private_mental_health_note",
+        "templates": [
+          "私人心理备注：这周要复盘coping plan和焦虑触发点。",
+          "精神科复诊提到{medication}和睡眠情况，关联{masked_ref}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "mental_health"
+        }
+      }
+    ],
+    "medical_document": [
+      {
+        "id": "document_attachment",
+        "templates": [
+          "这个附件是我的{document_type}，不要发给无关的人。",
+          "OCR结果显示：{document_type}，{masked_ref}，{test_name}={lab_value}。"
+        ],
+        "labels": {
+          "contains_private_health": true,
+          "content_class": "private_health",
+          "health_privacy_subtype": "medical_document"
+        }
+      }
+    ]
+  },
+  "negative_scenarios": {
+    "non_private_health": [
+      {
+        "id": "medical_knowledge",
+        "templates": [
+          "糖尿病是一种常见慢性病，通常和胰岛素功能异常有关。",
+          "二甲双胍通常用于治疗二型糖尿病，但这里没有任何个人用药记录。",
+          "这篇文章介绍高血压的常见风险因素和生活方式建议。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "non_private_health"
+        }
+      },
+      {
+        "id": "public_health_policy",
+        "templates": [
+          "卫生部发布流感疫苗接种建议，内容不涉及个人病历。",
+          "社区健康筛查活动面向所有居民开放。",
+          "公司wellness policy建议员工自行预约疫苗，不收集个人记录。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "non_private_health"
+        }
+      },
+      {
+        "id": "deidentified_or_aggregate",
+        "templates": [
+          "报告只展示去标识化再入院率统计，没有患者明细。",
+          "Dashboard显示每个部门的平均化验周转时间，不包含个人行数据。",
+          "Demo使用synthetic patient A和placeholder字段，不是真实病历。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "non_private_health"
+        }
+      },
+      {
+        "id": "health_privacy_discussion",
+        "templates": [
+          "患者隐私保护是医疗系统的重要原则。",
+          "医院需要保护患者的数据安全，但这句话没有具体病历内容。",
+          "HR说明如何提交医疗理赔，但提醒员工不要粘贴真实记录。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "non_private_health"
+        }
+      }
+    ],
+    "benign": [
+      {
+        "id": "software_health_terms",
+        "templates": [
+          "Kubernetes liveness health check returned success.",
+          "Service health dashboard is green after deployment.",
+          "The cache health metric is sampled every30秒。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "benign"
+        }
+      },
+      {
+        "id": "daily_work_life",
+        "templates": [
+          "会议从下午三点开始，请周五前review这个draft。",
+          "晚上记得买鸡蛋、青菜和牛奶。",
+          "JSON parser要处理空数组和null值。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": false,
+          "content_class": "benign"
+        }
+      }
+    ],
+    "other_private_non_health": [
+      {
+        "id": "financial_or_identity_private",
+        "templates": [
+          "请不要把这段发出去：{non_health_private}。",
+          "个人资料里有{non_health_private}，但没有健康信息。",
+          "误贴内容：{non_health_private}。"
+        ],
+        "labels": {
+          "contains_private_health": false,
+          "contains_other_private": true,
+          "content_class": "other_private_non_health"
+        }
+      }
+    ]
+  },
+  "mixed_context_carriers": {
+    "description": "Use these carriers to embed a payload into a realistic outgoing message. The final contains_private_health label should be inherited from the payload, not from the carrier intent.",
+    "unrelated_egress_possible_leak": [
+      {
+        "id": "work_meeting_with_clipboard",
+        "intent": "把会议纪要发给老板。",
+        "template": "会议纪要：\n- 周五部署\n- API review\n\n误贴备注：{payload}",
+        "recipient_intent_class": "unrelated_egress_possible_leak",
+        "recommended_egress_action_if_private_health": "review"
+      },
+      {
+        "id": "bug_report_with_debug_paste",
+        "intent": "提交bug report。",
+        "template": "Bug: settings页面闪烁\nSteps: open profile, click save\nDebug paste: {payload}",
+        "recipient_intent_class": "unrelated_egress_possible_leak",
+        "recommended_egress_action_if_private_health": "review"
+      },
+      {
+        "id": "release_email_footer",
+        "intent": "把release email发给客户。",
+        "template": "Hi team, release is ready.\nChecklist attached.\nLocal clipboard: {payload}",
+        "recipient_intent_class": "unrelated_egress_possible_leak",
+        "recommended_egress_action_if_private_health": "block"
+      },
+      {
+        "id": "json_status_with_clipboard",
+        "intent": "发送部署状态JSON。",
+        "template": "{\"status\":\"green\",\"clipboard_note\":\"{payload}\"}",
+        "recipient_intent_class": "unrelated_egress_possible_leak",
+        "recommended_egress_action_if_private_health": "review"
+      }
+    ],
+    "authorized_health_sharing": [
+      {
+        "id": "send_lab_to_doctor",
+        "intent": "把化验结果发给专科医生。",
+        "template": "医生您好，这是复诊材料：\n{payload}\n麻烦帮我看一下。",
+        "recipient_intent_class": "authorized_health_sharing",
+        "recommended_egress_action_if_private_health": "allow_or_light_review"
+      },
+      {
+        "id": "send_claim_to_insurer",
+        "intent": "提交理赔补充材料给保险公司。",
+        "template": "理赔补充材料如下：\n{payload}\n请帮忙审核。",
+        "recipient_intent_class": "authorized_health_sharing",
+        "recommended_egress_action_if_private_health": "allow_or_light_review"
+      },
+      {
+        "id": "send_vaccine_to_school",
+        "intent": "把疫苗证明发给学校。",
+        "template": "学校表格需要这条记录：{payload}",
+        "recipient_intent_class": "authorized_health_sharing",
+        "recommended_egress_action_if_private_health": "allow_or_light_review"
+      }
+    ],
+    "mixed_daily_prompt": [
+      {
+        "id": "personal_todo_with_health_and_finance",
+        "intent": "整理个人待办。",
+        "template": "帮我整理今天的待办：\n1. 回复导师邮件。\n2. {payload}\n3. 信用卡账单今晚要还。\n4. 晚上买牛奶。",
+        "recipient_intent_class": "non_health_task",
+        "recommended_egress_action_if_private_health": "review"
+      },
+      {
+        "id": "family_message_with_work_and_health",
+        "intent": "写一条家庭群消息。",
+        "template": "帮我发到家庭群：\n今天工作会晚一点结束。\n{payload}\n周末可能一起吃饭。",
+        "recipient_intent_class": "authorized_health_sharing",
+        "recommended_egress_action_if_private_health": "allow_or_light_review"
+      }
+    ]
+  },
+  "generation_rules": [
+    {
+      "rule": "Generate content-level datasets by sampling directly from private_scenarios and negative_scenarios."
+    },
+    {
+      "rule": "Generate egress datasets by sampling a carrier and a payload. If payload comes from private_scenarios, final contains_private_health=true even when carrier intent is unrelated."
+    },
+    {
+      "rule": "Do not use expected_health=false to label accidental private-health leakage. Use recipient_intent_class and recommended_egress_action separately."
+    },
+    {
+      "rule": "For centroid evaluation, report metrics separately for private_health, non_private_health hard negatives, benign software-health terms, and other_private_non_health."
+    }
+  ],
+  "evaluation_slices": [
+    "explicit_private_health",
+    "implicit_private_health",
+    "mixed_context_private_health",
+    "non_private_health_hard_negative",
+    "software_health_word_false_positive",
+    "other_private_non_health_false_positive",
+    "authorized_vs_unrelated_egress"
+  ],
+  "example_generated_rows": [
+    {
+      "text": "会议纪要：\n- 周五部署\n- API review\n\n误贴备注：我的糖化血红蛋白结果出来了，数值是7.1%。",
+      "contains_private_health": true,
+      "contains_other_private": false,
+      "content_class": "private_health",
+      "health_privacy_subtype": "lab_result",
+      "recipient_intent_class": "unrelated_egress_possible_leak",
+      "recommended_egress_action": "review"
+    },
+    {
+      "text": "帮我整理今天的待办：\n1. 回复导师邮件。\n2. 医生给我开了舍曲林，一天两次，处方关联MRN ****5678。\n3. 信用卡账单今晚要还。\n4. 晚上买牛奶。",
+      "contains_private_health": true,
+      "contains_other_private": true,
+      "content_class": "private_health",
+      "health_privacy_subtype": "medication_prescription",
+      "recipient_intent_class": "non_health_task",
+      "recommended_egress_action": "review"
+    },
+    {
+      "text": "项目更新：进度正常。\n临时复制内容：糖尿病是一种常见慢性病，通常和胰岛素功能异常有关。",
+      "contains_private_health": false,
+      "contains_other_private": false,
+      "content_class": "non_private_health",
+      "recipient_intent_class": "public_or_general_discussion",
+      "recommended_egress_action": "allow"
+    },
+    {
+      "text": "您好，问题已经修复。\n内部误贴：银行卡余额是S$4,230。\n谢谢。",
+      "contains_private_health": false,
+      "contains_other_private": true,
+      "content_class": "other_private_non_health",
+      "recipient_intent_class": "non_health_task",
+      "recommended_egress_action": "allow_for_health_classifier_only"
+    }
+  ]
+}
