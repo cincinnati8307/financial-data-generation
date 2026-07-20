@@ -7,8 +7,9 @@ gliner
 
 # Optional multilingual reranker and local CAPID/LLM judge backends
 sentence-transformers
-transformers
+transformers>=4.51.0
 accelerate
+sentencepiece
 torch
 peft
 bitsandbytes

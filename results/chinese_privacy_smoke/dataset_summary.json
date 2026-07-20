@@ -1,0 +1,54 @@
+{
+  "anchors_validation": {
+    "rows": 1,
+    "labels": {
+      "non_private_financial": 1
+    },
+    "task_a_labels": {
+      "non_sensitive": 1
+    },
+    "subtypes": {
+      "*": 1
+    },
+    "languages": {
+      "zh_en": 1
+    },
+    "formats": {
+      "chat_transcript": 1
+    },
+    "styles": {
+      "ocr_fragment": 1
+    }
+  },
+  "egress_train": {
+    "rows": 0,
+    "decisions": {},
+    "task_b_labels": {},
+    "subtypes": {},
+    "carriers": {},
+    "expected_financial": {}
+  },
+  "egress_validation": {
+    "rows": 0,
+    "decisions": {},
+    "task_b_labels": {},
+    "subtypes": {},
+    "carriers": {},
+    "expected_financial": {}
+  },
+  "fine_grained_semantic_alignment": {
+    "rows": 0,
+    "labels": {},
+    "sources": {}
+  },
+  "anchor_train": {
+    "rows": 0
+  },
+  "alignment_audit": {
+    "rows": 0,
+    "status_counts": {},
+    "suspicious_by_carrier": {},
+    "possibly_misaligned_count": 0,
+    "requires_manual_review_count": 0
+  }
+}

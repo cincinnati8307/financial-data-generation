@@ -1,0 +1,27 @@
+{
+  "qwen3guard": {
+    "model_name": "qwen3guard",
+    "loading_time_s": 3.75055939424783,
+    "total_inference_time_s": 1.8303962415084243,
+    "mean_latency_ms": 1830.3962415084243,
+    "p50_latency_ms": 1830.3962415084243,
+    "p95_latency_ms": 1830.3962415084243,
+    "examples_per_second": 0.5463297931468122,
+    "successful_predictions": 1,
+    "total_predictions": 1,
+    "peak_cpu_memory_mb": 15413.94140625,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": 8190735360,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 8190735360,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "ChinesePrivacyBenchmarkModel"
+      },
+      "chinese_model": "Qwen/Qwen3Guard-Gen-8B",
+      "model_family": "qwen3guard",
+      "model_base": null
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "coarse_policy_alignment": {},
+  "fine_grained_semantic_alignment": {},
+  "fine_grained_note": "Fine-grained metrics use only manual overrides and explicit subtype-constrained examples; they are never mixed with coarse policy labels."
+}

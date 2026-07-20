@@ -1,0 +1,52 @@
+{
+  "qwen3guard": {
+    "model_name": "qwen3guard",
+    "loading_time_s": 3.4440475050359964,
+    "total_inference_time_s": 1.8380626514554024,
+    "mean_latency_ms": 1838.0626514554024,
+    "p50_latency_ms": 1838.0626514554024,
+    "p95_latency_ms": 1838.0626514554024,
+    "examples_per_second": 0.5440510959777061,
+    "successful_predictions": 1,
+    "total_predictions": 1,
+    "peak_cpu_memory_mb": 15417.34375,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": 8190735360,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 8190735360,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "ChinesePrivacyBenchmarkModel"
+      },
+      "chinese_model": "Qwen/Qwen3Guard-Gen-8B",
+      "model_family": "qwen3guard",
+      "model_base": null
+    }
+  },
+  "shieldlm": {
+    "model_name": "shieldlm",
+    "loading_time_s": 0.19492640625685453,
+    "total_inference_time_s": 94.32767709996551,
+    "mean_latency_ms": 94327.67709996551,
+    "p50_latency_ms": 94327.67709996551,
+    "p95_latency_ms": 94327.67709996551,
+    "examples_per_second": 0.010601342371022572,
+    "successful_predictions": 1,
+    "total_predictions": 1,
+    "peak_cpu_memory_mb": 15417.34375,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": 6243584000,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 6243584000,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "ChinesePrivacyBenchmarkModel"
+      },
+      "chinese_model": "thu-coai/ShieldLM-6B-chatglm3",
+      "model_family": "shieldlm",
+      "model_base": "chatglm"
+    }
+  }
+}

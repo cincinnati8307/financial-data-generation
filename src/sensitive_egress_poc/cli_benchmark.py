@@ -71,7 +71,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--capid-model")
     parser.add_argument("--chinese-privacy-max-new-tokens", type=int, default=128)
     parser.add_argument("--qwen3guard-model", help="Override the Qwen3Guard Hugging Face model ID or local path.", default="Qwen/Qwen3Guard-Gen-8B")
-    parser.add_argument("--shieldlm-model", help="ShieldLM Hugging Face model ID. Defaults: thu-coai/ShieldLM-14B-qwen (qwen base). Other options: thu-coai/ShieldLM-13B-baichuan2 (baichuan base), thu-coai/ShieldLM-7B-internlm2 (internlm base), thu-coai/ShieldLM-6B-chatglm3 (chatglm base)", default=None)
+    parser.add_argument("--shieldlm-model", help="ShieldLM Hugging Face model ID. Defaults to thu-coai/ShieldLM-6B-chatglm3.", default=None)
     parser.add_argument("--shieldlm-model-base", help="ShieldLM model base (qwen, baichuan, internlm, chatglm). Auto-detected from model_path if not specified.", default=None)
     parser.add_argument("--capid-base-model")
     parser.add_argument("--capid-load-in-4bit", action="store_true")
@@ -173,8 +173,12 @@ def build_models(args: argparse.Namespace, egress_train: list[dict[str, Any]]) -
         elif method in {"qwen3guard", "shieldlm"}:
             models.append(
                 ChinesePrivacyBenchmarkModel(
-                    variant=method, model_name=args.qwen3guard_model if method == "qwen3guard" else args.shieldlm_model,
-                    device=args.device, offline=args.offline, cache_dir=args.cache_dir,
+                    variant=method,
+                    model_name=args.qwen3guard_model if method == "qwen3guard" else args.shieldlm_model,
+                    model_base=args.shieldlm_model_base if method == "shieldlm" else None,
+                    device=args.device,
+                    offline=args.offline,
+                    cache_dir=args.cache_dir,
                     max_new_tokens=args.chinese_privacy_max_new_tokens,
                 )
             )
@@ -272,6 +276,7 @@ def main() -> None:
         "chinese_privacy_max_new_tokens": args.chinese_privacy_max_new_tokens,
         "qwen3guard_model": args.qwen3guard_model,
         "shieldlm_model": args.shieldlm_model,
+        "shieldlm_model_base": args.shieldlm_model_base,
         "capid_base_model": args.capid_base_model,
         "capid_load_in_4bit": args.capid_load_in_4bit,
         "capid_max_new_tokens": args.capid_max_new_tokens,
@@ -312,6 +317,9 @@ def main() -> None:
                 **(getattr(model, "runtime_metadata", {}) or {}),
             },
         )
+        close_model = getattr(model, "close", None)
+        if callable(close_model):
+            close_model()
 
     sensitivity_metrics = binary_sensitivity_metrics(predictions)
     coarse_alignment = alignment_metrics(predictions, TASK_COARSE_ALIGNMENT)

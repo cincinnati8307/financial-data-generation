@@ -1,0 +1,27 @@
+{
+  "shieldlm": {
+    "model_name": "shieldlm",
+    "loading_time_s": 3.2181247705593705,
+    "total_inference_time_s": 99.06329934578389,
+    "mean_latency_ms": 99063.29934578389,
+    "p50_latency_ms": 99063.29934578389,
+    "p95_latency_ms": 99063.29934578389,
+    "examples_per_second": 0.010094555769937213,
+    "successful_predictions": 1,
+    "total_predictions": 1,
+    "peak_cpu_memory_mb": 12224.1328125,
+    "peak_gpu_memory_mb": null,
+    "parameter_count": 6243584000,
+    "artifact_storage_size_mb": null,
+    "metadata": {
+      "parameter_count": 6243584000,
+      "artifact_storage_size_mb": null,
+      "method_config": {
+        "class": "ChinesePrivacyBenchmarkModel"
+      },
+      "chinese_model": "thu-coai/ShieldLM-6B-chatglm3",
+      "model_family": "shieldlm",
+      "model_base": "chatglm"
+    }
+  }
+}

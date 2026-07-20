@@ -1,0 +1,48 @@
+{
+  "qwen3guard": {
+    "status": "scored",
+    "status_counts": {
+      "success": 1
+    },
+    "successful_predictions": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "accuracy": 1.0,
+    "balanced_accuracy": 0.5,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "false_positive_rate_on_non_private_financial": null,
+    "auroc": null,
+    "auprc": null,
+    "confusion": {
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 0
+    }
+  },
+  "shieldlm": {
+    "status": "scored",
+    "status_counts": {
+      "success": 1
+    },
+    "successful_predictions": 1,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "accuracy": 1.0,
+    "balanced_accuracy": 0.5,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.0,
+    "false_positive_rate_on_non_private_financial": null,
+    "auroc": null,
+    "auprc": null,
+    "confusion": {
+      "tp": 0,
+      "fp": 0,
+      "tn": 1,
+      "fn": 0
+    }
+  }
+}
