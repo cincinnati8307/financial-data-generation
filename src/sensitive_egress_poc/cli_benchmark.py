@@ -9,6 +9,7 @@ from typing import Any
 
 from .benchmark.audit import write_alignment_audit
 from .benchmark.capid_adapter import CapidAdapter
+from .benchmark.chinese_privacy_adapter import ChinesePrivacyBenchmarkModel
 from .benchmark.centroid_adapter import CentroidBenchmarkModel
 from .benchmark.dataset import (
     dataset_summary,
@@ -33,6 +34,8 @@ METHOD_ALIASES = {
     "pii": "pii",
     "pii_reranker": "pii_reranker",
     "capid": "capid",
+    "qwen3guard": "qwen3guard",
+    "shieldlm": "shieldlm",
     "llm_judge": "llm_judge",
     "opf_granite": "opf_granite",
     "opf_granite_oracle": "opf_granite_oracle",
@@ -66,6 +69,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--granite-load-in-4bit", action="store_true")
     parser.add_argument("--granite-trust-remote-code", action="store_true")
     parser.add_argument("--capid-model")
+    parser.add_argument("--chinese-privacy-max-new-tokens", type=int, default=128)
+    parser.add_argument("--qwen3guard-model", help="Override the Qwen3Guard Hugging Face model ID or local path.")
+    parser.add_argument("--shieldlm-model", help="Override the ShieldLM Hugging Face model ID or local path.")
     parser.add_argument("--capid-base-model")
     parser.add_argument("--capid-load-in-4bit", action="store_true")
     parser.add_argument("--capid-max-new-tokens", type=int, default=512)
@@ -163,6 +169,14 @@ def build_models(args: argparse.Namespace, egress_train: list[dict[str, Any]]) -
                     trust_remote_code=args.capid_trust_remote_code,
                 )
             )
+        elif method in {"qwen3guard", "shieldlm"}:
+            models.append(
+                ChinesePrivacyBenchmarkModel(
+                    variant=method, model_name=args.qwen3guard_model if method == "qwen3guard" else args.shieldlm_model,
+                    device=args.device, offline=args.offline, cache_dir=args.cache_dir,
+                    max_new_tokens=args.chinese_privacy_max_new_tokens,
+                )
+            )
         elif method == "llm_judge":
             models.append(LlmJudgeModel(provider=args.llm_provider, model=args.llm_model, device=args.device, offline=args.offline, cache_dir=args.cache_dir))
     return models
@@ -254,6 +268,9 @@ def main() -> None:
         "granite_load_in_4bit": args.granite_load_in_4bit,
         "granite_trust_remote_code": args.granite_trust_remote_code,
         "capid_model": args.capid_model,
+        "chinese_privacy_max_new_tokens": args.chinese_privacy_max_new_tokens,
+        "qwen3guard_model": args.qwen3guard_model,
+        "shieldlm_model": args.shieldlm_model,
         "capid_base_model": args.capid_base_model,
         "capid_load_in_4bit": args.capid_load_in_4bit,
         "capid_max_new_tokens": args.capid_max_new_tokens,

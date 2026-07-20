@@ -232,6 +232,8 @@ Supported benchmark methods:
 - `pii_reranker`: PII/private-financial detection followed by query-evidence relevance scoring. Semantic relevance is useful evidence, but it is not equivalent to user authorization.
 - `capid`: optional CAPID-compatible query-aware model that receives `question=user_intent` and `text=outgoing text`. Public CAPID checkpoints may be LoRA adapters and can require a compatible base model and Hugging Face access.
 - `llm_judge`: optional prompted multilingual privacy judge. It is disabled unless an explicit local Hugging Face or OpenAI-compatible provider is selected.
+- `qwen3guard`: optional Qwen3Guard-Stream-0.6B Chinese sensitivity detector, with deterministic Chinese privacy rules as an ensemble signal.
+- `shieldlm`: optional ShieldLM-6B-ChatGLM3 Chinese sensitivity detector, using the same Chinese-aware contract.
 - `opf_granite`: strict composed baseline using OpenAI Privacy Filter followed by Granite Guardian only when an account-number span is detected.
 - `opf_granite_oracle`: Granite Guardian diagnostic using dataset `financial_evidence` for Task B only. It is not an end-to-end privacy detector and reports Task A as unsupported.
 
@@ -260,6 +262,19 @@ python -m sensitive_egress_poc.cli_benchmark \
 ```
 
 Complete benchmark command. Optional methods skip cleanly when dependencies, local models, or API credentials are unavailable:
+
+Chinese-model benchmark example (the model is downloaded unless `--offline` is set):
+
+```bash
+python -m sensitive_egress_poc.cli_benchmark \
+  --anchor-validation data/financial_generated/anchors_validation.jsonl \
+  --egress-validation data/financial_generated/egress_validation.jsonl \
+  --centroids data/financial_generated/centroids.json \
+  --methods qwen3guard shieldlm \
+  --output-dir results/chinese_privacy_benchmark
+```
+
+The Chinese detectors expose `detect_privacy(text)` and `detect_batch(texts)` in `sensitive_egress_poc.chinese_privacy`. They run guard-model inference only for Chinese or mixed Chinese text, ensemble it with conservative Chinese financial privacy rules, and retain the raw model response in benchmark metadata for auditing. `create_app(detector)` optionally provides `/detect` and `/detect/batch` FastAPI endpoints when FastAPI is installed.
 
 ```bash
 python -m sensitive_egress_poc.cli_benchmark \
