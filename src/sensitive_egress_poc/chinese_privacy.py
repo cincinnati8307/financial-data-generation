@@ -15,8 +15,12 @@ import time
 from dataclasses import dataclass, field
 from typing import Any, Callable, Protocol
 
-DEFAULT_QWEN3_GUARD_MODEL = "Qwen/Qwen3Guard-Stream-0.6B"
-DEFAULT_SHIELDLM_MODEL = "ShieldLM-6B-ChatGLM3"
+DEFAULT_QWEN3_GUARD_MODEL = "Qwen/Qwen3Guard-Gen-8B"
+DEFAULT_SHIELDLM_MODEL = "thu-coai/ShieldLM-6B-chatglm3"
+DEFAULT_SHIELDLM_MODEL_QWEN = "thu-coai/ShieldLM-14B-qwen"
+DEFAULT_SHIELDLM_MODEL_BAICHUAN = "thu-coai/ShieldLM-13B-baichuan2"
+DEFAULT_SHIELDLM_MODEL_INTERNLM = "thu-coai/ShieldLM-7B-internlm2"
+DEFAULT_SHIELDLM_MODEL_CHATGLM = "thu-coai/ShieldLM-6B-chatglm3"
 
 _CHINESE_CHARACTER = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 _PRIVATE_FINANCE = re.compile(
@@ -96,7 +100,7 @@ def parse_privacy_response(response: str) -> tuple[bool, float | None, list[dict
 
 
 class HuggingFacePrivacyRunner:
-    """Generic causal-LM runner for Qwen3Guard and ShieldLM checkpoints."""
+    """Generic causal-LM runner for Qwen3Guard and ShieldLM checkpoints following the official example pattern."""
 
     def __init__(self, model_name: str, *, device: str = "auto", offline: bool = False, cache_dir: str | None = None, max_new_tokens: int = 128, trust_remote_code: bool = True) -> None:
         try:
@@ -104,31 +108,75 @@ class HuggingFacePrivacyRunner:
             torch = importlib.import_module("torch")
         except ImportError as exc:
             raise RuntimeError("Chinese privacy models require transformers and torch") from exc
-        kwargs: dict[str, Any] = {"local_files_only": offline, "trust_remote_code": trust_remote_code}
+        
+        # Determine model_base from model_name following the official ShieldLM pattern
+        self.model_base = self._determine_model_base(model_name)
+        
+        # Prepare kwargs following the official Qwen3Guard-Gen example
+        tokenizer_kwargs = {"trust_remote_code": trust_remote_code}
         if cache_dir:
-            kwargs["cache_dir"] = cache_dir
-        model_kwargs = dict(kwargs)
-        model_kwargs["torch_dtype"] = "auto"
-        if device == "auto":
-            model_kwargs["device_map"] = "auto"
-        elif device != "cpu":
-            model_kwargs["device_map"] = {"": device}
+            tokenizer_kwargs["cache_dir"] = cache_dir
+        if offline:
+            tokenizer_kwargs["local_files_only"] = offline
+            
+        model_kwargs = {
+            "torch_dtype": "auto",
+            "device_map": "auto",
+            "trust_remote_code": trust_remote_code
+        }
+        if cache_dir:
+            model_kwargs["cache_dir"] = cache_dir
+        if offline:
+            model_kwargs["local_files_only"] = offline
+        
         try:
-            self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_name, **kwargs)
-            self.model = transformers.AutoModelForCausalLM.from_pretrained(model_name, **model_kwargs)
+            # Load tokenizer following the Qwen3Guard-Gen example (no padding_side specified)
+            self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_name, **tokenizer_kwargs)
+            
+            # Load model following the exact Qwen3Guard-Gen example approach
+            self.model = transformers.AutoModelForCausalLM.from_pretrained(
+                model_name,
+                **model_kwargs
+            )
+            
+            self.model.eval()
+            
         except Exception as exc:
             raise RuntimeError(f"failed to load Chinese privacy model {model_name}: {exc}") from exc
-        self.torch = torch
-        self.model.eval()
+        
+        self.torch = importlib.import_module("torch")
         self.model_name = model_name
         self.max_new_tokens = max_new_tokens
+    
+    def _determine_model_base(self, model_name: str) -> str:
+        """Determine the model base (qwen, baichuan, internlm, chatglm) from the model name."""
+        model_name_lower = model_name.lower()
+        if "qwen" in model_name_lower:
+            return "qwen"
+        elif "baichuan" in model_name_lower:
+            return "baichuan"
+        elif "internlm" in model_name_lower:
+            return "internlm"
+        elif "chatglm" in model_name_lower:
+            return "chatglm"
+        else:
+            # Default fallback
+            return "qwen"
 
     def generate(self, prompt: str) -> str:
-        inputs = self.tokenizer(prompt, return_tensors="pt")
-        device = next(self.model.parameters()).device
-        inputs = {name: value.to(device) for name, value in inputs.items()}
-        output = self.model.generate(**inputs, max_new_tokens=self.max_new_tokens, do_sample=False, pad_token_id=self.tokenizer.eos_token_id)
-        return self.tokenizer.decode(output[0][inputs["input_ids"].shape[1] :], skip_special_tokens=True).strip()
+        # Follow the Qwen3Guard-Gen example for model inputs
+        model_inputs = self.tokenizer([prompt], return_tensors="pt").to(self.model.device)
+        
+        # Generate following the Qwen3Guard-Gen example pattern
+        generated_ids = self.model.generate(
+            **model_inputs,
+            max_new_tokens=self.max_new_tokens
+        )
+        
+        # Decode only the new generated tokens (following Qwen3Guard-Gen example)
+        output_ids = generated_ids[0][len(model_inputs.input_ids[0]):].tolist()
+        
+        return self.tokenizer.decode(output_ids, skip_special_tokens=True)
 
 
 class ChinesePrivacyDetector:
