@@ -1,0 +1,102 @@
+{
+  "centroid_query_similarity": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.5764192139737991,
+    "f1": 0.7313019390581718,
+    "accuracy": 0.7979166666666667,
+    "balanced_accuracy": 0.7882096069868996,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.42358078602620086,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.7538753283808,
+    "auprc": 0.8194442673971771,
+    "confusion": {
+      "tp": 132,
+      "fp": 0,
+      "tn": 251,
+      "fn": 97
+    }
+  },
+  "capid": {
+    "status": "scored",
+    "status_counts": {
+      "success": 467,
+      "failed": 13
+    },
+    "successful_predictions": 467,
+    "precision": 0.5721784776902887,
+    "recall": 0.990909090909091,
+    "f1": 0.7254575707154742,
+    "accuracy": 0.6466809421841542,
+    "balanced_accuracy": 0.6654950312845049,
+    "false_positive_rate": 0.659919028340081,
+    "false_negative_rate": 0.00909090909090909,
+    "false_positive_rate_on_non_private_financial": 0.9223300970873787,
+    "auroc": null,
+    "auprc": null,
+    "confusion": {
+      "tp": 218,
+      "fp": 163,
+      "tn": 84,
+      "fn": 2
+    }
+  },
+  "openai_privacy_filter_plus_granite_guardian": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.34934497816593885,
+    "f1": 0.517799352750809,
+    "accuracy": 0.6895833333333333,
+    "balanced_accuracy": 0.6746724890829694,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.6506550218340611,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.6746724890829694,
+    "auprc": 0.6597616448326056,
+    "confusion": {
+      "tp": 80,
+      "fp": 0,
+      "tn": 251,
+      "fn": 149
+    }
+  },
+  "granite_guardian_oracle_evidence": {
+    "status": "not_scored",
+    "status_counts": {
+      "unsupported": 480
+    },
+    "successful_predictions": 0
+  },
+  "pii_only": {
+    "status": "scored",
+    "status_counts": {
+      "success": 480
+    },
+    "successful_predictions": 480,
+    "precision": 1.0,
+    "recall": 0.8777292576419214,
+    "f1": 0.9348837209302325,
+    "accuracy": 0.9416666666666667,
+    "balanced_accuracy": 0.9388646288209608,
+    "false_positive_rate": 0.0,
+    "false_negative_rate": 0.1222707423580786,
+    "false_positive_rate_on_non_private_financial": 0.0,
+    "auroc": 0.9388646288209608,
+    "auprc": 0.9360625909752548,
+    "confusion": {
+      "tp": 201,
+      "fp": 0,
+      "tn": 251,
+      "fn": 28
+    }
+  }
+}
