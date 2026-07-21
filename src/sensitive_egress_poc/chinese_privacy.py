@@ -362,17 +362,20 @@ class HuggingFacePrivacyRunner:
         if self.model_family == MODEL_FAMILY_SHIELDLM:
             model_inputs = self.tokenizer(prompt_text, return_tensors="pt", truncation=True)
         else:
-            model_inputs = self.tokenizer([prompt_text], return_tensors="pt", truncation=True, padding=True)
+            # For Qwen models, follow the exact loading pattern from the example
+            model_inputs = self.tokenizer([prompt_text], return_tensors="pt", truncation=False, padding=False)
+        
         model_inputs = self._move_to_input_device(model_inputs)
         generation_kwargs: dict[str, Any] = {"max_new_tokens": self.max_new_tokens, "do_sample": False}
         if self.model_family == MODEL_FAMILY_SHIELDLM:
             generation_kwargs["use_cache"] = False
-        pad_token_id = getattr(self.tokenizer, "pad_token_id", None)
-        eos_token_id = getattr(self.tokenizer, "eos_token_id", None)
-        if pad_token_id is not None:
-            generation_kwargs["pad_token_id"] = pad_token_id
-        if eos_token_id is not None:
-            generation_kwargs["eos_token_id"] = eos_token_id
+            pad_token_id = getattr(self.tokenizer, "pad_token_id", None)
+            eos_token_id = getattr(self.tokenizer, "eos_token_id", None)
+            if pad_token_id is not None:
+                generation_kwargs["pad_token_id"] = pad_token_id
+            if eos_token_id is not None:
+                generation_kwargs["eos_token_id"] = eos_token_id
+        
         generated_ids = self.model.generate(**model_inputs, **generation_kwargs)
         sequence = generated_ids[0]
         prompt_len = int(model_inputs["input_ids"].shape[-1])
