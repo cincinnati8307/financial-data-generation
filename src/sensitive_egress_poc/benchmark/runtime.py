@@ -81,10 +81,20 @@ def percentile(values: list[float], pct: float) -> float | None:
     return values[lo] + (values[hi] - values[lo]) * (rank - lo)
 
 
-def summarize_method_runtime(model_name: str, predictions: list[BenchmarkPrediction], loading_time_s: float | None = None, extra: dict[str, Any] | None = None) -> dict[str, Any]:
+def summarize_method_runtime(
+    model_name: str,
+    predictions: list[BenchmarkPrediction],
+    loading_time_s: float | None = None,
+    extra: dict[str, Any] | None = None,
+    total_inference_time_ms: float | None = None,
+) -> dict[str, Any]:
     pred_for_model = [p for p in predictions if p.model_name == model_name]
     latencies = [float(p.runtime_ms) for p in pred_for_model if p.runtime_ms is not None]
-    total_inference_s = sum(latencies) / 1000.0 if latencies else None
+    total_inference_s = (
+        total_inference_time_ms / 1000.0
+        if total_inference_time_ms is not None
+        else (sum(latencies) / 1000.0 if latencies else None)
+    )
     successful = sum(1 for p in pred_for_model if p.status == STATUS_SUCCESS)
     return {
         "model_name": model_name,

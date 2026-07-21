@@ -25,7 +25,7 @@ from .benchmark.opf_granite_adapter import OpenAIPrivacyFilterGraniteModel
 from .benchmark.pii_adapter import PiiOnlyModel
 from .benchmark.pii_reranker import PiiRerankerModel
 from .benchmark.plots import generate_plots
-from .benchmark.runtime import summarize_method_runtime
+from .benchmark.runtime import elapsed_ms, perf_counter, summarize_method_runtime
 from .benchmark.schemas import STATUS_FAILED, STATUS_SKIPPED, STATUS_UNSUPPORTED, TASK_COARSE_ALIGNMENT, TASK_FINE_ALIGNMENT, BenchmarkPrediction
 from .io_utils import ensure_dir, write_json, write_jsonl
 
@@ -204,6 +204,9 @@ def clone_fine_predictions(coarse_predictions: list[BenchmarkPrediction], fine_r
                     "fine_ground_truth_source": row.get("_benchmark_ground_truth_source"),
                     "fine_ground_truth_reason": row.get("_benchmark_ground_truth_reason"),
                 },
+                # Fine-grained predictions are relabelled coarse predictions, not
+                # another model invocation.
+                runtime_ms=None,
             )
         )
     return out
@@ -300,8 +303,12 @@ def main() -> None:
     runtime_metrics: dict[str, Any] = {}
     for model in models:
         model_predictions: list[BenchmarkPrediction] = []
+        sensitivity_start = perf_counter()
         sensitivity = model.predict_sensitivity(anchor_validation)
+        sensitivity_runtime_ms = elapsed_ms(sensitivity_start)
+        alignment_start = perf_counter()
         alignment = model.predict_alignment(egress_validation)
+        alignment_runtime_ms = elapsed_ms(alignment_start)
         model_predictions.extend(sensitivity)
         model_predictions.extend(alignment)
         model_predictions.extend(clone_fine_predictions(alignment, fine_rows))
@@ -309,6 +316,7 @@ def main() -> None:
         runtime_metrics[model.name] = summarize_method_runtime(
             model.name,
             model_predictions,
+            total_inference_time_ms=sensitivity_runtime_ms + alignment_runtime_ms,
             loading_time_s=getattr(model, "loading_time_s", None),
             extra={
                 "parameter_count": getattr(model, "parameter_count", None),

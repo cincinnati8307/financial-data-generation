@@ -1,6 +1,7 @@
 import json
 import math
 import sys
+import time
 from collections import UserDict
 from types import SimpleNamespace
 
@@ -51,6 +52,7 @@ from sensitive_egress_poc.benchmark.schemas import (
 )
 from sensitive_egress_poc.io_utils import read_jsonl, write_json, write_jsonl
 from sensitive_egress_poc.benchmark.llm_judge import render_judge_prompt
+from sensitive_egress_poc import cli_benchmark
 
 
 def anchor(label="financial_private", text="我的 DBS 账户余额是 SGD 1,200。", row_id="a1"):
@@ -665,6 +667,65 @@ def test_failed_and_unavailable_baselines_are_marked_correctly():
     failed = CapidAdapter(runner=BadRunner()).predict_alignment([egress()])[0]
     assert failed.status == STATUS_FAILED
     assert failed.predicted_label is None
+
+
+@pytest.mark.parametrize("supported_task", ["sensitivity", "alignment"])
+def test_cli_runtime_uses_model_invocations_when_one_task_is_unsupported(monkeypatch, tmp_path, supported_task):
+    class SingleTaskAdapter:
+        name = f"{supported_task}-only"
+        loading_time_s = None
+
+        def predict_sensitivity(self, rows):
+            time.sleep(0.001)
+            if supported_task == "sensitivity":
+                return [
+                    BenchmarkPrediction(
+                        sample_id=row["id"], model_name=self.name, task="sensitivity", predicted_label=SENSITIVE,
+                        sensitivity_score=1.0, alignment_score=None, detected_entities=[], status=STATUS_SUCCESS,
+                        error=None, metadata={}, ground_truth=SENSITIVE,
+                    )
+                    for row in rows
+                ]
+            return [BenchmarkPrediction.unsupported(row["id"], self.name, "sensitivity", "sensitivity is unsupported", row) for row in rows]
+
+        def predict_alignment(self, rows):
+            time.sleep(0.001)
+            if supported_task == "alignment":
+                return [
+                    BenchmarkPrediction(
+                        sample_id=row["id"], model_name=self.name, task=TASK_COARSE_ALIGNMENT, predicted_label=LABEL_ALIGNED,
+                        sensitivity_score=None, alignment_score=1.0, detected_entities=[], status=STATUS_SUCCESS,
+                        error=None, metadata={}, ground_truth=LABEL_ALIGNED,
+                    )
+                    for row in rows
+                ]
+            return [BenchmarkPrediction.unsupported(row["id"], self.name, TASK_COARSE_ALIGNMENT, "alignment is unsupported", row) for row in rows]
+
+    anchor_path = tmp_path / "anchors.jsonl"
+    egress_path = tmp_path / "egress.jsonl"
+    write_jsonl(anchor_path, [anchor()])
+    write_jsonl(egress_path, [egress()])
+    output_dir = tmp_path / "output"
+    monkeypatch.setattr(cli_benchmark, "build_models", lambda args, egress_train: [SingleTaskAdapter()])
+    monkeypatch.setattr(cli_benchmark, "generate_plots", lambda *args: [])
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "cli_benchmark",
+            "--anchor-validation", str(anchor_path),
+            "--egress-validation", str(egress_path),
+            "--centroids", str(tmp_path / "unused-centroids.json"),
+            "--output-dir", str(output_dir),
+            "--alignment-overrides", "",
+        ],
+    )
+
+    cli_benchmark.main()
+
+    runtime = json.loads((output_dir / "runtime_metrics.json").read_text())[f"{supported_task}-only"]
+    assert runtime["total_inference_time_s"] is not None
+    assert runtime["total_inference_time_s"] > 0
 
 
 def pred(truth, guessed):
