@@ -325,6 +325,20 @@ class HuggingFacePrivacyRunner:
                 model_kwargs["config"] = config
             except Exception as exc:
                 raise RuntimeError(f"failed to load ShieldLM config {model_name}: {exc}") from exc
+        else:
+            # For Qwen3Guard family, patch config to add missing attributes
+            try:
+                config = transformers.AutoConfig.from_pretrained(model_name, **common_kwargs)
+                if not hasattr(config, "pad_token_id"):
+                    # Load tokenizer first to get the correct pad_token_id
+                    temp_tokenizer = transformers.AutoTokenizer.from_pretrained(model_name, **common_kwargs)
+                    config.pad_token_id = getattr(temp_tokenizer, "pad_token_id", None)
+                    if config.pad_token_id is None:
+                        config.pad_token_id = getattr(temp_tokenizer, "eos_token_id", None)
+                model_kwargs["config"] = config
+            except Exception as exc:
+                # If config patching fails, continue without it
+                pass
 
         try:
             self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_name, **tokenizer_kwargs)
